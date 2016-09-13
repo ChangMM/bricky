@@ -5,7 +5,7 @@ var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    index: './src/entry/index/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -57,6 +57,10 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'vue-html'
+      },
+      {
+        test: /\.scss/,
+        loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

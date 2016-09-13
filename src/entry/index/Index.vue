@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png">
+    <img class="logo" src="../../assets/logo.png">
     <hello></hello>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Hello from '../../components/Hello'
 
 export default {
   components: {
@@ -15,20 +15,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 html {
   height: 100%;
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
+
 
 #app {
-  color: #2c3e50;
+  color: red;
   margin-top: -100px;
   max-width: 600px;
   font-family: Source Sans Pro, Helvetica, sans-serif;
@@ -36,7 +37,7 @@ body {
 }
 
 #app a {
-  color: #42b983;
+  color: red;
   text-decoration: none;
 }
 
