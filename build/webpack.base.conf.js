@@ -58,10 +58,11 @@ module.exports = {
         test: /\.html$/,
         loader: 'vue-html'
       },
-      {
-        test: /\.scss/,
-        loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
-      },
+      // {
+      //   test: /\.scss/,
+      //   loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded',
+      //   exclude:path.resolve(projectRoot,'./src')
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url',
