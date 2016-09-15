@@ -108,13 +108,13 @@
 export default {
   data () {
     return {
-      step: 3,
+      step: 1,
       avatarStyle: {
         width: 'auto',
         height: 'auto'
       },
       m_avatar: '',
-      m_name: '节度使',
+      m_name: '',
       m_intro: '',
       m_works: '',
       m_code: ''
@@ -130,7 +130,7 @@ export default {
       // if($.inArray(type,config.imgType)==-1){
       //   return;
       // }
-      // if(file.size/1024 >4096){
+      // if(file.size/1024 > 1024){
       //
       //     return;
       // }
@@ -142,7 +142,6 @@ export default {
         image.onload = function () {
           let width = image.width
           let height = image.height
-          console.log(width, height)
           if (width > height) {
             self.avatarStyle.height = '100%'
             self.avatarStyle.width = 'auto'
@@ -157,6 +156,21 @@ export default {
       reader.readAsDataURL(file)
     },
     f_step: function (dir) {
+      if (this.step === 1) {
+        if (this.m_avatar === '') {
+          return this.$warn('请先上传砖栏头像')
+        }
+        if (this.m_name === '') {
+          return this.$warn('请填写砖栏名称')
+        }
+      } else if (this.step === 2) {
+        if (this.m_intro === '') {
+          return this.$warn('请填写您砖栏的简介')
+        } else if (this.m_intro.length > 252) {
+          return this.$warn('您砖栏的简介过长')
+        }
+        console.log('向服务器发送请求')
+      }
       this.step = this.step + dir
     }
   }
