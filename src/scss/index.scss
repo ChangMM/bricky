@@ -3,15 +3,15 @@
 html,body {
   width: 100%;
   height: 100%;
-  min-width:1000px;
+  min-width:1200px;
 }
 body {
-	background:#0C0C0C url("../assets/index/background.jpg") center center no-repeat;
+	background:#0C0C0C url("../assets/index/background.png") center center no-repeat;
 	background-size: cover;
 }
 
 .main{
-  width:1000px;
+  width:1200px;
   margin:0 auto;
   padding-top:30px;
   .nav-wrap{
@@ -23,7 +23,7 @@ body {
       height:34px;
       width:173px;
       text-indent: -9999px;
-      background-image: url("../assets/index/logowhite@3x.png");
+      background-image: url("../assets/logowhite@3x.png");
       background-size: cover;
     }
     .login-wrap{
@@ -91,5 +91,5 @@ body {
   left:0;
   right:0;
   margin:auto;
-  bottom:10px;
+  bottom:6px;
 }
