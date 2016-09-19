@@ -6,9 +6,9 @@
   </dl>
   <dl class="menu">
     <dt class="menu-title">设置</dt>
-    <dd class="menu-item">账号设置</dd>
-    <dd class="menu-item">订阅设置</dd>
-    <dd class="menu-item">收益提现</dd>
+    <dd class="menu-item" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
+    <dd class="menu-item" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
+    <dd class="menu-item" v-on:click="f_go('setting.html#!/withdraw')">收益提现</dd>
   </dl>
 </template>
 
@@ -16,6 +16,11 @@
 export default {
   data () {
     return {}
+  },
+  methods: {
+    f_go: function (url) {
+      window.location.href = url
+    }
   }
 }
 </script>

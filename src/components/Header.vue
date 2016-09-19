@@ -3,7 +3,7 @@
     <a href="#">
       <h1 class="logo">砖栏作家</h1>
     </a>
-    <div class="account-wrap">
+    <div class="mp-wrap">
       <img src="../../src/assets/avatar.png" class="avatar" alt="砖栏头像" />
       <span class="name">节度使</span> |
       <a href="javascript:void(0);" id="logout">退出</a>
@@ -36,7 +36,7 @@ export default {
   background-image: url("../assets/logoblack@3x.png");
   background-size: cover;
 }
-.account-wrap{
+.mp-wrap{
   float: right;
   .avatar{
     vertical-align: middle;
