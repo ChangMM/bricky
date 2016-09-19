@@ -5,31 +5,12 @@
     <title>砖栏·申请成为砖栏作家</title>
   </head>
   <body>
-    <div class="nav-wrap">
-      <div class="nav base-width">
-        <a href="#">
-          <h1 class="logo">砖栏作家</h1>
-        </a>
-        <div class="account-wrap">
-          <img src="./src/assets/avatar.png" class="avatar" alt="砖栏头像" />
-          <span class="name">节度使</span> |
-          <a href="javascript:void(0);" id="logout">退出</a>
-        </div>
-      </div>
+    <div class="nav-wrap" id="nav-wrap">
+      <Navheader></Navheader>
     </div>
     <div class="main">
-        <div class="menu-wrap">
-            <dl class="menu">
-              <dt class="menu-title">内容管理</dt>
-              <dd class="menu-item">作品发布</dd>
-              <dd class="menu-item">作品库</dd>
-            </dl>
-            <dl class="menu">
-              <dt class="menu-title">设置</dt>
-              <dd class="menu-item">账号设置</dd>
-              <dd class="menu-item">订阅设置</dd>
-              <dd class="menu-item">收益提现</dd>
-            </dl>
+        <div class="menu-wrap" id="menu-wrap">
+          <Navmenu></Navmenu>
         </div>
         <div class="body-wrap">
           <div class="body-header">
@@ -71,7 +52,6 @@
                       <span class="float-right date">2016/09/11</span>
                     </li>
                   </a>
-
                 </ul>
               </div>
           </div>
