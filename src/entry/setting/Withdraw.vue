@@ -54,8 +54,7 @@ export default {
   }
   .withdraw-body{
     .input-wrap{
-      height:60px;
-      line-height:60px;
+      padding:20px 0;
       border-bottom: 1px solid #eee;
       label{
         display: inline-block;
