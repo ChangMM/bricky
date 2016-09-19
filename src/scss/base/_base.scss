@@ -1,7 +1,7 @@
 @import '_extend.scss';
 @import '_variable.scss';
 
-html,body,div,p,ul,li,h1,h2,h3,h4,input,textarea{
+html,body,div,p,ul,li,h1,h2,h3,h4,input,textarea,dd,dt,dl{
   padding:0;
   margin:0;
 }
@@ -15,4 +15,11 @@ html{
 
 h1,h2,h3,h4,h5,h6{
   font-family: "PingFangSC-Semibold","Helvetica Neue", Helvetica, "Lantinghei SC", "Hiragino Sans GB", "Microsoft YaHei", 微软雅黑, STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+ul,li{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+  color:inherit;
 }

@@ -1,27 +1,16 @@
 /*
  * 处理注册的逻辑
  */
+ /* eslint-disable no-new */
 require('../../scss/register.scss')
 import Vue from 'vue'
-// import VueRouter from 'vue-router'
-// import VueResource from 'vue-resource'
+import VueResource from 'vue-resource'
 import Register from './Register.vue'
-let WarnPlugin = require('../../components/warn.js')
+let WarnPlugin = require('../../components/Warn/Warn.js')
 Vue.use(WarnPlugin)
-/* eslint-disable no-new */
-
-// Vue.use(VueRouter)
-// Vue.use(VueResource)
-// var router = new VueRouter()
-// Vue.http.options.emulateJSON = true
-//
-// router.map({
-//   '/': {
-//     component: Register
-//   }
-// })
+Vue.use(VueResource)
+Vue.http.options.emulateJSON = true
 new Vue({
   el: '#register-wrap',
   components: { Register }
 })
-// router.start(Register, 'Register')
