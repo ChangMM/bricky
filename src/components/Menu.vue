@@ -1,8 +1,8 @@
 <template lang="html">
   <dl class="menu">
     <dt class="menu-title">内容管理</dt>
-    <dd class="menu-item">作品发布</dd>
-    <dd class="menu-item">作品库</dd>
+    <dd class="menu-item" v-on:click="f_go('release.html#!/release')">作品发布</dd>
+    <dd class="menu-item" v-on:click="f_go('release.html#!/articles')">作品库</dd>
   </dl>
   <dl class="menu">
     <dt class="menu-title">设置</dt>
