@@ -1,9 +1,11 @@
 /* eslint-disable no-new */
 require('../../scss/main.scss')
 import Vue from 'vue'
+import Main from './Main.vue'
 import VueResource from 'vue-resource'
 import Navheader from '../../components/Header.vue'
 import Navmenu from '../../components/Menu.vue'
+import Foot from '../../components/Footer.vue'
 let WarnPlugin = require('../../components/Warn/Warn.js')
 Vue.use(WarnPlugin)
 Vue.use(VueResource)
@@ -16,4 +18,12 @@ new Vue({
 new Vue({
   el: '#menu-wrap',
   components: { Navmenu }
+})
+new Vue({
+  el: '.body-wrap',
+  components: { Main }
+})
+new Vue({
+  el: '#copyright-wrap',
+  components: { Foot }
 })

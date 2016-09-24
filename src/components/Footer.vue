@@ -15,4 +15,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.copyright{
+  width:100%;
+  color:#999;
+  font-size: 12px;
+  position: absolute;
+  bottom:6px;
+}
 </style>

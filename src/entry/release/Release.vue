@@ -111,6 +111,7 @@ export default {
       .article-cover{
         height:120px;
         width:120px;
+        border-radius: 2px;
       }
       .article-info{
         position: absolute;

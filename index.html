@@ -3,30 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>砖栏·作家</title>
-    <!-- <link rel="stylesheet" href="./src/scss/index.scss" media="screen" title="首页的样式控制"> -->
   </head>
   <body>
     <div class="main">
-      <div class="nav-wrap">
-          <a href="#">
-            <h1 class="logo">砖栏作家</h1>
-          </a>
-          <div class="login-wrap txt-center">
-            <img src="./src/assets/index/loginQrcode@3x.png" class="login-qrcode" alt="扫码登陆砖家" />
-            <div class="line"></div>
-            <span>微信扫码登陆</span>
-          </div>
-          <span class="contact-us button">联系我们</span>
+      <div class="index-nav-wrap" id="index-nav-wrap">
+        <Top></Top>
       </div>
-      <div class="slogan-wrap txt-center absolute-center">
-        <p class="slogan">有价值的内容和读者</p>
-        <div class="line"></div>
-        <p>每个作品都有价值</p>
-        <p>每个作者都有真正支持自己的读者</p>
-      </div>
+      <Slogan></Slogan>
     </div>
-    <div class="copyright">
-      Copyright © <script>document.write(new Date().getYear()+1900);</script> 笔阁科技 . All Rights Reserved.
+    <div class="copyright-wrap" id="copyright-wrap">
+      <Foot></Foot>
     </div>
   </body>
 </html>

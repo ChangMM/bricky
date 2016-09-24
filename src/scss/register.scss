@@ -1,40 +1,8 @@
 @import 'base/_base.scss';
 @import 'componments/_button.scss';
 //导航栏样式控制
-.nav-wrap{
+.register-nav-wrap{
   border-bottom: 1px solid #ddd;
-  .nav{
-    position: relative;
-    margin:0 auto;
-    height:80px;
-    line-height: 80px;
-  }
-  .logo{
-    position: absolute;
-    top:28px;
-    left:0;
-    height:34px;
-    width:173px;
-    text-indent: -9999px;
-    background-image: url("../assets/logoblack@3x.png");
-    background-size: cover;
-  }
-  .contact-us{
-    position: absolute;
-    top:20px;
-    right: 0;
-    height: 40px;
-    line-height: 40px;
-    width:120px;
-    color: $main-color;
-    border:1px solid $main-color;
-    cursor: pointer;
-    &:hover{
-      background-color: lighten($main-color,0);
-      border-color:transparent;
-      color: #fff;
-    }
-  }
 }
 
 //注册成为砖栏作家页面
