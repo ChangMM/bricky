@@ -109,15 +109,15 @@ export default {
       border-bottom: 1px solid #eee;
       position: relative;
       .article-cover{
-        height:120px;
-        width:120px;
+        height:100px;
+        width:100px;
         border-radius: 2px;
       }
       .article-info{
         position: absolute;
-        left:140px;
+        left:120px;
         top:15px;
-        height:120px;
+        height:100px;
         width:200px;
         .article-title{
           display: inline-block;
@@ -132,15 +132,14 @@ export default {
           position: absolute;
           bottom:0;
           left:0;
+          color:#666;
           vertical-align: text-bottom;
         }
       }
       .time-wrap{
-        height:120px;
+        height:100px;
         position: relative;
-        .article-time{
-          color:#999;
-        }
+        color:#999;        
         .cancel{
           cursor: pointer;
           position: absolute;
@@ -148,6 +147,7 @@ export default {
           right:0;
           &:hover{
             color:$main-color;
+            text-decoration: underline;
           }
         }
       }

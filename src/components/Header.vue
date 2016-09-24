@@ -1,12 +1,14 @@
 <template lang="html">
-  <div class="nav base-width">
-    <a href="#">
-      <h1 class="logo">砖栏作家</h1>
-    </a>
-    <div class="mp-wrap">
-      <img src="../../src/assets/avatar.png" class="avatar" alt="砖栏头像" />
-      <span class="name">节度使</span> |
-      <a href="javascript:void(0);" id="logout">退出</a>
+  <div class="nav-wrap" id="nav-wrap">
+    <div class="nav base-width">
+      <a href="#">
+        <h1 class="logo">砖栏作家</h1>
+      </a>
+      <div class="mp-wrap">
+        <img src="../../src/assets/avatar.png" class="avatar" alt="砖栏头像" />
+        <span class="name">节度使</span> |
+        <a href="javascript:void(0);" id="logout">退出</a>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +22,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//顶部导航栏样式
+.nav-wrap{
+  border-bottom: 1px solid #ddd;
+}
 .nav{
   position: relative;
   margin:0 auto;

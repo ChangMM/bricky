@@ -24,6 +24,6 @@ new Vue({
   components: { Slogan }
 })
 new Vue({
-  el: '#copyright-wrap',
+  el: 'body',
   components: { Foot }
 })

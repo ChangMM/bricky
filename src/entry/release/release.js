@@ -10,7 +10,6 @@ import Release from './Release.vue'
 import Articles from './Articles.vue'
 import Navheader from '../../components/Header.vue'
 import Navmenu from '../../components/Menu.vue'
-import Foot from '../../components/Footer.vue'
 let WarnPlugin = require('../../components/Warn/Warn.js')
 Vue.use(WarnPlugin)
 Vue.use(VueResource)
@@ -32,14 +31,6 @@ router.redirect({
 router.start({}, '#body-wrap')
 
 new Vue({
-  el: '#nav-wrap',
-  components: { Navheader }
-})
-new Vue({
-  el: '#menu-wrap',
-  components: { Navmenu }
-})
-new Vue({
-  el: '#copyright-wrap',
-  components: { Foot }
+  el: 'body',
+  components: {Navheader, Navmenu}
 })

@@ -1,6 +1,8 @@
 <template lang="html">
-  <div class="copyright txt-center">
-    Copyright © {{m_year}} 笔阁科技 . All Rights Reserved.
+  <div class="copyright-wrap" id="copyright-wrap">
+    <div class="copyright txt-center">
+      Copyright © {{m_year}} 笔阁科技 . All Rights Reserved.
+    </div>
   </div>
 </template>
 
