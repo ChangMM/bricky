@@ -7,7 +7,7 @@
     </dl>
     <dl class="menu">
       <dt class="menu-title">设置</dt>
-      <dd class="menu-item account" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
+      <dd class="menu-item account new" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
       <dd class="menu-item subscription" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
       <dd class="menu-item withdraw" v-on:click="f_go('setting.html#!/withdraw')">收益提现</dd>
     </dl>
@@ -50,12 +50,23 @@ export default {
     color:#999;
   }
   .menu-item{
+    position: relative;
     padding-left: 25px;
     height: 40px;
     line-height: 40px;
     cursor: pointer;
     &:hover,&.active{
       color:#ff6c74;
+    }
+    &.new:after{
+      position: absolute;
+      content: " ";
+      top:17px;
+      right:3px;
+      height:6px;
+      width:6px;
+      border-radius: 50%;
+      background-color:#ff6c74;
     }
   }
   border-bottom: 1px solid #ddd;

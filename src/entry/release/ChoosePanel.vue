@@ -79,7 +79,10 @@ export default {
   background: rgba(255, 255, 255, 0.9);
 }
 .choose-wrap{
-  margin: 40px auto 0;
+  position: absolute;
+  top:46%;
+  left:50%;
+  transform:translate(-50%, -50%);
   padding:20px 60px;
   border-radius: 2px;
   width:800px;

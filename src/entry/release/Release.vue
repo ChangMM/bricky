@@ -80,10 +80,10 @@ export default {
 .button-wrap{
   margin-top: 4px;
   .button{
-    margin-right: 40px;
+    margin-right: 60px;
     height: 34px;
     line-height: 34px;
-    width:120px;
+    width:140px;
     border:1px solid $main-color;
     cursor: pointer;
     &.hollow-button{

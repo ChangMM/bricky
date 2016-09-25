@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="article-mask">
+  <div class="article-mask" transition="withdrawPanelIn">
     <div class="choose-wrap">
       <div class="choose-header">
         提现金额
@@ -11,7 +11,7 @@
         <p class="tip">提现将以微信红包或转账的方式发送到您的账户，请注意查收</p>
       </div>
       <div class="release-button-wrap txt-center">
-        <span class='button release-button'>确认发布</span>
+        <span class='button release-button'>确认提现</span>
       </div>
     </div>
   </div>
@@ -49,7 +49,10 @@ export default {
   background: rgba(255, 255, 255, 0.9);
 }
 .choose-wrap{
-  margin: 160px auto 0;
+  position: absolute;
+  top:40%;
+  left:50%;
+  transform:translate(-50%, -50%);
   padding:30px 60px;
   border-radius: 2px;
   width:400px;
@@ -116,5 +119,17 @@ export default {
   &:hover{
     background-color: darken(#ff6c74,5%);
   }
+}
+.withdrawPanelIn-transition{
+  transition: all .2s ease;
+}
+.withdrawPanelIn-transition .choose-wrap{
+  transition: all .2s ease;
+}
+.withdrawPanelIn-enter, .withdrawPanelIn-leave {
+  opacity: 0;
+}
+.withdrawPanelIn-enter .choose-wrap, .withdrawPanelIn-leave .choose-wrap{
+  transform:translate(-50%, -50%) scale(1.1);
 }
 </style>

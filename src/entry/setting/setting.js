@@ -19,7 +19,6 @@ Vue.use(VueResource)
 Vue.use(VueRouter)
 let router = new VueRouter()
 Vue.http.options.emulateJSON = true
-
 router.map({
   '/': {
     component: Account
