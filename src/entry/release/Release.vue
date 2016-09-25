@@ -17,7 +17,7 @@
 
 <script>
 import Articles from './Article.vue'
-import Choose from './Choose.vue'
+import Choose from './ChoosePanel.vue'
 export default {
   data () {
     return {

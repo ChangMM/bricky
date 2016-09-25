@@ -39,7 +39,8 @@ export default {
     }
   },
   computed: {},
-  ready () {},
+  ready () {
+  },
   attached () {},
   methods: {},
   components: {}
@@ -66,7 +67,7 @@ export default {
       border-bottom: 1px solid #eee;
       label{
         display: inline-block;
-        width:56px;
+        width:66px;
         margin-right: 20px;
         color:#666;
         text-align: right;
@@ -99,8 +100,8 @@ export default {
       textarea{
         height:100px;
         width:600px;
-        padding-left:5px;
-        outline: none;
+        padding:5px;
+        outline:none;
         border:1px solid #ddd;
         border-radius: 2px;
         resize: none;

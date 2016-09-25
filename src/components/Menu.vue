@@ -2,27 +2,34 @@
   <div class="menu-wrap" id="menu-wrap">
     <dl class="menu">
       <dt class="menu-title">内容管理</dt>
-      <dd class="menu-item" v-on:click="f_go('release.html#!/release')">作品发布</dd>
-      <dd class="menu-item" v-on:click="f_go('release.html#!/articles')">作品库</dd>
+      <dd class="menu-item release" v-on:click="f_go('release.html#!/release')">作品发布</dd>
+      <dd class="menu-item articles" v-on:click="f_go('release.html#!/articles')">作品库</dd>
     </dl>
     <dl class="menu">
       <dt class="menu-title">设置</dt>
-      <dd class="menu-item" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
-      <dd class="menu-item" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
-      <dd class="menu-item" v-on:click="f_go('setting.html#!/withdraw')">收益提现</dd>
+      <dd class="menu-item account" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
+      <dd class="menu-item subscription" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
+      <dd class="menu-item withdraw" v-on:click="f_go('setting.html#!/withdraw')">收益提现</dd>
     </dl>
   </div>
 </template>
 
 <script>
+/*global window:true*/
+import $ from 'jquery'
 export default {
   data () {
     return {}
   },
   methods: {
     f_go: function (url) {
+      $('.menu-item').removeClass('active')
       window.location.href = url
+      $('.menu-item.' + window.location.href.split('#!/')[1]).addClass('active')
     }
+  },
+  ready () {
+    $('.menu-item.' + window.location.href.split('#!/')[1]).addClass('active')
   }
 }
 </script>
@@ -47,7 +54,7 @@ export default {
     height: 40px;
     line-height: 40px;
     cursor: pointer;
-    &:hover{
+    &:hover,&.active{
       color:#ff6c74;
     }
   }

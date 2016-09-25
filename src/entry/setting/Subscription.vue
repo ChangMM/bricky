@@ -8,7 +8,7 @@
       <div class="input-wrap">
         <label for="avatar">订阅价格</label>
         <input type="text" name="name" v-model='m_price'>/月
-        <span class="float-right alter">修改</span>
+        <span class="float-right alter" v-on:click = 'f_alter'>修改</span>
       </div>
     </div>
   </div>
@@ -23,7 +23,13 @@ export default {
   },
   methods: {
     f_alter: function () {
-      // 向后台发送修改订阅价格的请求
+      this.$confirm().then(
+        function (data) {
+          console.log('确认')
+        },
+        function (data) {
+          console.log('取消')
+        })
     }
   }
 }
@@ -49,7 +55,7 @@ export default {
       border-bottom: 1px solid #eee;
       label{
         display: inline-block;
-        width:56px;
+        width:66px;
         margin-right: 20px;
         color:#666;
         text-align: right;

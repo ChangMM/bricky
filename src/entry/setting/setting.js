@@ -12,7 +12,9 @@ import Withdraw from './Withdraw.vue'
 import Navheader from '../../components/Header.vue'
 import Navmenu from '../../components/Menu.vue'
 let WarnPlugin = require('../../components/Warn/Warn.js')
+let ConfirmPlugin = require('../../components/Confirm/Confirm.js')
 Vue.use(WarnPlugin)
+Vue.use(ConfirmPlugin)
 Vue.use(VueResource)
 Vue.use(VueRouter)
 let router = new VueRouter()
