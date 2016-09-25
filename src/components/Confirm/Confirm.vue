@@ -1,5 +1,5 @@
 <template>
-  <div class="confirm-mask">
+  <div class="confirm-mask" transition='confirmIn'>
     <div class="confirm-wrap">
       <div class="confirm-header">
         此操作不可修改
@@ -95,5 +95,17 @@ export default {
       background-color: darken(#ff6c74,5%);
     }
   }
+}
+.confirmIn-transition{
+  transition: all .2s ease;
+}
+.confirmIn-transition .confirm-wrap{
+  transition: all .2s ease;
+}
+.confirmIn-enter, .confirmIn-leave {
+  opacity: 0;
+}
+.confirmIn-enter .confirm-wrap, .confirmIn-leave .confirm-wrap{
+  transform:translate(-50%, -50%) scale(1.1);
 }
 </style>

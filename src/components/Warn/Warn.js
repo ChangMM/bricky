@@ -15,7 +15,7 @@ function install (Vue) {
     alertInstance.$appendTo(document.body)
   }
 
-  Vue.transition('transIn', {
+  Vue.transition('warnIn', {
     afterEnter: function () {
       setTimeout(() => {
         alertInstance.$remove()

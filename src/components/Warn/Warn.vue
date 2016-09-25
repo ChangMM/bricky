@@ -1,5 +1,5 @@
 <template>
-  <div class="warn-wrap txt-center" transition="transIn">
+  <div class="warn-wrap txt-center" transition="warnIn">
     <p class="msg-wrap">{{ msg }}</p>
   </div>
 </template>
@@ -31,11 +31,11 @@ export default {
       }
     }
     /* 必需 */
-    .transIn-transition {
+    .warnIn-transition {
       transition: top .3s ease;
       top:0;
     }
-    .transIn-enter, .transIn-leave {
+    .warnIn-enter, .warnIn-leave {
       top:-120px
     }
 </style>

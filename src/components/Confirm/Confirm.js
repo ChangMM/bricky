@@ -34,6 +34,8 @@ function install (Vue) {
       alertInstance.reject = reject
     })
   }
+
+  Vue.transition('confirmIn')
 }
 
 let MyPlugin = {
