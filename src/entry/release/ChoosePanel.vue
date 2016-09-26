@@ -8,7 +8,7 @@
       </div>
       <div class="search-wrap clearfix">
         <input type="text" class="search-input" v-model="m_input" placeholder="输入标题文字">
-        <span class='button float-right'>新建作品</span>
+        <a href="new.html"><span class='button float-right'>新建作品</span></a>
       </div>
       <Material :materials="materials"> </Material>
       <div class="release-button-wrap txt-center">

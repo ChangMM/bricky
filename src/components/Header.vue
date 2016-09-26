@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="nav-wrap" id="nav-wrap">
     <div class="nav base-width">
-      <a href="#">
+      <a href="main.html">
         <h1 class="logo">砖栏作家</h1>
       </a>
       <div class="mp-wrap">
