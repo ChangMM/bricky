@@ -7,8 +7,8 @@
     </dl>
     <dl class="menu">
       <dt class="menu-title">设置</dt>
-      <dd class="menu-item account new" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
-      <dd class="menu-item subscription" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
+      <dd class="menu-item account" v-on:click="f_go('setting.html#!/account')">账号设置</dd>
+      <dd class="menu-item subscription new" v-on:click="f_go('setting.html#!/subscription')">订阅设置</dd>
       <dd class="menu-item withdraw" v-on:click="f_go('setting.html#!/withdraw')">收益提现</dd>
     </dl>
   </div>

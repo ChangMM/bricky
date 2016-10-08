@@ -7,7 +7,7 @@
 # 安装npm依赖（首先保证机器上已经安装node环境）
 npm install
 
-# serve with hot reload at localhost:8080, 开发环境的命令
+# serve with hot reload at localhost:9001, 开发环境的命令
 npm run dev
 
 # build for production with minification, 生产环境的命令

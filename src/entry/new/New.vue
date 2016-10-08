@@ -20,7 +20,7 @@
         </div>
         <div class="abbr-cover">
           <p class="abbr-tip tip clearfix">摘要 <span class='float-right'>未填写自动抓取正文的前22个字</span></p>
-          <textarea name="abbr" v-model="m_abbr" class="abbr-edit"></textarea>
+          <textarea name="abbr" v-model="m_abbr" placeholder="请填写摘要" class="abbr-edit"></textarea>
           <span class="word-tip">{{ m_abbr | len }}/22</span>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <div class="title-wrap">
           <img src="../../assets/left.png" class="left" />
           <img src="../../assets/right.png" class="right" />
-          <input type="text" class="title" v-model="m_title">
+          <input type="text" class="title" v-model="m_title" placeholder="请在这里输入标题">
           <span class="word-tip">{{ m_title | len }}/32</span>
         </div>
         <div id="editor">
@@ -63,8 +63,8 @@ export default {
         height: 'auto'
       },
       m_cover: '',
-      m_title: '这是标题',
-      m_abbr: '这是摘要'
+      m_title: '',
+      m_abbr: ''
     }
   },
   ready () {
