@@ -17,7 +17,7 @@
       </div>
       <div class="input-wrap textarea-wrap">
         <label for="avatar">简介</label>
-        <textarea name="name" class="intro" v-model="m_intro" disabled="false"></textarea>
+        <textarea name="name" class="intro" v-model="m_intro"></textarea>
         <span class="float-right alter">修改</span>
       </div>
       <div class="input-wrap">
