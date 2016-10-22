@@ -104,7 +104,7 @@
 </template>
 
 <script>
-/*global FileReader:true, Image:true*/
+/*global FileReader:true, Image:true, FormData:true*/
 export default {
   data () {
     return {
@@ -114,6 +114,7 @@ export default {
         height: 'auto'
       },
       m_avatar: '',
+      m_avatar_url: 'http://wx.qlogo.cn/mmopen/RATloxNCYrB4metwLFLmsQ08Fwoaz81I9icNt1sm2vs40IEBeZCJdg90IqNTZyEDr31KYsK5te1CVGL6PXe7M8sk3zTGPLWmB/0',
       m_name: '',
       m_intro: '',
       m_works: '',
@@ -150,6 +151,14 @@ export default {
             self.avatarStyle.width = '100%'
           }
           self.m_avatar = data
+
+          // 获取图片的raw image data
+          let canvas = document.createElement('canvas')
+          canvas.width = this.naturalWidth
+          canvas.height = this.naturalHeight
+          canvas.getContext('2d').drawImage(this, 0, 0)
+          let rawData = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '')
+          self.f_upload_avatar(rawData)
         }
         image.src = data
       }
@@ -169,9 +178,32 @@ export default {
         } else if (this.m_intro.length > 252) {
           return this.$warn('您砖栏的简介过长')
         }
-        console.log('向服务器发送请求')
+        this.f_register().then((response) => {
+          console.log(response)
+        }, (response) => {
+          return this.$warn('上传问题出错')
+        })
       }
       this.step = this.step + dir
+    },
+    // 发送注册请求的函数
+    f_register: function () {
+      return this.$http.post('/api/author/apply', {
+        nickname: this.m_name,
+        avatar: this.m_avatar_url,
+        introduction: this.m_intro,
+        works: this.m_works,
+        inviteCode: this.m_code
+      })
+    },
+    // 上传图片的函数
+    f_upload_avatar: function (data) {
+      var formData = new FormData()
+      formData.append('file', data)
+      this.$http.post('/api/upload', formData).then((response) => {
+        this.m_avatar_url = response.body.url
+        console.log(response)
+      })
     }
   }
 }

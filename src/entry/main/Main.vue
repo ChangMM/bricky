@@ -2,15 +2,15 @@
   <div class="body-header">
     <div class="header-item">
       <p class="tip">新增订阅</p>
-      <p class="num">100</p>
+      <p class="num">{{ mp_data.availableWithdraw }}</p>
     </div>
     <div class="header-item">
       <p class="tip">总订阅</p>
-      <p class="num">108</p>
+      <p class="num">{{ mp_data.dailyNewSubsNum }}</p>
     </div>
     <div class="header-item last-item">
       <p class="tip">未提现收入（￥）</p>
-      <p class="num">208</p>
+      <p class="num">{{ mp_data.subsNum }}</p>
     </div>
   </div>
   <div class="announcement-wrap">
@@ -30,6 +30,11 @@ import announcementItem from './AnnouncementItem.vue'
 export default {
   data () {
     return {
+      mp_data: {
+        availableWithdraw: 0,
+        dailyNewSubsNum: 0,
+        subsNum: 0
+      },
       announcements: [
         {
           url: '#',
@@ -50,8 +55,19 @@ export default {
     }
   },
   computed: {},
-  ready () {},
-  methods: {},
+  ready () {
+    this.f_mp_data()
+  },
+  methods: {
+    // 获取订阅数以及未提现金额的有关数据
+    f_mp_data: function () {
+      this.$http.get('/api/stats').then((response) => {
+        this.mp_data = response.body.data
+      }, (response) => {
+        this.$warn('首页数据出现问题')
+      })
+    }
+  },
   components: {
     item: announcementItem
   }

@@ -3,20 +3,34 @@
     <a href="#">
       <h1 class="logo">砖栏作家</h1>
     </a>
-    <div class="login-wrap txt-center">
-      <img src="../../assets/index/loginQrcode@3x.png" class="login-qrcode" alt="扫码登陆砖家" />
+    <div class="login-wrap txt-center" id="login-wrap">
+      <!-- <img src="../../assets/index/loginQrcode@3x.png" class="login-qrcode" alt="扫码登陆砖家" />
       <div class="line"></div>
-      <span>微信扫码登陆</span>
+      <span>微信扫码登陆</span> -->
     </div>
     <span class="contact-us button">联系我们</span>
   </div>
 </template>
 
 <script>
+/* global WxLogin:true */
+/* eslint-disable no-new */
 export default {
   data () {
     return {
     }
+  },
+  ready () {
+    let uri = 'https://www.bricky.cn/'
+    new WxLogin({
+      id: 'login-wrap',
+      appid: 'wx622d0cbf6b6cafa5',
+      scope: 'snsapi_login',
+      redirect_uri: encodeURIComponent(uri),
+      state: '',
+      style: '',
+      href: ''
+    })
   }
 }
 </script>

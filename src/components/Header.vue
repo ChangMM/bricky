@@ -5,8 +5,8 @@
         <h1 class="logo">砖栏作家</h1>
       </a>
       <div class="mp-wrap">
-        <img src="../../src/assets/avatar.png" class="avatar" alt="砖栏头像" />
-        <span class="name">节度使</span> |
+        <img v-bind:src="avatar" class="avatar" alt="砖栏头像" />
+        <span class="name">{{ nickname }}</span> |
         <a href="javascript:void(0);" id="logout">退出</a>
       </div>
     </div>
@@ -16,7 +16,17 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      avatar: 'hahah',
+      nickname: '用户名'
+    }
+  },
+  ready () {
+    this.$http.get('/api/user').then((response) => {
+      let user = response.body.user
+      this.nickname = user.nickname
+      this.avatar = user.avatar
+    })
   }
 }
 </script>
@@ -47,6 +57,9 @@ export default {
   .avatar{
     vertical-align: middle;
     margin-right: 4px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
   }
   .name{
     margin-right: 6px;

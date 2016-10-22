@@ -29,11 +29,16 @@ export default {
     }
   },
   ready () {
-    $('.menu-item.' + window.location.href.split('#!/')[1]).addClass('active')
+    let route = window.location.href.split('#!/')[1]
+    $('.menu-item.' + route).addClass('active')
+    // if (route) {
+    //   $('.menu-item.' + route).addClass('active')
+    // } else {
+    //   $('.menu-item.release').addClass('active')
+    // }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 //左边导航栏
 .menu-wrap{
