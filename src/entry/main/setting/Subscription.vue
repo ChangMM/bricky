@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/base/_variable.scss";
+@import "../../../scss/base/_variable.scss";
 .subscription-wrap{
   .subscription-header{
     padding:10px 0;

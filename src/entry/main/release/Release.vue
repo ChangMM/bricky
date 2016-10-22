@@ -24,19 +24,19 @@ export default {
       m_choose: false,
       releasedArticles: [
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '我们始终使他们的一份子',
           intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
           date: '2016/09/11'
         },
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '我们始终使他们的一份子',
           intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
           date: '2016/09/11'
         },
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '我们始终使他们的一份子',
           intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
           date: '2016/09/11'
@@ -49,6 +49,9 @@ export default {
   methods: {
     f_choose: function () {
       this.m_choose = true
+    },
+    f_get_released_articles: function (offset) {
+      this.$http.get('/api/posts/published', {})
     }
   },
   components: {
@@ -58,8 +61,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/base/_variable.scss";
-@import "../../scss/componments/_button.scss";
+@import "../../../scss/base/_variable.scss";
+@import "../../../scss/componments/_button.scss";
 .release-header{
   padding:10px 0;
   font-size:16px;

@@ -28,7 +28,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../scss/base/_variable.scss';
+@import '../../../scss/base/_variable.scss';
 .article-item{
   padding:15px 0;
   border-bottom: 1px solid #eee;

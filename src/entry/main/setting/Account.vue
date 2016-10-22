@@ -7,7 +7,7 @@
     <div class="account-body">
       <div class="input-wrap">
         <label for="avatar">头像</label>
-        <img src="../../assets/avatar.png" class="avatar-img" alt="头像" />
+        <img src="../../../assets/avatar.png" class="avatar-img" alt="头像" />
         <span class="float-right alter">修改</span>
       </div>
       <div class="input-wrap">
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/base/_variable.scss";
+@import "../../../scss/base/_variable.scss";
 .account-wrap{
   .account-header{
     padding:10px 0;

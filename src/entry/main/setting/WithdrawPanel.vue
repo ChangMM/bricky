@@ -4,7 +4,7 @@
       <div class="choose-header">
         提现金额
         <div class="line"></div>
-        <img src="../../assets/close.png" v-on:click='f_close' class="close" />
+        <img src="../../../assets/close.png" v-on:click='f_close' class="close" />
       </div>
       <div class="search-wrap clearfix">
         <input type="text" class="search-input" v-model="m_input" placeholder="默认金额为500元">
@@ -37,8 +37,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../scss/base/_variable.scss';
-@import '../../scss/componments/_button.scss';
+@import '../../../scss/base/_variable.scss';
+@import '../../../scss/componments/_button.scss';
 .article-mask{
   position: fixed;
   top:0;

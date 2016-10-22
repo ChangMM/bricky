@@ -4,7 +4,7 @@
       <div class="choose-header">
         作品发布
         <div class="line"></div>
-        <img src="../../assets/close.png" v-on:click='f_close' class="close" />
+        <img src="../../../assets/close.png" v-on:click='f_close' class="close" />
       </div>
       <div class="search-wrap clearfix">
         <input type="text" class="search-input" v-model="m_input" placeholder="输入标题文字">
@@ -26,25 +26,25 @@ export default {
       m_input: '',
       materials: [
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '细心专研，深入探讨，就不愁没有新发现',
           date: '2016/09/11',
           intro: '深入研究神话思维，并揭秘这种影响不仅有利于'
         },
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '细心专研，深入探讨，就不愁没有新发现',
           date: '2016/09/11',
           intro: '深入研究神话思维，并揭秘这种影响不仅有利于'
         },
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '细心专研，深入探讨，就不愁没有新发现',
           date: '2016/09/11',
           intro: '深入研究神话思维，并揭秘这种影响不仅有利于'
         },
         {
-          cover: require('../../assets/cover.png'),
+          cover: require('../../../assets/cover.png'),
           title: '细心专研，深入探讨，就不愁没有新发现',
           date: '2016/09/11',
           intro: '深入研究神话思维，并揭秘这种影响不仅有利于'
@@ -67,8 +67,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../scss/base/_variable.scss';
-@import '../../scss/componments/_button.scss';
+@import '../../../scss/base/_variable.scss';
+@import '../../../scss/componments/_button.scss';
 .article-mask{
   position: fixed;
   top:0;

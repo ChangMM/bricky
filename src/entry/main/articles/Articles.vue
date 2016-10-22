@@ -10,7 +10,7 @@
     </div>
     <div class="articles-wrap">
       <div class="article-item clearfix">
-        <img src="../../assets/cover.png" class="article-cover" alt="封面图" />
+        <img src="../../../assets/cover.png" class="article-cover" alt="封面图" />
         <div class="article-info">
           <span class="article-title">这是一个表</span>
           <span class="article-intro">这是一个简洁</span>
@@ -46,8 +46,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/base/_variable.scss";
-@import "../../scss/componments/_button.scss";
+@import "../../../scss/base/_variable.scss";
+@import "../../../scss/componments/_button.scss";
 .articles-header{
   padding:10px 0;
   font-size:16px;

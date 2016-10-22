@@ -53,8 +53,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/base/_variable.scss";
-@import "../../scss/componments/_button.scss";
+@import "../../../scss/base/_variable.scss";
+@import "../../../scss/componments/_button.scss";
 .withdraw-header{
   padding:10px 0;
   font-size:16px;
