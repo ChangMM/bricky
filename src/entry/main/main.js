@@ -6,6 +6,9 @@ import VueRouter from 'vue-router'
 import Navheader from '../../components/Header.vue'
 let WarnPlugin = require('../../components/Warn/Warn.js')
 let ConfirmPlugin = require('../../components/Confirm/Confirm.js')
+// 注册全局函数
+import Util from '../../js/Util.js'
+Util(Vue)
 // 主面板
 import Main from './Main.vue'
 import App from './App.vue'

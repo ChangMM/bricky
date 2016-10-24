@@ -7,6 +7,9 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Register from './Register.vue'
 import RegisterNav from './RegisterNav.vue'
+// 注册全局函数 与 插件
+import Util from '../../js/Util.js'
+Util(Vue)
 let WarnPlugin = require('../../components/Warn/Warn.js')
 Vue.use(WarnPlugin)
 Vue.use(VueResource)

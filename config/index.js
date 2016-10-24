@@ -23,16 +23,22 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-       target: 'https://dev.www.bricky.cn',
+       target: 'http://dev.www.bricky.cn',
        changeOrigin: true,
-       hostRewrite: 'https://dev.www.bricky.cn',
        headers: {
-         Cookie: 'bks=s%3Ah3Ix4OAU8yYJAhqWMLtiWYMK-nepCa2Q.MBrd82qCv8742GSEqipIIwNMojuzuVzxdi3%2Bg17XOXs;'
+         Cookie: 'bks=s%3A1DYr8qRIb6O99bogHD8f_jpIEnE3SBaD.LNXRKoshkjMVcr5wiXKpLTrA0xfS4rTsuX7w%2Bhbx3so;'
        },
        pathRewrite: {
          '^/api': '/api'
        }
-     }
+     },
+     '/upload': {
+        target: 'http://dev.www.bricky.cn',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/upload': '/upload'
+        }
+      }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

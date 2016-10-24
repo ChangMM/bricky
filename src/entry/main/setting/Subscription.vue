@@ -18,17 +18,24 @@
 export default {
   data () {
     return {
-      m_price: 2
+      m_price: 0
     }
+  },
+  ready () {
+    this.$http.get('/api/subsprice').then((response) => {
+      console.log(response)
+      this.m_price = response.body.price
+    })
   },
   methods: {
     f_alter: function () {
       this.$confirm().then(
         function (data) {
-          console.log('确认')
-        },
-        function (data) {
-          console.log('取消')
+          this.$http.post('api/subsprice', {
+            csrf: this.$cookies()['csrf'] || ''
+          }).then((response) => {
+            console.log(response)
+          })
         })
     }
   }
@@ -36,52 +43,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../scss/base/_variable.scss";
-.subscription-wrap{
-  .subscription-header{
-    padding:10px 0;
-    font-size:16px;
-    font-weight: bolder;
-    .line{
-      margin-top: 16px;
-      width:100px;
-      height:6px;
-      background-color: $main-color;
-    }
-  }
-  .subscription-body{
-    .input-wrap{
-      padding:20px 0;
-      border-bottom: 1px solid #eee;
-      label{
-        display: inline-block;
-        width:66px;
-        margin-right: 20px;
-        color:#666;
-        text-align: right;
-      }
-      input{
-        height:24px;
-        width:40px;
-        text-align: center;
-        padding-left:5px;
-        margin-right: 5px;
-        outline: none;
-        border:1px solid #ddd;
-        border-radius: 2px;
-        color:$main-color;
-        &:focus{
-          border-color: $main-color;
-        }
-      }
-      .alter{
-        cursor: pointer;
-        color:#666;
-        &:hover{
-          color: $main-color;
-        }
+  @import "../../../scss/base/_variable.scss";
+  .subscription-wrap{
+    .subscription-header{
+      padding:10px 0;
+      font-size:16px;
+      font-weight: bolder;
+      .line{
+        margin-top: 16px;
+        width:100px;
+        height:6px;
+        background-color: $main-color;
       }
     }
+    .subscription-body{
+      .input-wrap{
+        padding:20px 0;
+        border-bottom: 1px solid #eee;
+        label{
+          display: inline-block;
+          width:66px;
+          margin-right: 20px;
+          color:#666;
+          text-align: right;
+        }
+        input{
+          height:24px;
+          width:40px;
+          text-align: center;
+          padding-left:5px;
+          margin-right: 5px;
+          outline: none;
+          border:1px solid #ddd;
+          border-radius: 2px;
+          color:$main-color;
+          &:focus{
+            border-color: $main-color;
+          }
+        }
+        .alter{
+          cursor: pointer;
+          color:#666;
+          &:hover{
+            color: $main-color;
+          }
+        }
+      }
+    }
   }
-}
 </style>

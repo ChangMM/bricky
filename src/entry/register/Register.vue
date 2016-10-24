@@ -21,7 +21,7 @@
         <div class="input-avatar-wrap small">
           <img v-bind:src="m_avatar" v-bind:style="avatarStyle" />
         </div>
-        <span>作为该砖栏头像， <span class="em">大小不大于1M的jpg或者png图片</span></span>
+        <span>作为该砖栏头像， <span class="em">大小不大于2M的jpg、png、jpeg或者gif图片</span></span>
       </div>
       <!-- 砖栏名称 -->
       <div class="input-wrap">
@@ -104,7 +104,8 @@
 </template>
 
 <script>
-/*global FileReader:true, Image:true, FormData:true*/
+// FileReader:true
+/*global Image:true, FormData:true*/
 export default {
   data () {
     return {
@@ -114,55 +115,70 @@ export default {
         height: 'auto'
       },
       m_avatar: '',
-      m_avatar_url: 'http://wx.qlogo.cn/mmopen/RATloxNCYrB4metwLFLmsQ08Fwoaz81I9icNt1sm2vs40IEBeZCJdg90IqNTZyEDr31KYsK5te1CVGL6PXe7M8sk3zTGPLWmB/0',
       m_name: '',
       m_intro: '',
       m_works: '',
       m_code: ''
     }
   },
-  components: {
-
-  },
+  ready () { },
   methods: {
     f_avatar: function (event) {
       let file = event.target.files[0]
-      // let type = file.type.split('/')[1].toLowerCase()
-      // if($.inArray(type,config.imgType)==-1){
-      //   return;
-      // }
-      // if(file.size/1024 > 1024){
-      //
-      //     return;
-      // }
-      let self = this
-      let reader = new FileReader()
-      reader.onload = function (e) {
-        let data = e.target.result
-        let image = new Image()
-        image.onload = function () {
-          let width = image.width
-          let height = image.height
-          if (width > height) {
-            self.avatarStyle.height = '100%'
-            self.avatarStyle.width = 'auto'
-          } else {
-            self.avatarStyle.height = 'auto'
-            self.avatarStyle.width = '100%'
-          }
-          self.m_avatar = data
 
-          // 获取图片的raw image data
-          let canvas = document.createElement('canvas')
-          canvas.width = this.naturalWidth
-          canvas.height = this.naturalHeight
-          canvas.getContext('2d').drawImage(this, 0, 0)
-          let rawData = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '')
-          self.f_upload_avatar(rawData)
-        }
-        image.src = data
+      if (['gif', 'jpg', 'jpeg', 'png'].indexOf(file.type.split('/')[1].toLowerCase()) === -1) {
+        return this.$warn('图片格式不对')
       }
-      reader.readAsDataURL(file)
+
+      if (file.size / 1024 > 2048) {
+        return this.$warn('图片大小过大')
+      }
+
+      // 上传图片
+      this.f_upload_avatar(file).then((response) => {
+        let body = response.body
+        let imageUrl = body.url
+        if (body.error === 'ok') {
+          let image = new Image()
+          let self = this
+          image.onload = function () {
+            let width = image.width
+            let height = image.height
+            if (width > height) {
+              self.avatarStyle.height = '100%'
+              self.avatarStyle.width = 'auto'
+            } else {
+              self.avatarStyle.height = 'auto'
+              self.avatarStyle.width = '100%'
+            }
+            self.m_avatar = imageUrl
+          }
+          image.src = imageUrl
+        } else {
+          this.$warn(body.msg)
+        }
+      })
+      // 另一种头像预览的方式
+      // let self = this
+      // let reader = new FileReader()
+      // reader.onload = function (e) {
+      //   let data = e.target.result
+      //   let image = new Image()
+      //   image.onload = function () {
+      //     let width = image.width
+      //     let height = image.height
+      //     if (width > height) {
+      //       self.avatarStyle.height = '100%'
+      //       self.avatarStyle.width = 'auto'
+      //     } else {
+      //       self.avatarStyle.height = 'auto'
+      //       self.avatarStyle.width = '100%'
+      //     }
+      //     self.m_avatar = data
+      //   }
+      //   image.src = data
+      // }
+      // reader.readAsDataURL(file)
     },
     f_step: function (dir) {
       if (this.step === 1) {
@@ -190,7 +206,7 @@ export default {
     f_register: function () {
       return this.$http.post('/api/author/apply', {
         nickname: this.m_name,
-        avatar: this.m_avatar_url,
+        avatar: this.m_avatar,
         introduction: this.m_intro,
         works: this.m_works,
         inviteCode: this.m_code
@@ -199,11 +215,9 @@ export default {
     // 上传图片的函数
     f_upload_avatar: function (data) {
       var formData = new FormData()
+      formData.append('csrf', this.$cookies()['csrf'] || '')
       formData.append('file', data)
-      this.$http.post('/api/upload', formData).then((response) => {
-        this.m_avatar_url = response.body.url
-        console.log(response)
-      })
+      return this.$http.post('/api/upload', formData)
     }
   }
 }

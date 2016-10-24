@@ -11,7 +11,7 @@
       </div>
       <div class="input-wrap">
         <label>可提现额</label>
-        <span class="money"><span class="num"> {{m_with}} </span> 元</span>
+        <span class="money"><span class="num"> {{m_withdraw}} </span> 元</span>
         <span class="float-right tip">由于微信支付结算周期，收款后需要 <span class="num">5</span> 天之后才可提现</span>
       </div>
       <div class="input-wrap text-input-wrap">
@@ -20,9 +20,10 @@
         <p class="line margin">由于微信平台「企业自动付款」转账额度限制，砖栏每日结算的上限是2000元。遇到当天没有结算完全的情况，我们会在之后陆续结算。</p>
         <p class="line"><a href="#">查看完整提现规则</a></p>
       </div>
-      <div class="button-wrap">
+      <!-- 提现按钮暂时去掉 -->
+      <!-- <div class="button-wrap">
         <span class="button" v-on:click = 'f_showPanel'>提现</span>
-      </div>
+      </div> -->
       <withdraw-panel v-show='m_showPanel' :show.sync='m_showPanel'></withdraw-panel>
     </div>
   </div>
@@ -34,16 +35,23 @@ export default {
   data () {
     return {
       m_total: 2500,
-      m_with: 500,
+      m_withdraw: 500,
       m_showPanel: false
     }
   },
-  computed: {},
-  ready () {},
-  attached () {},
+  ready () {
+    this.$http.get('/api/stats').then((response) => {
+      let data = response.body.data
+      this.m_total = data.totalIncome
+      this.m_withdraw = data.availableWithdraw
+    }, (response) => {
+      this.$warn('数据出现问题')
+    })
+  },
   methods: {
     f_showPanel: function () {
-      this.m_showPanel = true
+      this.$warn('手动提现功能暂时未开放')
+      // this.m_showPanel = true
     }
   },
   components: {

@@ -1,4 +1,5 @@
 <template lang="html">
+  <Navheader></Navheader>
   <div class="main">
     <div class="menu-wrap">
       <dl class="menu">
@@ -21,13 +22,14 @@
 </template>
 
 <script>
+import Navheader from '../../components/Header.vue'
 export default {
   data () {
     return {}
   },
   ready () {},
   methods: {},
-  components: {}
+  components: { Navheader }
 }
 </script>
 

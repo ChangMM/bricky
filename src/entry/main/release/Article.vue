@@ -8,7 +8,7 @@
       </div>
       <div class="float-right time-wrap">
         <span class="article-time">{{article.date}}</span>
-        <span class="cancel">删除</span>
+        <span class="cancel" v-on:click="f_cancel(1)">删除</span>
       </div>
     </div>
   </div>
@@ -19,12 +19,17 @@ export default {
     return {
     }
   },
-  computed: {},
   props: ['articles'],
-  ready () {},
-  attached () {},
-  methods: {},
-  components: {}
+  methods: {
+    f_cancel: function (pid) {
+      this.$warn('删除文章')
+      this.$http.post('/api/post/published/delete', {
+        pid: pid
+      }).then((response) => {
+        console.log(response)
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

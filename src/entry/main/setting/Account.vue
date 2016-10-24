@@ -38,88 +38,89 @@ export default {
       m_code: ''
     }
   },
-  computed: {},
   ready () {
   },
-  attached () {},
-  methods: {},
-  components: {}
+  methods: {
+    f_alter_intro: function () {
+
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "../../../scss/base/_variable.scss";
-.account-wrap{
-  .account-header{
-    padding:10px 0;
-    font-size:16px;
-    font-weight: bolder;
-    .line{
-      margin-top: 16px;
-      width:100px;
-      height:6px;
-      background-color: $main-color;
-    }
-  }
-  .account-body{
-    .input-wrap{
-      padding:20px 0;
-      border-bottom: 1px solid #eee;
-      label{
-        display: inline-block;
-        width:66px;
-        margin-right: 20px;
-        color:#666;
-        text-align: right;
+  @import "../../../scss/base/_variable.scss";
+  .account-wrap{
+    .account-header{
+      padding:10px 0;
+      font-size:16px;
+      font-weight: bolder;
+      .line{
+        margin-top: 16px;
+        width:100px;
+        height:6px;
+        background-color: $main-color;
       }
-      &.textarea-wrap{
+    }
+    .account-body{
+      .input-wrap{
+        padding:20px 0;
+        border-bottom: 1px solid #eee;
         label{
-          vertical-align: top;
+          display: inline-block;
+          width:66px;
+          margin-right: 20px;
+          color:#666;
+          text-align: right;
         }
-      }
-      .avatar-img{
-        vertical-align: middle;
-        height:40px;
-        width:40px;
-        border-radius: 50%;
-      }
-      input{
-        height:24px;
-        width:40px;
-        text-align: center;
-        padding-left:5px;
-        margin-right: 5px;
-        outline: none;
-        border:1px solid #ddd;
-        border-radius: 2px;
-        color:$main-color;
-        &:focus{
-          border-color: $main-color;
+        &.textarea-wrap{
+          label{
+            vertical-align: top;
+          }
         }
-      }
-      textarea{
-        height:100px;
-        width:600px;
-        padding:5px;
-        outline:none;
-        border:1px solid #ddd;
-        border-radius: 2px;
-        resize: none;
-        &:focus{
-          border-color: $main-color;
+        .avatar-img{
+          vertical-align: middle;
+          height:40px;
+          width:40px;
+          border-radius: 50%;
         }
-      }
-      .tip{
-        color:#999;
-      }
-      .alter{
-        cursor: pointer;
-        color:#666;
-        &:hover{
-          color: $main-color;
+        input{
+          height:24px;
+          width:40px;
+          text-align: center;
+          padding-left:5px;
+          margin-right: 5px;
+          outline: none;
+          border:1px solid #ddd;
+          border-radius: 2px;
+          color:$main-color;
+          &:focus{
+            border-color: $main-color;
+          }
+        }
+        textarea{
+          height:100px;
+          width:600px;
+          padding:5px;
+          outline:none;
+          border:1px solid #ddd;
+          border-radius: 2px;
+          resize: none;
+          &:focus{
+            border-color: $main-color;
+          }
+        }
+        .tip{
+          color:#999;
+        }
+        .alter{
+          cursor: pointer;
+          color:#666;
+          &:hover{
+            color: $main-color;
+          }
         }
       }
     }
   }
-}
 </style>
