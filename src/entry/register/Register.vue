@@ -104,7 +104,6 @@
 </template>
 
 <script>
-// FileReader:true
 /*global Image:true, FormData:true*/
 export default {
   data () {

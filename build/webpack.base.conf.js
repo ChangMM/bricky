@@ -7,6 +7,7 @@ module.exports = {
   entry: {
     index: './src/entry/index/index.js',
     register: './src/entry/register/register.js',
+    registered: './src/entry/register/registered.js',
     main: './src/entry/main/main.js',
     new: './src/entry/new/new.js'
   },
