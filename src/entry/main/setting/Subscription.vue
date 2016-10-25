@@ -23,16 +23,17 @@ export default {
   },
   ready () {
     this.$http.get('/api/subsprice').then((response) => {
-      console.log(response)
       this.m_price = response.body.price
     })
   },
   methods: {
     f_alter: function () {
+      let self = this
       this.$confirm().then(
         function (data) {
-          this.$http.post('api/subsprice', {
-            csrf: this.$cookies()['csrf'] || ''
+          self.$http.post('api/subsprice', {
+            csrf: self.$cookies()['csrf'] || '',
+            price: self.m_price * 100
           }).then((response) => {
             console.log(response)
           })

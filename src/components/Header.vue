@@ -18,58 +18,62 @@
 export default {
   data () {
     return {
-      avatar: 'hahah',
-      nickname: '用户名'
+      avatar: require('../assets/default.png'),
+      nickname: ''
     }
   },
   ready () {
     this.$http.get('/api/user').then((response) => {
-      let user = response.body.user
-      this.nickname = user.nickname
-      this.avatar = user.avatar
+      let body = response.body
+      if (body.error === 'ok') {
+        this.nickname = body.user.authorNickname
+        this.avatar = body.user.authorAvatar || this.avatar
+      } else {
+        this.$warn('获取个人信息错误')
+      }
     })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-//顶部导航栏样式
-.nav-wrap{
-  border-bottom: 1px solid #ddd;
-}
-.nav{
-  position: relative;
-  margin:0 auto;
-  height:80px;
-  line-height: 80px;
-}
-.logo{
-  position: absolute;
-  top:28px;
-  left:0;
-  height:34px;
-  width:173px;
-  text-indent: -9999px;
-  background-image: url("../assets/logoblack@3x.png");
-  background-size: cover;
-}
-.mp-wrap{
-  float: right;
-  .avatar{
-    vertical-align: middle;
-    margin-right: 4px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
+  //顶部导航栏样式
+  .nav-wrap{
+    border-bottom: 1px solid #ddd;
   }
-  .name{
-    margin-right: 6px;
-    vertical-align: middle;
+  .nav{
+    position: relative;
+    margin:0 auto;
+    height:80px;
+    line-height: 80px;
   }
-  #logout{
-    margin-left: 6px;
-    font-size: 12px;
-    color:#999;
+  .logo{
+    position: absolute;
+    top:28px;
+    left:0;
+    height:34px;
+    width:173px;
+    text-indent: -9999px;
+    background-image: url("../assets/logoblack@3x.png");
+    background-size: cover;
   }
-}
+  .mp-wrap{
+    float: right;
+    .avatar{
+      vertical-align: middle;
+      margin-right: 4px;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+    }
+    .name{
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    #logout{
+      margin-left: 6px;
+      font-size: 12px;
+      color:#999;
+    }
+  }
 </style>

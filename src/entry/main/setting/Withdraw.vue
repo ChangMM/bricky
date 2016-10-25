@@ -34,8 +34,8 @@ import WithdrawPanel from './WithdrawPanel.vue'
 export default {
   data () {
     return {
-      m_total: 2500,
-      m_withdraw: 500,
+      m_total: 0,
+      m_withdraw: 0,
       m_showPanel: false
     }
   },

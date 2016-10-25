@@ -16,10 +16,10 @@
         <label for="avatar">头像</label>
         <div class="input-avatar-wrap big">
           <input type="file" v-on:change="f_avatar" class="file-input" name="avatar" id="avatar">
-          <img v-bind:src="m_avatar" v-bind:style="avatarStyle" />
+          <img v-bind:src="m_avatar?m_avatar:m_default_avatar" v-bind:style="avatarStyle" />
         </div>
         <div class="input-avatar-wrap small">
-          <img v-bind:src="m_avatar" v-bind:style="avatarStyle" />
+          <img v-bind:src="m_avatar?m_avatar:m_default_avatar" v-bind:style="avatarStyle" />
         </div>
         <span>作为该砖栏头像， <span class="em">大小不大于2M的jpg、png、jpeg或者gif图片</span></span>
       </div>
@@ -110,10 +110,11 @@ export default {
     return {
       step: 1,
       avatarStyle: {
-        width: 'auto',
+        width: '100%',
         height: 'auto'
       },
       m_avatar: '',
+      m_default_avatar: require('../../assets/default.png'),
       m_name: '',
       m_intro: '',
       m_works: '',
@@ -342,6 +343,7 @@ export default {
         display: inline-block;
         vertical-align: bottom;
         background-color: #eee;
+        border-radius: 50%;
         overflow: hidden;
         position: relative;
         &.big{
@@ -364,6 +366,7 @@ export default {
           left:0;
           width:100%;
           height:100%;
+          border-radius: 50%;
         }
         img{
           position: absolute;
@@ -371,6 +374,7 @@ export default {
           left:50%;
           transform: translate3d(-50%,-50%,0);
           z-index: 0;
+          border-radius: 50%;
         }
       }
       .qrcode-wrap{

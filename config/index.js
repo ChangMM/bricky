@@ -23,22 +23,43 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-       target: 'http://dev.www.bricky.cn',
-       changeOrigin: true,
-       headers: {
-         Cookie: 'bks=s%3A1DYr8qRIb6O99bogHD8f_jpIEnE3SBaD.LNXRKoshkjMVcr5wiXKpLTrA0xfS4rTsuX7w%2Bhbx3so;'
-       },
-       pathRewrite: {
-         '^/api': '/api'
-       }
-     },
+         target: 'https://dev.www.bricky.cn',
+         changeOrigin: true,
+         headers: {
+           Cookie: 'bks=s%3A1DYr8qRIb6O99bogHD8f_jpIEnE3SBaD.LNXRKoshkjMVcr5wiXKpLTrA0xfS4rTsuX7w%2Bhbx3so;'
+         },
+         pathRewrite: {
+           '^/api': '/api'
+         }
+      },
      '/upload': {
-        target: 'http://dev.www.bricky.cn',
+        target: 'https://dev.www.bricky.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/upload': '/upload'
         }
       }
+      // '^/main$': {
+      //    target: 'https://dev.www.bricky.cn',
+      //    changeOrigin: true,
+      //    pathRewrite: {
+      //      '^/main$': '/main'
+      //    }
+      //  }
+      //  '/register': {
+      //     target: 'https://dev.www.bricky.cn',
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       '^/register.html': '/register'
+      //     }
+      //   },
+      //   '/new': {
+      //      target: 'https://dev.www.bricky.cn',
+      //      changeOrigin: true,
+      //      pathRewrite: {
+      //        '^/new.html': '/new'
+      //      }
+      //    }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
