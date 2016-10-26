@@ -14,21 +14,21 @@
         <dd class="menu-item"><a v-link="{ path: '/withdraw'}">收益提现</a></dd>
       </dl>
     </div>
-      <div class="body-wrap">
-        <!-- 路由外链 -->
-        <router-view></router-view>
-      </div>
+    <div class="body-wrap">
+      <!-- 路由外链 -->
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 import Navheader from '../../components/Header.vue'
+console.log()
 export default {
   data () {
-    return {}
+    return {
+    }
   },
-  ready () {},
-  methods: {},
   components: { Navheader }
 }
 </script>

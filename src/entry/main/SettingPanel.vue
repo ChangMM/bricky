@@ -2,16 +2,16 @@
   <div class="article-mask" transition="withdrawPanelIn">
     <div class="choose-wrap">
       <div class="choose-header">
-        提现金额
+        设置年费
         <div class="line"></div>
-        <img src="../../../assets/close.png" v-on:click='f_close' class="close" />
+        <img src="../../assets/close.png" v-on:click='f_close' class="close" />
       </div>
       <div class="search-wrap clearfix">
-        <input type="text" class="search-input" v-model="m_input" placeholder="默认金额为500元">
-        <p class="tip">提现将以微信红包或转账的方式发送到您的账户，请注意查收</p>
+        <!-- <input type="text" class="search-input" v-model="m_input" placeholder="默认金额为500元"> -->
+        <p class="tip">请先设置砖栏的订阅价格年费，之后才可被读者查看和搜索。</p>
       </div>
       <div class="release-button-wrap txt-center">
-        <span class='button release-button'>确认提现</span>
+        <span class='button release-button' v-on:click='f_go'>前往设置</span>
       </div>
     </div>
   </div>
@@ -28,13 +28,16 @@ export default {
   methods: {
     f_close: function () {
       this.show = false
+    },
+    f_go: function () {
+      this.$router.go('subscription')
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../scss/base/_variable.scss';
-@import '../../../scss/componments/_button.scss';
+@import '../../scss/base/_variable.scss';
+@import '../../scss/componments/_button.scss';
 .article-mask{
   position: fixed;
   top:0;

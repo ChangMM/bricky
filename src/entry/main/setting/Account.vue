@@ -53,7 +53,7 @@ export default {
       let body = response.body
       if (body.error === 'ok') {
         this.m_name = body.user.authorNickname
-        this.avatar = body.user.authorAvatar || this.avatar
+        this.m_avatar = body.user.authorAvatar || this.m_avatar
         this.m_intro = body.user.authorIntroduction
         this.m_code = body.user.invitecode || ''
       } else {

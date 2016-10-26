@@ -38,14 +38,14 @@ module.exports = {
         pathRewrite: {
           '^/upload': '/upload'
         }
-      }
-      // '^/main$': {
-      //    target: 'https://dev.www.bricky.cn',
-      //    changeOrigin: true,
-      //    pathRewrite: {
-      //      '^/main$': '/main'
-      //    }
-      //  }
+      },
+      '/debug': {
+         target: 'https://dev.www.bricky.cn',
+         changeOrigin: true,
+         pathRewrite: {
+           '^/debug': '/debug'
+         }
+       }
       //  '/register': {
       //     target: 'https://dev.www.bricky.cn',
       //     changeOrigin: true,

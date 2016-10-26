@@ -22,14 +22,16 @@
         <item :announcements = "announcements"></item>
       </div>
   </div>
+  <setting-panel v-show='m_show_setting_panel' :show.sync='m_show_setting_panel'></setting-panel>
 </template>
 
 <script>
 import announcementItem from './AnnouncementItem.vue'
-
+import SettingPanel from './SettingPanel.vue'
 export default {
   data () {
     return {
+      m_show_setting_panel: false,
       mp_data: {
         availableWithdraw: 0,
         dailyNewSubsNum: 0,
@@ -54,9 +56,9 @@ export default {
       ]
     }
   },
-  computed: {},
   ready () {
     this.f_mp_data()
+    this.f_check_sub()
   },
   methods: {
     // 获取订阅数以及未提现金额的有关数据
@@ -66,9 +68,22 @@ export default {
       }, (response) => {
         this.$warn('首页数据出现问题')
       })
+    },
+    // 检查是否设置年费
+    f_check_sub: function () {
+      this.$http.get('/api/subsprice').then((response) => {
+        let body = response.body
+        if (body.error === 'subsinfo:missing') {
+          let self = this
+          setTimeout(function () {
+            self.m_show_setting_panel = true
+          }, 1000)
+        }
+      })
     }
   },
   components: {
+    SettingPanel,
     item: announcementItem
   }
 }
