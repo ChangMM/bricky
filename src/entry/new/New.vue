@@ -32,9 +32,9 @@
             <a class="btn upload" title="插入图片"><input type="file" data-edit="insertImage" /></a>
           </div>
           <div class="btn-group float-right">
-            <span class="button save">保存</span>
+            <span class="button save" v-on:click='f_save($event)'>保存</span>
             <span class="button view">预览</span>
-            <span class="button release">保存并发布</span>
+            <span class="button release" v-on:click='f_save_release'>保存并发布</span>
           </div>
         </div>
         <div class="title-wrap">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-/*global FileReader:true, Image:true, $:true, history:true*/
+/*global Image:true, $:true, history:true, FormData:true*/
 import Editor from '../../js/lib/Editor.js'
 import Hotkeys from '../../js/lib/jquery.hotkeys.js'
 export default {
@@ -62,9 +62,11 @@ export default {
         width: 'auto',
         height: 'auto'
       },
+      m_aid: '',
       m_cover: '',
-      m_title: '',
-      m_abbr: ''
+      m_title: '这是第二篇图文的标题',
+      m_abbr: '这是第二篇图文的摘要',
+      m_content: '这是第二篇图文的正文'
     }
   },
   ready () {
@@ -75,84 +77,249 @@ export default {
   methods: {
     f_cover: function (event) {
       let file = event.target.files[0]
-      let self = this
-      let reader = new FileReader()
-      reader.onload = function (e) {
-        let data = e.target.result
-        let image = new Image()
-        image.onload = function () {
-          let width = image.width
-          let height = image.height
-          if (width > height) {
-            self.coverStyle.height = '100%'
-            self.coverStyle.width = 'auto'
-          } else {
-            self.coverStyle.height = 'auto'
-            self.coverStyle.width = '100%'
+      // 上传图片
+      this.f_upload_cover(file).then((response) => {
+        let body = response.body
+        let imageUrl = body.url
+        if (body.error === 'ok') {
+          let image = new Image()
+          let self = this
+          image.onload = function () {
+            let width = image.width
+            let height = image.height
+            if (width > height) {
+              self.coverStyle.height = '100%'
+              self.coverStyle.width = 'auto'
+            } else {
+              self.coverStyle.height = 'auto'
+              self.coverStyle.width = '100%'
+            }
+            self.m_cover = imageUrl
           }
-          self.m_cover = data
+          image.src = imageUrl
+        } else {
+          this.$warn(body.msg)
         }
-        image.src = data
-      }
-      reader.readAsDataURL(file)
+      })
+      // let file = event.target.files[0]
+      // let self = this
+      // let reader = new FileReader()
+      // reader.onload = function (e) {
+      //   let data = e.target.result
+      //   let image = new Image()
+      //   image.onload = function () {
+      //     let width = image.width
+      //     let height = image.height
+      //     if (width > height) {
+      //       self.coverStyle.height = '100%'
+      //       self.coverStyle.width = 'auto'
+      //     } else {
+      //       self.coverStyle.height = 'auto'
+      //       self.coverStyle.width = '100%'
+      //     }
+      //     self.m_cover = data
+      //   }
+      //   image.src = data
+      // }
+      // reader.readAsDataURL(file)
+    },
+    // 上传图片的函数
+    f_upload_cover: function (data) {
+      var formData = new FormData()
+      formData.append('csrf', this.$cookies()['csrf'] || '')
+      formData.append('file', data)
+      return this.$http.post('/api/upload', formData)
     },
     f_return: function () {
       history.back()
+    },
+    f_save: function (event) {
+      this.m_content = $('#editor').html()
+      let currentTarget = event.currentTarget
+      if (currentTarget.classList.contains('disable')) {
+        return
+      } else {
+        currentTarget.classList.add('disable')
+        currentTarget.innerHTML = '正在保存'
+        this.$http.post('/api/post', {
+          aid: this.m_aid,
+          csrf: this.$cookies()['csrf'] || '',
+          title: this.m_title,
+          digest: this.m_abbr,
+          words: this.m_content,
+          cover: this.m_cover
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          if (body.error === 'ok') {
+            this.$warn('保存成功')
+            currentTarget.innerHTML = '保存'
+          } else {
+            this.$warn('保存失败')
+            currentTarget.innerHTML = '请重试'
+          }
+          currentTarget.classList.remove('disable')
+        })
+      }
+    },
+    f_save_release: function (event) {
+      this.m_content = $('#editor').html()
+      let currentTarget = event.currentTarget
+      if (currentTarget.classList.contains('disable')) {
+        return
+      } else {
+        currentTarget.classList.add('disable')
+        currentTarget.innerHTML = '正在发布'
+        this.$http.post('/api/post', {
+          aid: this.m_aid,
+          csrf: this.$cookies()['csrf'] || '',
+          title: this.m_title,
+          digest: this.m_abbr,
+          words: this.m_content,
+          cover: this.m_cover
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          if (body.error === 'ok') {
+            this.f_release(body.post.id)
+            currentTarget.innerHTML = '保存并发布'
+          } else {
+            this.$warn('发布失败')
+            currentTarget.innerHTML = '请重试'
+          }
+          currentTarget.classList.remove('disable')
+        })
+      }
+    },
+    f_release: function (pid) {
+      this.$http.post('/api/publish/post', {
+        pid: pid
+      }).then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.$warn('发布文章成功')
+        } else {
+          this.$warn('发布失败')
+          this.$warn(body.msg)
+        }
+      })
     }
-  },
-  components: {}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../../scss/base/_mixin.scss';
-@import '../../scss/componments/_button.scss';
-//新建文章的页面样式控制
-.new-wrap{
-  margin:0 auto;
-}
-//面包导航
-.bread-header{
-  margin-top: 30px;
-  img.return{
-    height:20px;
-    vertical-align: middle;
-    cursor: pointer;
+  @import '../../scss/base/_mixin.scss';
+  @import '../../scss/componments/_button.scss';
+  //新建文章的页面样式控制
+  .new-wrap{
+    margin:0 auto;
   }
-  span{
-    &.prev{
-      color: #666;
+  //面包导航
+  .bread-header{
+    margin-top: 30px;
+    img.return{
+      height:20px;
+      vertical-align: middle;
       cursor: pointer;
     }
-    &.now{
-      color:#000;
+    span{
+      &.prev{
+        color: #666;
+        cursor: pointer;
+      }
+      &.now{
+        color:#000;
+      }
     }
   }
-}
 
-//编辑器主体样式
-.brick-editor-wrap{
-  margin-top: 20px;
-  padding-left: 300px;
-  position: relative;
-}
-.editor-left{
-  width:300px;
-  position: absolute;
-  top:0;
-  left:0;
-  .title-wrap{
+  //编辑器主体样式
+  .brick-editor-wrap{
+    margin-top: 20px;
+    padding-left: 300px;
     position: relative;
-    height:100px;
-    .abbr-cover-wrap{
-      position: absolute;
+  }
+  .editor-left{
+    width:300px;
+    position: absolute;
+    top:0;
+    left:0;
+    .title-wrap{
+      position: relative;
       height:100px;
-      width:100px;
-      top:0;
-      left:0;
+      .abbr-cover-wrap{
+        position: absolute;
+        height:100px;
+        width:100px;
+        top:0;
+        left:0;
+        background: url('../../assets/editBack.png') center center;
+        background-size: cover;
+        overflow: hidden;
+        img{
+          position: absolute;
+          top:50%;
+          left:50%;
+          transform: translate3d(-50%,-50%,0);
+          z-index: 0;
+        }
+      }
+      .title{
+        width:190px;
+        position: absolute;
+        top:-2px;
+        left:110px;
+        height: 63px;
+      }
+      .abbr{
+        width:190px;
+        position: absolute !important;
+        color: #999;
+        font-size: 12px;
+        bottom:-4px;
+        left:110px;
+        height:36px;
+      }
+    }
+    .tip{
+      margin-top: 20px;
+      font-weight: bold;
+      span{
+        font-size: 12px;
+        color:#999;
+        position: relative;
+        top:4px;
+      }
+    }
+    .cover-wrap{
+      position: relative;
+      height:300px;
+      width:300px;
       background: url('../../assets/editBack.png') center center;
       background-size: cover;
       overflow: hidden;
+      .cover-tip{
+        width:100px;
+        color: #999;
+        height:20px;
+        font-size: 12px;
+        position: absolute;
+        z-index: 1;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        margin: auto;
+      }
+      input{
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        z-index: 2;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+      }
       img{
         position: absolute;
         top:50%;
@@ -161,212 +328,152 @@ export default {
         z-index: 0;
       }
     }
-    .title{
-      width:190px;
-      position: absolute;
-      top:-2px;
-      left:110px;
-      height: 63px;
-    }
-    .abbr{
-      width:190px;
-      position: absolute !important;
-      color: #999;
-      font-size: 12px;
-      bottom:-4px;
-      left:110px;
-      height:36px;
-    }
-  }
-  .tip{
-    margin-top: 20px;
-    font-weight: bold;
-    span{
-      font-size: 12px;
-      color:#999;
+    .abbr-wrap{
       position: relative;
-      top:4px;
     }
-  }
-  .cover-wrap{
-    position: relative;
-    height:300px;
-    width:300px;
-    background: url('../../assets/editBack.png') center center;
-    background-size: cover;
-    overflow: hidden;
-    .cover-tip{
-      width:100px;
-      color: #999;
-      height:20px;
-      font-size: 12px;
-      position: absolute;
-      z-index: 1;
-      top:0;
-      left:0;
-      right:0;
-      bottom:0;
-      margin: auto;
-    }
-    input{
-      cursor: pointer;
-      opacity: 0;
-      position: absolute;
-      z-index: 2;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-    }
-    img{
-      position: absolute;
-      top:50%;
-      left:50%;
-      transform: translate3d(-50%,-50%,0);
-      z-index: 0;
-    }
-  }
-  .abbr-wrap{
-    position: relative;
-  }
-  // 摘要输入框
-  .abbr-edit{
-    margin-top: 4px;
-    padding:5px;
-    color:#666;
-    height:60px;
-    width:100%;
-    box-sizing: border-box;
-    border-radius: 2px;
-    outline: none;
-    resize: none;
-    border:1px solid #ddd;
-  }
-  .word-tip{
-    position: absolute;
-    font-size: 12px;
-    color:#999;
-    right:2px;
-    bottom:6px;
-  }
-}
-.editor-main{
-  padding:0 40px;
-  div[data-role="editor-toolbar"] {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  .btn-toolbar{
-    padding:6px;
-    border-bottom:1px solid #ddd;
-    .btn-group{
-      display: inline-block;
-      .button{
-        display: inline-block;
-        width:100px;
-        height:30px;
-        font-size: 12px;
-        line-height: 30px;
-        border: 1px solid #ff6c74;
-        margin-left: 12px;
-        &.firt-child{
-          margin-left: 0;
-        }
-        &.save{
-          color:#ff6c74;
-          &:hover{
-            color:#fff;
-            background-color: darken(#ff6c74,5%);
-          }
-        }
-        &.release,&.view{
-          color:#fff;
-          background-color: #ff6c74;
-          &:hover{
-            background-color: darken(#ff6c74,5%);
-          }
-        }
-      }
-      .btn{
-        display: inline-block;
-        height:30px;
-        line-height: 30px;
-        text-align: center;
-        width:30px;
-        border-radius: 2px;
-        cursor: pointer;
-        background-size: 16px;
-        background-position: center;
-        background-repeat: no-repeat;
-        &:hover{
-          background-color: #ddd;
-        }
-        &.undo{
-          background-image:url('../../assets/undo.png');
-        }
-        &.redo{
-          background-image: url('../../assets/redo.png');
-        }
-        &.upload{
-          background-image: url('../../assets/upload.png');
-          position: relative;
-          input{
-            cursor: pointer;
-            position: absolute;
-            opacity: 0;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-          }
-        }
-      }
-    }
-  }
-  .title-wrap{
-    width:90%;
-    margin: 30px auto 0;
-    position: relative;
-    .left{
-      position: absolute;
-      top:-8px;
-      left:-16px;
-    }
-    .right{
-      position: absolute;
-      top:-8px;
-      right:-16px;
-    }
-    .title{
-      border:none;
-      outline:none;
-      width:100%;
-      height:50px;
-      font-size: 16px;
+    // 摘要输入框
+    .abbr-edit{
+      margin-top: 4px;
+      padding:5px;
       color:#666;
-      border-bottom: 1px solid #ddd;
-      background-color: transparent;
+      height:60px;
+      width:100%;
+      box-sizing: border-box;
+      border-radius: 2px;
+      outline: none;
+      resize: none;
+      border:1px solid #ddd;
     }
     .word-tip{
       position: absolute;
-      bottom:16px;
-      right:6px;
-      color: #aaa;
       font-size: 12px;
+      color:#999;
+      right:2px;
+      bottom:6px;
     }
   }
-  #editor {
-    width:90%;
-    margin: 10px auto 0;
-  	max-height: 600px;
-  	height: 500px;
-  	padding: 4px;
-    color:#333;
-  	box-sizing: border-box;
-  	overflow: scroll;
-  	outline: none;
+  .editor-main{
+    padding:0 40px;
+    div[data-role="editor-toolbar"] {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .btn-toolbar{
+      padding:6px;
+      border-bottom:1px solid #ddd;
+      .btn-group{
+        display: inline-block;
+        .button{
+          display: inline-block;
+          width:100px;
+          height:30px;
+          font-size: 12px;
+          line-height: 30px;
+          border: 1px solid #ff6c74;
+          margin-left: 12px;
+          &.firt-child{
+            margin-left: 0;
+          }
+          &.save{
+            color:#ff6c74;
+            &:hover{
+              color:#fff;
+              background-color: darken(#ff6c74,5%);
+            }
+          }
+          &.release,&.view{
+            color:#fff;
+            background-color: #ff6c74;
+            &:hover{
+              background-color: darken(#ff6c74,5%);
+            }
+          }
+          &.disable{
+            color: #fff;
+            background-color: lighten(#ff6c74,10%);
+            border-color: lighten(#ff6c74,10%);
+          }
+        }
+        .btn{
+          display: inline-block;
+          height:30px;
+          line-height: 30px;
+          text-align: center;
+          width:30px;
+          border-radius: 2px;
+          cursor: pointer;
+          background-size: 16px;
+          background-position: center;
+          background-repeat: no-repeat;
+          &:hover{
+            background-color: #ddd;
+          }
+          &.undo{
+            background-image:url('../../assets/undo.png');
+          }
+          &.redo{
+            background-image: url('../../assets/redo.png');
+          }
+          &.upload{
+            background-image: url('../../assets/upload.png');
+            position: relative;
+            input{
+              cursor: pointer;
+              position: absolute;
+              opacity: 0;
+              top:0;
+              left:0;
+              width:100%;
+              height:100%;
+            }
+          }
+        }
+      }
+    }
+    .title-wrap{
+      width:90%;
+      margin: 30px auto 0;
+      position: relative;
+      .left{
+        position: absolute;
+        top:-8px;
+        left:-16px;
+      }
+      .right{
+        position: absolute;
+        top:-8px;
+        right:-16px;
+      }
+      .title{
+        border:none;
+        outline:none;
+        width:100%;
+        height:50px;
+        font-size: 16px;
+        color:#666;
+        border-bottom: 1px solid #ddd;
+        background-color: transparent;
+      }
+      .word-tip{
+        position: absolute;
+        bottom:16px;
+        right:6px;
+        color: #aaa;
+        font-size: 12px;
+      }
+    }
+    #editor {
+      width:90%;
+      margin: 10px auto 0;
+    	max-height: 600px;
+    	height: 500px;
+    	padding: 4px;
+      color:#333;
+    	box-sizing: border-box;
+    	overflow: scroll;
+    	outline: none;
+    }
   }
-}
 </style>

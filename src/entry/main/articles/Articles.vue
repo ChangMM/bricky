@@ -10,16 +10,16 @@
     </div>
     <div class="articles-wrap">
       <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
-        <img v-bind:src="lib.cover" class="article-cover" alt="封面图" />
+        <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" class="article-cover" alt="封面图" />
         <div class="article-info">
           <span class="article-title">{{lib.title}}</span>
-          <span class="article-intro">{{lib.intro}}</span>
+          <span class="article-intro">{{lib.digest}}</span>
         </div>
         <div class="float-right time-wrap">
-          <span class="article-time">{{lib.time}}</span>
+          <span class="article-time">{{lib.updateTime | timeFormat}}</span>
           <p class="operation-wrap">
-            <span class="edit" v-on:click="f_edit">编辑</span>
-            <span class="cancel" v-on:click="f_cancel()">删除</span>
+            <span class="edit" v-on:click="f_edit(lib.id)">编辑</span>
+            <span class="cancel" v-on:click="f_cancel(lib.id)">删除</span>
           </p>
         </div>
       </div>
@@ -28,57 +28,51 @@
 </template>
 
 <script>
+// /*global location:true*/
 export default {
   data () {
     return {
+      m_default_cover: require('../../../assets/default.png'),
       m_search_title: '',
-      m_libs: [
-        {
-          title: '标题1',
-          intro: '简介1',
-          time: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题1',
-          intro: '简介1',
-          time: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题2',
-          intro: '简介2',
-          time: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题3',
-          intro: '简介3',
-          time: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        }
-      ]
+      m_libs: []
     }
   },
   ready () {
-    this.$http.get('/api/posts/lib').then((response) => {
-      let body = response.body
-      if (body.error === 'ok') {
-        // this.m_libs = body.posts
-      } else {
-        this.$warn(body.msg)
-      }
-    })
+    this.f_get_libs()
   },
   methods: {
     f_edit: function () {
       this.$warn('编辑按钮')
     },
+    f_get_libs: function () {  // 获取素材库的图文
+      this.$http.get('/api/posts/lib', {
+        params: {
+          limit: 100,
+          offset: 0
+        }
+      }).then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_libs = body.posts
+        } else {
+          this.$warn(body.msg)
+        }
+      })
+    },
     f_cancel: function (pid) {
-      this.$warn(pid)
+      this.$http.post('/api/post/lib/delete', {
+        pid: pid
+      }).then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.$warn('删除文章成功')
+          this.f_get_libs()
+        } else {
+          this.$warn(body.msg)
+        }
+      })
     }
-  },
-  components: {}
+  }
 }
 </script>
 
@@ -106,7 +100,7 @@ export default {
       padding-left: 5px;
       padding-right: 40px;
       font-size: 14px;
-      border-radius: 2px;
+      border-radius: 4px;
       &:focus{
         border-color: #ff6c74;
       }
@@ -167,6 +161,8 @@ export default {
       height:100px;
       position: relative;
       color:#999;
+      min-width: 100px;
+      text-align: right;
       .operation-wrap{
         position: absolute;
         bottom:0;

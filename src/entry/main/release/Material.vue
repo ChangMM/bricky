@@ -1,21 +1,41 @@
 <template lang="html">
   <div class="material-wrap">
-      <div class="material-item" v-on:click="f_choose(1,$event)" data-id="1" v-for = "material in materials | filterBy filter in 'title'">
-        <img v-bind:src="material.cover" class="cover" alt="封面图片" />
+      <div class="material-item" v-on:click="f_choose(material.id,$event)" v-for = "material in m_libs | filterBy filter in 'title'">
+        <img v-bind:src="material.images[0]?material.images[0]:m_default_cover" class="cover" alt="封面图片" />
         <p class="title">{{material.title}}</p>
-        <p class="date">{{material.date}}</p>
-        <p class="intro">{{material.intro}}</p>
+        <p class="date">{{material.updateTime | timeFormat}}</p>
+        <p class="intro">{{material.digest}}</p>
       </div>
   </div>
 </template>
 <script>
 export default {
   data () {
-    return {}
+    return {
+      m_libs: [],
+      m_default_cover: require('../../../assets/default.png')
+    }
   },
-  props: ['materials', 'filter', 'pid'],
-  ready () {},
+  props: ['filter', 'pid'],
+  ready () {
+    this.f_get_libs()
+  },
   methods: {
+    f_get_libs: function () {  // 获取素材库的图文
+      this.$http.get('/api/posts/lib', {
+        params: {
+          limit: 100,
+          offset: 0
+        }
+      }).then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_libs = body.posts
+        } else {
+          this.$warn(body.msg)
+        }
+      })
+    },
     f_choose: function (pid, e) {
       // 并没有采用事件委托的方式
       // let currentTarget = e.currentTarget

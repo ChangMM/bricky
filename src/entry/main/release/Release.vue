@@ -10,7 +10,7 @@
       <a href="new.html"><span class="button solid-button">新建作品</span></a>
     </div>
     <p class="sub-title">已发布</p>
-    <Articles :articles = "m_published"> </Articles>
+    <Articles> </Articles>
     <Choose v-show="m_choose" :show.sync="m_choose"></Choose>
   </div>
 </template>
@@ -21,39 +21,10 @@ import Choose from './ChoosePanel.vue'
 export default {
   data () {
     return {
-      m_choose: false,
-      m_published: [
-        {
-          cover: require('../../../assets/cover.png'),
-          title: '已发布1',
-          intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
-          date: '2016/09/11'
-        },
-        {
-          cover: require('../../../assets/cover.png'),
-          title: '已发布2',
-          intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
-          date: '2016/09/11'
-        },
-        {
-          cover: require('../../../assets/cover.png'),
-          title: '已发布3',
-          intro: '人生并非游戏，因此，我们并没有权利只凭自己的',
-          date: '2016/09/11'
-        }
-      ]
+      m_choose: false
     }
   },
   ready () {
-    // 获取已经发布的图文
-    this.$http.get('/api/posts/published').then((response) => {
-      let body = response.body
-      if (body.error === 'ok') {
-        // this.m_published = body.posts
-      } else {
-        this.$warn(body.msg)
-      }
-    })
   },
   methods: {
     f_choose: function () {
@@ -65,60 +36,59 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
-@import "../../../scss/base/_variable.scss";
-@import "../../../scss/componments/_button.scss";
-.release-header{
-  padding:10px 0;
-  font-size:16px;
-  font-weight: bolder;
-  .line{
-    margin-top: 16px;
-    margin-bottom: 30px;
-    width:100px;
-    height:6px;
-    background-color: $main-color;
-  }
-  .tip{
-    color:#999;
-    font-size: 12px;
-    font-weight: normal;
-  }
-}
-.button-wrap{
-  margin-top: 4px;
-  .button{
-    margin-right: 60px;
-    height: 34px;
-    line-height: 34px;
-    width:140px;
-    border:1px solid $main-color;
-    cursor: pointer;
-    &.hollow-button{
-      color: $main-color;
-      &:hover{
-        color: #fff;
-        background-color: darken($main-color,5%);
-      }
-      &:active{
-        color: #fff;
-        background-color: darken($main-color,10%);
-      }
-    }
-    &.solid-button{
-      color: #fff;
+  @import "../../../scss/base/_variable.scss";
+  @import "../../../scss/componments/_button.scss";
+  .release-header{
+    padding:10px 0;
+    font-size:16px;
+    font-weight: bolder;
+    .line{
+      margin-top: 16px;
+      margin-bottom: 30px;
+      width:100px;
+      height:6px;
       background-color: $main-color;
-      &:hover{
-        background-color: darken($main-color,5%);
+    }
+    .tip{
+      color:#999;
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+  .button-wrap{
+    margin-top: 4px;
+    .button{
+      margin-right: 60px;
+      height: 34px;
+      line-height: 34px;
+      width:140px;
+      border:1px solid $main-color;
+      cursor: pointer;
+      &.hollow-button{
+        color: $main-color;
+        &:hover{
+          color: #fff;
+          background-color: darken($main-color,5%);
+        }
+        &:active{
+          color: #fff;
+          background-color: darken($main-color,10%);
+        }
       }
-      &:active{
-        background-color: darken($main-color,10%);
+      &.solid-button{
+        color: #fff;
+        background-color: $main-color;
+        &:hover{
+          background-color: darken($main-color,5%);
+        }
+        &:active{
+          background-color: darken($main-color,10%);
+        }
       }
     }
   }
-}
-.sub-title{
-  margin-top: 30px;
-}
+  .sub-title{
+    margin-top: 30px;
+  }
 </style>

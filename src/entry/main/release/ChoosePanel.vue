@@ -10,7 +10,7 @@
         <input type="text" class="search-input" v-model="m_search_title" placeholder="输入标题文字">
         <a href="new.html"><span class='button float-right'>新建作品</span></a>
       </div>
-      <Material :materials="materials" :filter="m_search_title" :pid.sync="m_pid"></Material>
+      <Material :filter="m_search_title" :pid.sync="m_pid"></Material>
       <div class="release-button-wrap txt-center">
         <span class='button release-button' v-on:click='f_release'>确认发布</span>
       </div>
@@ -25,44 +25,7 @@ export default {
     return {
       m_search_title: '',
       m_pid: '',
-      materials: [
-        {
-          title: '标题1',
-          intro: '简介1',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题1',
-          intro: '简介1',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题2',
-          intro: '简介2',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题3',
-          intro: '简介3',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题2',
-          intro: '简介2',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        },
-        {
-          title: '标题3',
-          intro: '简介3',
-          date: '2016/09/11',
-          cover: require('../../../assets/cover.png')
-        }
-      ]
+      materials: []
     }
   },
   props: ['show'],
@@ -75,11 +38,17 @@ export default {
       if (this.m_pid === '') {
         this.$warn('请选择要发布的文章')
       } else {
-        this.$warn('发布文章' + this.m_pid)
         this.$http.post('/api/publish/post', {
           pid: this.m_pid
         }).then((response) => {
-          console.log(response)
+          let body = response.body
+          if (body.error === 'ok') {
+            this.$warn('发布文章成功')
+            this.f_close()
+          } else {
+            this.$warn('发布失败')
+            this.$warn(body.msg)
+          }
         })
       }
     }

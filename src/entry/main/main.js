@@ -8,7 +8,9 @@ let WarnPlugin = require('../../components/Warn/Warn.js')
 let ConfirmPlugin = require('../../components/Confirm/Confirm.js')
 // 注册全局函数
 import Util from '../../js/Util.js'
+import Filter from '../../js/Filter.js'
 Util(Vue)
+Filter(Vue)
 // 主面板
 import Main from './Main.vue'
 import App from './App.vue'

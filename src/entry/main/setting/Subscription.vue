@@ -23,7 +23,12 @@ export default {
   },
   ready () {
     this.$http.get('/api/subsprice').then((response) => {
-      this.m_price = response.body.price
+      let body = response.body
+      if (body.error === 'subsinfo:missing') {
+        this.m_price = '-'
+      } else {
+        this.m_price = body.price
+      }
     })
   },
   methods: {

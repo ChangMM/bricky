@@ -1,14 +1,14 @@
 <template lang="html">
   <div class="articles-wrap">
-    <div class="article-item clearfix" v-for="article in articles">
-      <img v-bind:src="article.cover" class="article-cover" alt="封面图" />
+    <div class="article-item clearfix" v-for="article in m_published">
+      <img v-bind:src="article.images[0]?article.images[0]:m_default_cover" class="article-cover" alt="封面图" />
       <div class="article-info">
         <span class="article-title">{{article.title}}</span>
-        <span class="article-intro">{{article.intro}}</span>
+        <span class="article-intro">{{article.digest}}</span>
       </div>
       <div class="float-right time-wrap">
-        <span class="article-time">{{article.date}}</span>
-        <span class="cancel" v-on:click="f_cancel(1)">删除</span>
+        <span class="article-time">{{article.updateTime | timeFormat}}</span>
+        <span class="cancel" v-on:click="f_cancel(article.id)">删除</span>
       </div>
     </div>
   </div>
@@ -17,16 +17,36 @@
 export default {
   data () {
     return {
+      m_published: [],
+      m_default_cover: require('../../../assets/default.png')
     }
   },
-  props: ['articles'],
+  ready () {
+    this.f_get_published()
+  },
   methods: {
     f_cancel: function (pid) {
-      this.$warn('删除文章')
       this.$http.post('/api/post/published/delete', {
         pid: pid
       }).then((response) => {
-        console.log(response)
+        let body = response.body
+        if (body.error === 'ok') {
+          this.$warn('删除文章成功')
+          this.f_get_published()
+        } else {
+          this.$warn(body.msg)
+        }
+      })
+    },
+    f_get_published: function () {
+      // 获取已经发布的图文
+      this.$http.get('/api/posts/published').then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_published = body.posts
+        } else {
+          this.$warn(body.msg)
+        }
       })
     }
   }
@@ -70,6 +90,8 @@ export default {
     height:100px;
     position: relative;
     color:#999;
+    text-align: right;
+    min-width: 100px;
     .cancel{
       cursor: pointer;
       position: absolute;

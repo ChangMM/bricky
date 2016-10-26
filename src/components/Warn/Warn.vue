@@ -13,7 +13,7 @@ export default {
 </script>
 <style lang='scss' scoped>
     .warn-wrap{
-      position: absolute;
+      position: fixed;
       width:400px;
       left:0;
       right:0;

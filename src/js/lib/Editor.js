@@ -1,17 +1,49 @@
 /* http://github.com/mindmup/bootstrap-wysiwyg */
-/* global FileReader */
+/* global FormData:true */
 /* eslint indent: ["error", "tab"], one-var: ["error", "always"] */
 export default function ($) {
-	var readFileIntoDataUrl = function (fileInfo) {
-		var loader = $.Deferred(),
-			fReader = new FileReader()
-		fReader.onload = function (e) {
-			loader.resolve(e.target.result)
+	var getCookies = function () {
+		var ret = {}
+		if (document.cookie.length === 0) {
+			return ret
 		}
-		fReader.onerror = loader.reject
-		fReader.onprogress = loader.notify
-		fReader.readAsDataURL(fileInfo)
-		return loader.promise()
+		let pairs = document.cookie.split(';')
+		for (let i = 0; i < pairs.length; i++) {
+			let kv = pairs[i].split('=')
+			ret[kv[0].trim()] = kv[1]
+		}
+		return ret
+	}
+	let readFileIntoDataUrl = function (fileInfo) {
+		// var loader = $.Deferred(),
+		// 	fReader = new FileReader()
+		// fReader.onload = function (e) {
+		// 	loader.resolve(e.target.result)
+		// }
+		// fReader.onerror = loader.reject
+		// fReader.onprogress = loader.notify
+		// fReader.readAsDataURL(fileInfo)
+		// return loader.promise()
+		var def = $.Deferred(),
+			formData = new FormData()
+		formData.append('csrf', getCookies()['csrf'] || '')
+		formData.append('file', fileInfo)
+		$.ajax({
+			type: 'POST',
+			url: '/api/upload',
+			data: formData,
+			processData: false,
+			contentType: false
+		}).done(function (data) {
+			if (data.error === 'ok') {
+				def.resolve(data.url)
+			} else {
+				def.reject(data.msg)
+			}
+		}).fail(function (data) {
+			def.reject(data.msg)
+		})
+		return def
 	}
 	$.fn.cleanHtml = function () {
 		var html = $(this).html()
@@ -176,9 +208,9 @@ export default function ($) {
 	}
 	$.fn.wysiwyg.defaults = {
 		hotKeys: {
-			// 'ctrl+b meta+b': 'bold',
-			// 'ctrl+i meta+i': 'italic',
-			// 'ctrl+u meta+u': 'underline',
+			'ctrl+b meta+b': 'bold',
+			'ctrl+i meta+i': 'italic',
+			'ctrl+u meta+u': 'underline',
 			'ctrl+z meta+z': 'undo',
 			'ctrl+y meta+y meta+shift+z': 'redo',
 			// 'ctrl+l meta+l': 'justifyleft',
@@ -194,6 +226,7 @@ export default function ($) {
 		selectionMarker: 'edit-focus-marker',
 		selectionColor: 'darkgrey',
 		dragAndDropImages: true,
+		uploadImageUrl: '/api/upload',
 		fileUploadError: function (reason, detail) { console.log('File upload error', reason, detail) }
 	}
 }

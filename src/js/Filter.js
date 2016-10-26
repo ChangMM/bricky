@@ -18,5 +18,14 @@ export default function (Vue) {
         return 0
       }
     })
+
+    // 处理时间
+    Vue.filter('timeFormat', function (value) {
+      let date = new Date(value)
+      let year = date.getYear() + 1900
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      return year + '/' + month + '/' + day
+    })
   }
 }
