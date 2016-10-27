@@ -9,6 +9,8 @@ import VueResource from 'vue-resource'
 import IndexNav from './IndexNav.vue'
 import Foot from '../../components/Footer.vue'
 let WarnPlugin = require('../../components/Warn/Warn.js')
+import Util from '../../js/Util.js'
+Util(Vue)
 Vue.use(WarnPlugin)
 Vue.use(VueResource)
 Vue.http.options.emulateJSON = true

@@ -8,7 +8,7 @@
       <div class="mp-wrap">
         <img v-bind:src="avatar" class="avatar" alt="砖栏头像" />
         <span class="name">{{ nickname }}</span> |
-        <a href="javascript:void(0);" id="logout">退出</a>
+        <a href="/signout" id="logout">退出</a>
       </div>
     </div>
   </div>
@@ -32,6 +32,10 @@ export default {
         this.$warn('获取个人信息错误')
       }
     })
+  },
+  methods: {
+    f_signout: function () {
+    }
   }
 }
 </script>
@@ -74,6 +78,10 @@ export default {
       margin-left: 6px;
       font-size: 12px;
       color:#999;
+      &:hover{
+        color:#ff6c74;
+        text-decoration: underline;
+      }
     }
   }
 </style>

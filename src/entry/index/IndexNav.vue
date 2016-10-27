@@ -21,13 +21,14 @@ export default {
     }
   },
   ready () {
-    let uri = 'https://www.bricky.cn/'
+    // 微信登陆测试
+    let uri = 'https://dev.www.bricky.cn/'
     new WxLogin({
       id: 'login-wrap',
       appid: 'wx622d0cbf6b6cafa5',
       scope: 'snsapi_login',
       redirect_uri: encodeURIComponent(uri),
-      state: '',
+      state: this.$cookies()['csrf'] || '',
       style: '',
       href: ''
     })

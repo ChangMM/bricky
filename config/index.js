@@ -45,6 +45,13 @@ module.exports = {
          pathRewrite: {
            '^/debug': '/debug'
          }
+       },
+      '/signout': {
+         target: 'https://dev.www.bricky.cn',
+         changeOrigin: true,
+         pathRewrite: {
+           '^/signout': '/signout'
+         }
        }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

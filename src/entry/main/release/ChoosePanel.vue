@@ -102,7 +102,6 @@ export default {
       cursor: pointer;
       transition: transform ease 0.4s;
       &:hover{
-        transform: rotate(90deg);
       }
     }
   }
