@@ -52,13 +52,16 @@ export default {
   position: absolute;
   top:0;
   right:0;
-  width:120px;
+  // width:120px;
   padding-top:10px;
   padding-bottom: 10px;
   background-color: #fff;
   border-radius: 2px;
   font-size:14px;
   color:#363636;
+  iframe{
+    width:200px !important;
+  }
   .login-qrcode{
     width: 94px;
   }
