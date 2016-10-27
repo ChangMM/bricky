@@ -46,20 +46,6 @@ module.exports = {
            '^/debug': '/debug'
          }
        }
-      //  '/register': {
-      //     target: 'https://dev.www.bricky.cn',
-      //     changeOrigin: true,
-      //     pathRewrite: {
-      //       '^/register.html': '/register'
-      //     }
-      //   },
-      //   '/new': {
-      //      target: 'https://dev.www.bricky.cn',
-      //      changeOrigin: true,
-      //      pathRewrite: {
-      //        '^/new.html': '/new'
-      //      }
-      //    }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

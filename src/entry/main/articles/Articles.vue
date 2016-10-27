@@ -28,7 +28,7 @@
 </template>
 
 <script>
-// /*global location:true*/
+/*global location:true*/
 export default {
   data () {
     return {
@@ -41,8 +41,8 @@ export default {
     this.f_get_libs()
   },
   methods: {
-    f_edit: function () {
-      this.$warn('编辑按钮')
+    f_edit: function (pid) {
+      location.href = '/new.html?pid=' + pid
     },
     f_get_libs: function () {  // 获取素材库的图文
       this.$http.get('/api/posts/lib', {

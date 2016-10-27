@@ -1,5 +1,6 @@
 var path = require('path')
 var express = require('express')
+var router = express.Router()
 var webpack = require('webpack')
 var config = require('../config')
 var proxyMiddleware = require('http-proxy-middleware')
@@ -16,12 +17,14 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 var compiler = webpack(webpackConfig)
 
+
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   stats: {
     colors: true,
     chunks: false
-  }
+  },
+  options: {}
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler)
@@ -45,6 +48,7 @@ Object.keys(proxyTable).forEach(function (context) {
   app.use(proxyMiddleware(context, options))
 })
 
+
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
 
@@ -59,6 +63,7 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
+/* GET users listing. */
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)

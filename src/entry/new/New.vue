@@ -52,7 +52,7 @@
 </template>
 
 <script>
-/*global Image:true, $:true, history:true, FormData:true*/
+/*global Image:true, $:true, history:true, FormData:true, location:true*/
 import Editor from '../../js/lib/Editor.js'
 import Hotkeys from '../../js/lib/jquery.hotkeys.js'
 export default {
@@ -64,17 +64,43 @@ export default {
       },
       m_aid: '',
       m_cover: '',
-      m_title: '这是第二篇图文的标题',
-      m_abbr: '这是第二篇图文的摘要',
-      m_content: '这是第二篇图文的正文'
+      m_title: '',
+      m_abbr: '',
+      m_content: ''
     }
   },
   ready () {
     Hotkeys($)
     Editor($)
     $('#editor').wysiwyg()
+    this.f_get_edit_content()
   },
   methods: {
+    f_get_edit_content: function () {
+      let pid = this.$parseUrl(location.href).params['pid']
+      if (pid === '') {
+        console.log()
+      } else {
+        this.$http.get('/api/post', {
+          params: {
+            crsf: this.$cookies()['csrf'] || '',
+            postId: pid
+          }
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          let post = body.post
+          this.m_title = post.title
+          this.m_abbr = post.digest
+          this.m_content = post.words
+          this.m_cover = post.images[0]
+          this.m_aid = pid
+          // 填充文章内容
+          $('#editor').html(this.m_content)
+          // 调整图片
+          this.f_image(this.m_cover)
+        })
+      }
+    },
     f_cover: function (event) {
       let file = event.target.files[0]
       // 上传图片
@@ -82,21 +108,7 @@ export default {
         let body = response.body
         let imageUrl = body.url
         if (body.error === 'ok') {
-          let image = new Image()
-          let self = this
-          image.onload = function () {
-            let width = image.width
-            let height = image.height
-            if (width > height) {
-              self.coverStyle.height = '100%'
-              self.coverStyle.width = 'auto'
-            } else {
-              self.coverStyle.height = 'auto'
-              self.coverStyle.width = '100%'
-            }
-            self.m_cover = imageUrl
-          }
-          image.src = imageUrl
+          this.f_image(imageUrl)
         } else {
           this.$warn(body.msg)
         }
@@ -122,6 +134,23 @@ export default {
       //   image.src = data
       // }
       // reader.readAsDataURL(file)
+    },
+    f_image: function (imageUrl) {
+      let image = new Image()
+      let self = this
+      image.onload = function () {
+        let width = image.width
+        let height = image.height
+        if (width > height) {
+          self.coverStyle.height = '100%'
+          self.coverStyle.width = 'auto'
+        } else {
+          self.coverStyle.height = 'auto'
+          self.coverStyle.width = '100%'
+        }
+        self.m_cover = imageUrl
+      }
+      image.src = imageUrl
     },
     // 上传图片的函数
     f_upload_cover: function (data) {
@@ -472,8 +501,17 @@ export default {
     	padding: 4px;
       color:#333;
     	box-sizing: border-box;
-    	overflow: scroll;
+    	overflow-y: scroll;
     	outline: none;
+    }
+    #editor::-webkit-scrollbar {
+      width: 6px;
+    }
+    #editor::-webkit-scrollbar-thumb {
+      background-color: #ddd;
+    }
+    #editor::-webkit-scrollbar-track {
+      border:1px solid #eee;
     }
   }
 </style>
