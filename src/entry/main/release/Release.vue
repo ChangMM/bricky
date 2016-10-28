@@ -7,7 +7,7 @@
     </div>
     <div class="button-wrap">
       <span class="button hollow-button" v-on:click="f_choose">从作品库中选择</span>
-      <a href="new.html"><span class="button solid-button">新建作品</span></a>
+      <a href="/new"><span class="button solid-button">新建作品</span></a>
     </div>
     <p class="sub-title">已发布</p>
     <Articles> </Articles>
