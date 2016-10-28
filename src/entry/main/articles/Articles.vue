@@ -6,7 +6,7 @@
     </div>
     <div class="search-wrap clearfix">
       <input type="text" class="search-input" v-model="m_search_title" placeholder="输入标题文字">
-      <a href="new.html"><span class='button float-right'>新建作品</span></a>
+      <a href="/new.html"><span class='button float-right'>新建作品</span></a>
     </div>
     <div class="articles-wrap">
       <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     f_edit: function (pid) {
-      location.href = '/new.html?pid=' + pid
+      location.href = '/new?pid=' + pid
     },
     f_get_libs: function () {  // 获取素材库的图文
       this.$http.get('/api/posts/lib', {
