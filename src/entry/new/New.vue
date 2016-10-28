@@ -33,7 +33,7 @@
           </div>
           <div class="btn-group float-right">
             <span class="button save" v-on:click='f_save($event)'>保存</span>
-            <span class="button view">预览</span>
+            <span class="button view" v-on:click='f_preview'>预览</span>
             <span class="button release" v-on:click='f_save_release'>保存并发布</span>
           </div>
         </div>
@@ -49,10 +49,12 @@
       </div>
     </div>
   </div>
+  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 
 <script>
-/*global Image:true, $:true, history:true, FormData:true, location:true*/
+/* global Image:true, $:true, history:true, FormData:true, location:true */
+import Preview from './Preview.vue'
 import Editor from '../../js/lib/Editor.js'
 import Hotkeys from '../../js/lib/jquery.hotkeys.js'
 export default {
@@ -66,6 +68,8 @@ export default {
       m_cover: '',
       m_title: '',
       m_abbr: '',
+      m_preview: false,
+      m_time: new Date(),
       m_content: ''
     }
   },
@@ -78,7 +82,7 @@ export default {
   methods: {
     f_get_edit_content: function () {
       let pid = this.$parseUrl(location.href).params['pid']
-      if (pid === '') {
+      if (!pid) {
         console.log()
       } else {
         this.$http.get('/api/post', {
@@ -230,14 +234,23 @@ export default {
           this.$warn(body.msg)
         }
       })
+    },
+    f_preview: function () {
+      this.m_content = $('#editor').html()
+      this.m_preview = true
     }
+  },
+  components: {
+    Preview
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import '../../scss/base/_mixin.scss';
+  @import '../../scss/base/_variable.scss';
   @import '../../scss/componments/_button.scss';
+  @import '../../scss/componments/_preview.scss';
   //新建文章的页面样式控制
   .new-wrap{
     margin:0 auto;
@@ -503,6 +516,9 @@ export default {
     	box-sizing: border-box;
     	overflow-y: scroll;
     	outline: none;
+      img{
+        max-width:100%;
+      }
     }
     #editor::-webkit-scrollbar {
       width: 6px;

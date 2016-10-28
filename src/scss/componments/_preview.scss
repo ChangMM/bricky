@@ -1,0 +1,11 @@
+#editor,#article-content{
+  overflow-x: hidden;
+  div{
+    width: 100%;
+  }
+  img{
+    max-width: 100%;
+    // margin-left: 50%;
+    // transform: translate(-50%, 0);
+  }
+}
