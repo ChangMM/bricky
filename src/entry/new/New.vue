@@ -77,6 +77,9 @@ export default {
     Hotkeys($)
     Editor($)
     $('#editor').wysiwyg()
+    $(window).bind('beforeunload', function () {
+      return '您可能有数据没有保存'
+    })
     this.f_get_edit_content()
   },
   methods: {

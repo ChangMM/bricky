@@ -7,7 +7,8 @@
     <div class="subscription-body">
       <div class="input-wrap">
         <label for="avatar">订阅价格</label>
-        <input type="text" name="name" v-model='m_price'>/月
+        <input type="text" name="name" v-model='m_price'>/年（￥）
+        <span class="tip">一年后方可再次修改订阅价格</span>
         <span class="float-right alter" v-on:click = 'f_alter'>修改</span>
       </div>
     </div>
@@ -27,7 +28,7 @@ export default {
       if (body.error === 'subsinfo:missing') {
         this.m_price = '-'
       } else {
-        this.m_price = body.price
+        this.m_price = body.price / 100
       }
     })
   },
@@ -40,7 +41,12 @@ export default {
             csrf: self.$cookies()['csrf'] || '',
             price: self.m_price * 100
           }).then((response) => {
-            console.log(response)
+            let body = JSON.parse(response.body)
+            if (body.error === 'ok') {
+              self.$warn('订阅价格修改成功')
+            } else if (body.error === 'update:too_often') {
+              self.$warn('一年之后方可重新修改订阅价格')
+            }
           })
         })
     }
@@ -86,6 +92,12 @@ export default {
           &:focus{
             border-color: $main-color;
           }
+        }
+        .tip{
+          font-size: 12px;
+          color: #666;
+          margin-top: 10px;
+          margin-left: 20px;
         }
         .alter{
           cursor: pointer;

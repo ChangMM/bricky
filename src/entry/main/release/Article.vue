@@ -26,17 +26,21 @@ export default {
   },
   methods: {
     f_cancel: function (pid) {
-      this.$http.post('/api/post/published/delete', {
-        pid: pid
-      }).then((response) => {
-        let body = response.body
-        if (body.error === 'ok') {
-          this.$warn('删除文章成功')
-          this.f_get_published()
-        } else {
-          this.$warn(body.msg)
-        }
-      })
+      let self = this
+      this.$confirm().then(
+        function (data) {
+          self.$http.post('/api/post/published/delete', {
+            pid: pid
+          }).then((response) => {
+            let body = response.body
+            if (body.error === 'ok') {
+              self.$warn('删除文章成功')
+              self.f_get_published()
+            } else {
+              self.$warn(body.msg)
+            }
+          })
+        })
     },
     f_get_published: function () {
       // 获取已经发布的图文

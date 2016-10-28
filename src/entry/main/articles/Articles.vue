@@ -60,17 +60,21 @@ export default {
       })
     },
     f_cancel: function (pid) {
-      this.$http.post('/api/post/lib/delete', {
-        pid: pid
-      }).then((response) => {
-        let body = response.body
-        if (body.error === 'ok') {
-          this.$warn('删除文章成功')
-          this.f_get_libs()
-        } else {
-          this.$warn(body.msg)
-        }
-      })
+      let self = this
+      this.$confirm().then(
+        function (data) {
+          self.$http.post('/api/post/lib/delete', {
+            pid: pid
+          }).then((response) => {
+            let body = response.body
+            if (body.error === 'ok') {
+              self.$warn('删除文章成功')
+              self.f_get_libs()
+            } else {
+              self.$warn(body.msg)
+            }
+          })
+        })
     }
   }
 }
