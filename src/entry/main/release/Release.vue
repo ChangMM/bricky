@@ -3,15 +3,15 @@
     <div class="release-header">
       作品发布
       <div class="line"></div>
-      <span class="tip">前三条作为砖栏试读内容，请斟酌发布</span>
+      <span v-show="m_tip_show" class="tip">前三条作为砖栏试读内容，请斟酌发布</span>
     </div>
     <div class="button-wrap">
       <span class="button hollow-button" v-on:click="f_choose">从作品库中选择</span>
       <a href="/new"><span class="button solid-button">新建作品</span></a>
     </div>
     <p class="sub-title">已发布</p>
-    <Articles> </Articles>
-    <Choose v-show="m_choose" :show.sync="m_choose"></Choose>
+    <Articles :tip-show.sync="m_tip_show"> </Articles>
+    <Choose v-show="m_choose_show" :show.sync="m_choose_show"></Choose>
   </div>
 </template>
 
@@ -21,7 +21,8 @@ import Choose from './ChoosePanel.vue'
 export default {
   data () {
     return {
-      m_choose: false
+      m_choose_show: false,
+      m_tip_show: true
     }
   },
   ready () {

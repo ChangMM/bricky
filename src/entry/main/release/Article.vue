@@ -21,6 +21,12 @@ export default {
       m_default_cover: require('../../../assets/default.png')
     }
   },
+  computed: {
+    tipShow: function () {
+      return (this.m_published.length < 4)
+    }
+  },
+  props: ['tipShow'],
   ready () {
     this.f_get_published()
   },
@@ -48,6 +54,7 @@ export default {
         let body = response.body
         if (body.error === 'ok') {
           this.m_published = body.posts
+          console.log(this.tipShow)
         } else {
           this.$warn(body.msg)
         }
