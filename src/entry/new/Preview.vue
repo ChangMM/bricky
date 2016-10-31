@@ -6,12 +6,12 @@
         <div class="preview">
           <p class="preview-header">砖栏</p>
           <div class="preview-article">
-            <p class="article-title">{{ title }}</p>
+            <p class="article-title">{{ title?title:'这里是标题' }}</p>
             <div class="title-line"></div>
             <div class="info-wrap">
               <span class="time">{{ time | timeFormat }}</span><span class="author">佚名</span>
             </div>
-            <div id="article-content"> {{{ content }}} </div>
+            <div id="article-content"> {{{ content?content:'这里是正文' }}} </div>
           </div>
         </div>
       </div>

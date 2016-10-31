@@ -25,6 +25,7 @@ export default {
   },
   ready () {
     // 微信登陆测试
+    console.log(this.$cookies())
     let uri = 'https://dev.www.bricky.cn/'
     new WxLogin({
       id: 'login-wrap',
@@ -37,7 +38,7 @@ export default {
     })
     let iframe = document.getElementsByTagName('iframe')[0]
     iframe.width = '200'
-    iframe.height = '250'
+    iframe.height = '260'
   }
 }
 </script>

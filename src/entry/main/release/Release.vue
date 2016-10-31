@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     f_choose: function () {
-      this.m_choose = true
+      this.m_choose_show = true
     }
   },
   components: {

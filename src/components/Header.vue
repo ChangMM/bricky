@@ -6,8 +6,8 @@
         <h1 class="logo">砖栏作家</h1>
       </a>
       <div class="mp-wrap">
-        <img v-bind:src="avatar" class="avatar" alt="砖栏头像" />
-        <span class="name">{{ nickname }}</span> |
+        <a href="/main#!/account"><img v-bind:src="avatar" class="avatar" alt="砖栏头像" /></a>
+        <a href="/main#!/account"><span class="name">{{ nickname }}</span></a> |
         <a href="/signout" id="logout">退出</a>
       </div>
     </div>
