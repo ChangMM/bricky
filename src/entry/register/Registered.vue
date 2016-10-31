@@ -183,8 +183,8 @@ export default {
         box-sizing: border-box;
         background: url('../../assets/back.png') center center;
         background-size: cover;
-        width:300px;
-        height:94px;
+        width:320px;
+        height:100px;
         padding:10px;
         .mp_qrcode{
           height: 80px;
