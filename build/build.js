@@ -23,10 +23,12 @@ rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
 cp('-R', 'static/', assetsPath)
 
-var constantPath = path.join(config.build.assetsRoot,'constant')
-rm('-rf', constantPath)
-mkdir('-p', constantPath)
-cp('-R', 'constant/', constantPath)
+// cp('-R','constant/login_qrcode.css',path.join(assetsPath,'/css/login_qrcode.css'))
+
+// var constantPath = path.join(config.build.assetsRoot,'constant')
+// rm('-rf', constantPath)
+// mkdir('-p', constantPath)
+// cp('-R', 'constant/announcement', constantPath)
 
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()

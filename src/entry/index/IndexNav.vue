@@ -33,7 +33,7 @@ export default {
       redirect_uri: encodeURIComponent(uri),
       state: this.$cookies()['csrf'] || '',
       style: '',
-      href: 'https://dev.www.bricky.cn/constant/login_qrcode.css'
+      href: 'https://dev.www.bricky.cn/static/css/login_qrcode.css'
     })
   }
 }
