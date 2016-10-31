@@ -35,6 +35,9 @@ export default {
       style: '',
       href: 'https://dev.www.bricky.cn/static/css/login_qrcode.css'
     })
+    let iframe = document.getElementsByTagName('iframe')[0]
+    iframe.width = '200'
+    iframe.height = '250'
   }
 }
 </script>
@@ -55,16 +58,11 @@ export default {
   position: absolute;
   top:0;
   right:0;
-  // width:120px;
-  padding-top:10px;
-  padding-bottom: 10px;
+  overflow: hidden;
   background-color: #fff;
   border-radius: 2px;
   font-size:14px;
   color:#363636;
-  iframe{
-    width:200px !important;
-  }
   .login-qrcode{
     width: 94px;
   }
@@ -82,7 +80,7 @@ export default {
   position: absolute;
   z-index: 99;
   top:0;
-  right:200px;
+  right:240px;
   text-align: center;
   .contact-us{
     height: 40px;
