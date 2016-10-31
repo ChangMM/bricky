@@ -43,9 +43,7 @@
           <input type="text" class="title" v-model="m_title" placeholder="请在这里输入标题">
           <span class="word-tip">{{ m_title | len }}/32</span>
         </div>
-        <div id="editor">
-          这里开始正文
-        </div>
+        <div id="editor" v-on:focus="f_editor_focus" v-on:blur="f_editor_blur">这里开始正文</div>
       </div>
     </div>
   </div>
@@ -168,6 +166,16 @@ export default {
     },
     f_return: function () {
       history.back()
+    },
+    f_editor_focus: function () {
+      if ($('#editor').html() === '这里开始正文') {
+        $('#editor').html('')
+      }
+    },
+    f_editor_blur: function () {
+      if ($('#editor').html() === '') {
+        $('#editor').html('这里开始正文')
+      }
     },
     f_save: function (event) {
       this.m_content = $('#editor').html()
