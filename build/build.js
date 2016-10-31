@@ -23,6 +23,11 @@ rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
 cp('-R', 'static/', assetsPath)
 
+var constantPath = path.join(config.build.assetsRoot,'constant')
+rm('-rf', constantPath)
+mkdir('-p', constantPath)
+cp('-R', 'constant/', constantPath)
+
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()
   if (err) throw err
