@@ -6,7 +6,7 @@
     </div>
     <div class="search-wrap clearfix">
       <input type="text" class="search-input" v-model="m_search_title" placeholder="输入标题文字">
-      <a href="/new.html"><span class='button float-right'>新建作品</span></a>
+      <a href="/new"><span class='button float-right'>新建作品</span></a>
     </div>
     <div class="articles-wrap">
       <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">

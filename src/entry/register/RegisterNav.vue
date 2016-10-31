@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="nav base-width">
-    <a href="#">
+    <a href="/index">
       <h1 class="logo">砖栏作家</h1>
     </a>
     <div class="contact-us-wrap">

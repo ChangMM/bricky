@@ -2,7 +2,7 @@
   <div class="nav-wrap" id="nav-wrap">
     <div class="nav base-width">
 
-      <a href="/main.html#!/">
+      <a href="/main#!/">
         <h1 class="logo">砖栏作家</h1>
       </a>
       <div class="mp-wrap">
