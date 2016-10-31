@@ -3,7 +3,10 @@
     <a href="#">
       <h1 class="logo">砖栏作家</h1>
     </a>
-    <span class="contact-us button">联系我们</span>
+    <div class="contact-us-wrap">
+      <span class="contact-us button">联系我们</span>
+      <img src="../../assets/mp_qrcode.jpeg" class="mp_qrcode" alt="砖栏公众号" />
+    </div>
   </div>
 </template>
 
@@ -34,20 +37,39 @@ export default {
   background-image: url("../../assets/logoblack@3x.png");
   background-size: cover;
 }
-.contact-us{
-  position: absolute;
-  top:20px;
-  right: 0;
-  height: 40px;
-  line-height: 40px;
+.contact-us-wrap{
   width:120px;
-  color: $main-color;
-  border:1px solid $main-color;
-  cursor: pointer;
+  height:40px;
+  display: inline-block;
+  position: absolute;
+  z-index: 99;
+  top:0;
+  right:0;
+  text-align: center;
+  .contact-us{
+    height: 40px;
+    line-height: 40px;
+    width:120px;
+    color: $main-color;
+    border:1px solid $main-color;
+    cursor: pointer;
+    &:hover{
+      background-color: lighten($main-color,0);
+      border-color:transparent;
+      color: #fff;
+    }
+  }
+  .mp_qrcode{
+    position: absolute;
+    top:70px;
+    left:-30px;
+    width:180px;
+    display: none;
+  }
   &:hover{
-    background-color: lighten($main-color,0);
-    border-color:transparent;
-    color: #fff;
+    .mp_qrcode{
+      display: inline-block;
+    }
   }
 }
 </style>

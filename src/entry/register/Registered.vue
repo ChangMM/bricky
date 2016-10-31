@@ -13,7 +13,7 @@
     <div class="panel-main">
       <!-- 砖栏头像 -->
       <div class="qrcode-wrap">
-        <img src="../../assets/mp_qrcode.png" class="mp_qrcode" alt="公众号二维码" />
+        <img src="../../assets/mp_qrcode.jpeg" class="mp_qrcode" alt="公众号二维码" />
       </div>
     </div>
   </div>
