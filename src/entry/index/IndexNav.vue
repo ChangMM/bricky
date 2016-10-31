@@ -82,7 +82,7 @@ export default {
   position: absolute;
   z-index: 99;
   top:0;
-  right:300px;
+  right:200px;
   text-align: center;
   .contact-us{
     height: 40px;
