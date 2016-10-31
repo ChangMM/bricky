@@ -47,7 +47,7 @@ export default {
   width:100%;
   height:100%;
   transition: background ease .6s;
-  background: rgba(255, 255, 255, 0.99);
+  background: rgba(255, 255, 255, 0.9);
 }
 .preview-mask{
   width:1100px;
@@ -76,7 +76,7 @@ export default {
 .preview{
   margin-left: auto;
   margin-right: auto;
-  width:360px;
+  width:350px;
   box-sizing: border-box;
   border:4px solid #000;
   border-radius: 2px;
@@ -89,7 +89,7 @@ export default {
     color: #fff;
   }
   .preview-article{
-    height:480px;
+    height:500px;
     overflow-y: scroll;
     padding:40px 30px 10px;
     color:#363636;
