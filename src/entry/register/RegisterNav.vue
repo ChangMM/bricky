@@ -7,9 +7,9 @@
       <span class="contact-us button">联系我们</span>
       <img src="../../assets/mp_qrcode.jpeg" class="mp_qrcode" alt="砖栏公众号" />
     </div>
+    <a href="/signout" class="float-right logout" id="logout">退出</a>
   </div>
 </template>
-
 <script>
 export default {
   data () {
@@ -37,6 +37,12 @@ export default {
   background-image: url("../../assets/logoblack@3x.png");
   background-size: cover;
 }
+.logout{
+  color:#999;
+  &:hover{
+    color: $main-color;
+  }
+}
 .contact-us-wrap{
   width:120px;
   height:40px;
@@ -44,7 +50,7 @@ export default {
   position: absolute;
   z-index: 99;
   top:0;
-  right:0;
+  right:60px;
   text-align: center;
   .contact-us{
     height: 40px;

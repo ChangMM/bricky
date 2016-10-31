@@ -8,7 +8,7 @@
       <div class="input-wrap">
         <label for="avatar">头像</label>
         <div class="input-avatar-wrap">
-          <input type="file" v-on:change="f_avatar" class="file-input" name="avatar" id="avatar">
+          <input type="file" v-on:change="f_avatar" id="avatar-input" class="file-input" name="avatar" id="avatar">
           <img v-bind:src="m_avatar?m_avatar:m_default_avatar" v-bind:style="avatarStyle" />
         </div>
         <!-- <img v-bind:src="m_avatar" class="avatar-img" alt="头像" /> -->
@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     f_avatar: function (event) {
+      console.log(event)
       let file = event.target.files[0]
 
       if (['gif', 'jpg', 'jpeg', 'png'].indexOf(file.type.split('/')[1].toLowerCase()) === -1) {
@@ -107,12 +108,13 @@ export default {
       })
     },
     f_alter_avatar: function () {
-      this.$http.post('/api/user/avatar', {
-        csrf: this.$cookies()['csrf'] || '',
-        avatar: this.m_avatar
-      }).then((response) => {
-        console.log(response)
-      })
+      // this.$http.post('/api/user/avatar', {
+      //   csrf: this.$cookies()['csrf'] || '',
+      //   avatar: this.m_avatar
+      // }).then((response) => {
+      //   console.log(response)
+      // })
+      this.f_triggerEvent(document.getElementById('avatar-input'), 'change')
     },
     // 上传图片的函数
     f_upload_avatar: function (data) {
@@ -120,6 +122,18 @@ export default {
       formData.append('csrf', this.$cookies()['csrf'] || '')
       formData.append('file', data)
       return this.$http.post('/api/upload', formData)
+    },
+    f_triggerEvent: function (element, type) {
+      let event
+      if (document.createEventObject) {
+        event = document.createEventObject()
+        return element.fireEvent('on' + type, event)
+      } else {
+        event = document.createEvent('HTMLEvents')
+        event.eventName = type
+        event.initEvent(type, true, true)
+        return !element.dispatchEvent(event)
+      }
     }
   }
 }
