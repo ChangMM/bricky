@@ -39,19 +39,14 @@ export default {
       },
       announcements: [
         {
-          url: '#',
-          title: '订阅者管理功能升级',
-          date: '2016/09/11'
+          url: '/annoucement#!/rule',
+          title: '提现及定价规则',
+          date: '2016/10/31'
         },
         {
-          url: '#',
-          title: '砖栏作家1.2.2版本的更新功能',
-          date: '2016/09/11'
-        },
-        {
-          url: '#',
-          title: '《砖栏平台服务协议》',
-          date: '2016/09/11'
+          url: '/annoucement#!/protocol',
+          title: '《砖栏用户协议》',
+          date: '2016/10/31'
         }
       ]
     }

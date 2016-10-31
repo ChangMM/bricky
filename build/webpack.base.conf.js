@@ -9,7 +9,8 @@ module.exports = {
     register: './src/entry/register/register.js',
     registered: './src/entry/register/registered.js',
     main: './src/entry/main/main.js',
-    new: './src/entry/new/new.js'
+    new: './src/entry/new/new.js',
+    annoucement: './src/entry/annoucement/index.js'
   },
   output: {
     path: config.build.assetsRoot,
