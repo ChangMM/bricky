@@ -2,7 +2,7 @@ function install (Vue) {
   let AlertConstructor = Vue.extend(require('./Warn.vue'))
   let alertInstance = null
 
-  Vue.prototype.$warn = function (message) {
+  Vue.prototype.$warn = function (message, callback) {
     if (alertInstance) return
     alertInstance = new AlertConstructor({
       el: document.createElement('div'),
@@ -13,6 +13,11 @@ function install (Vue) {
       }
     })
     alertInstance.$appendTo(document.body)
+    if (callback) {
+      setTimeout(function () {
+        callback && callback()
+      }, 1500)
+    }
   }
 
   Vue.transition('warnIn', {

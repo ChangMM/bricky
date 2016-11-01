@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="index-nav">
-    <a href="/index">
+    <a href="/">
       <h1 class="logo">砖栏作家</h1>
     </a>
     <div class="login-wrap txt-center" id="login-wrap">

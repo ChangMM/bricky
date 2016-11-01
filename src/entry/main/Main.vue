@@ -61,7 +61,7 @@ export default {
       this.$http.get('/api/stats').then((response) => {
         this.mp_data = response.body.data
       }, (response) => {
-        this.$warn('首页数据出现问题')
+        console.log(response)
       })
     },
     // 检查是否设置年费
@@ -74,6 +74,8 @@ export default {
             self.m_show_setting_panel = true
           }, 1000)
         }
+      }, (response) => {
+        //  nihao
       })
     }
   },

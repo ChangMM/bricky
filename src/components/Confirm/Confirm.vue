@@ -2,7 +2,7 @@
   <div class="confirm-mask" transition='confirmIn'>
     <div class="confirm-wrap">
       <div class="confirm-header">
-        此操作不可修改
+        请确认操作
         <div class="line"></div>
         <img src="../../assets/close.png" class="close" v-on:click='f_close' />
       </div>

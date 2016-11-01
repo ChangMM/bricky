@@ -13,8 +13,8 @@
     </div>
   </div>
 </template>
-
 <script>
+/* global window:true */
 export default {
   data () {
     return {
@@ -28,9 +28,13 @@ export default {
       if (body.error === 'ok') {
         this.nickname = body.user.authorNickname
         this.avatar = body.user.authorAvatar || this.avatar
-      } else {
-        this.$warn('获取个人信息错误')
+      } else if (body.error === 'user:not_signin') {
+        this.$warn('您尚未登录', function () {
+          window.location.href = '/'
+        })
       }
+    }, (response) => {
+      console.log(response)
     })
   },
   methods: {
@@ -39,7 +43,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
   //顶部导航栏样式
   .nav-wrap{

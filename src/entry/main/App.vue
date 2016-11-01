@@ -53,7 +53,7 @@ export default {
     padding-left: 25px;
     height: 40px;
     line-height: 40px;
-    cursor: pointer;
+    // cursor: pointer;
     &.new:after{
       position: absolute;
       content: " ";
