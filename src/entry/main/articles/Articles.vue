@@ -10,9 +10,9 @@
     </div>
     <div class="articles-wrap">
       <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
-        <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" class="article-cover" alt="封面图" />
+        <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" v-on:click="f_preview(lib.id)" class="article-cover" alt="封面图" />
         <div class="article-info">
-          <span class="article-title">{{lib.title}}</span>
+          <span class="article-title" v-on:click="f_preview(lib.id)">{{lib.title}}</span>
           <span class="article-intro">{{lib.digest}}</span>
         </div>
         <div class="float-right time-wrap">
@@ -25,16 +25,23 @@
       </div>
     </div>
   </div>
+  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 
 <script>
 /*global location:true*/
+import Preview from '../../../components/Preview.vue'
 export default {
   data () {
     return {
       m_default_cover: require('../../../assets/default.png'),
       m_search_title: '',
-      m_libs: []
+      m_libs: [],
+      m_preview: false,
+      m_title: '',
+      m_abbr: '',
+      m_time: '',
+      m_content: ''
     }
   },
   ready () {
@@ -75,7 +82,27 @@ export default {
             }
           })
         })
+    },
+    f_preview: function (pid) {
+      this.$http.get('/api/post', {
+        params: {
+          crsf: this.$cookies()['csrf'] || '',
+          postId: pid
+        }
+      }).then((response) => {
+        let body = JSON.parse(response.body)
+        let post = body.post
+        this.m_title = post.title
+        this.m_abbr = post.digest
+        this.m_content = post.words
+        this.m_time = post.updateTime
+        this.m_preview = true
+        this.$fixBody()
+      })
     }
+  },
+  components: {
+    Preview
   }
 }
 </script>
@@ -137,6 +164,7 @@ export default {
       height:100px;
       width:100px;
       border-radius: 2px;
+      cursor: pointer;
     }
     .article-info{
       position: absolute;
@@ -150,6 +178,7 @@ export default {
         font-weight: bold;
         line-height: 1;
         vertical-align: top;
+        cursor: pointer;
       }
       .article-intro{
         width:100%;

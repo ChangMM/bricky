@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="article-mask" transition="withdrawPanelIn">
     <div class="preview-mask">
-      <img src="../../assets/close.png" v-on:click='f_close' class="close" />
+      <img src="../assets/close.png" v-on:click='f_close' class="close" />
       <div class="preview-wrap">
         <div class="preview">
           <p class="preview-header">砖栏</p>
@@ -36,7 +36,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../../scss/componments/_preview.scss';
+@import '../scss/componments/_preview.scss';
 // 文章展示页面的样式
 .article-mask{
   position: fixed;
