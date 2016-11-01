@@ -12,7 +12,7 @@
       <div class="input-wrap">
         <label>可提现额</label>
         <span class="money"><span class="num"> {{m_withdraw}} </span> 元</span>
-        <span class="float-right tip">由于微信支付结算周期，收款后需要 <span class="num">5</span> 天之后才可提现</span>
+        <span class="float-right tip">由于微信支付结算周期，收款后需要 <span class="num">7</span> 天之后才可提现</span>
       </div>
       <div class="input-wrap text-input-wrap">
         <label>提现规则</label><p class="line first">您在砖栏获得的收入将会在每天21：30统一结算，结算的金额为「可提现金额」，直接打入微信零钱包。</p>

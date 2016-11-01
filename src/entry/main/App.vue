@@ -10,7 +10,7 @@
       <dl class="menu">
         <dt class="menu-title">设置</dt>
         <dd class="menu-item"><a v-link="{ path: '/account'}">账号设置</a></dd>
-        <dd class="menu-item new"><a v-link="{ path: '/subscription'}">订阅设置</a></dd>
+        <dd class="menu-item" v-bind:class="{ 'new': m_priced}"><a v-link="{ path: '/subscription'}">订阅设置</a></dd>
         <dd class="menu-item"><a v-link="{ path: '/withdraw'}">收益提现</a></dd>
       </dl>
     </div>
@@ -22,11 +22,26 @@
 </template>
 
 <script>
+/*global localStorage: true */
 import Navheader from '../../components/Header.vue'
-console.log()
 export default {
   data () {
     return {
+      m_priced: false
+    }
+  },
+  ready () {
+    // 设置订阅年费的小红点
+    if (!localStorage.getItem('is_priced')) {
+      this.$http.get('/api/subsprice').then((response) => {
+        let body = response.body
+        localStorage.setItem('is_priced', true)
+        if (body.error === 'subsinfo:missing') {
+          this.m_priced = true
+        }
+      }, (response) => {
+        //  nihao
+      })
     }
   },
   components: { Navheader }

@@ -26,6 +26,7 @@
 </template>
 
 <script>
+/* global localStorage: true */
 import announcementItem from './AnnouncementItem.vue'
 import SettingPanel from './SettingPanel.vue'
 export default {
@@ -66,17 +67,20 @@ export default {
     },
     // 检查是否设置年费
     f_check_sub: function () {
-      this.$http.get('/api/subsprice').then((response) => {
-        let body = response.body
-        if (body.error === 'subsinfo:missing') {
-          let self = this
-          setTimeout(function () {
-            self.m_show_setting_panel = true
-          }, 1000)
-        }
-      }, (response) => {
-        //  nihao
-      })
+      if (!localStorage.getItem('is_priced')) {
+        this.$http.get('/api/subsprice').then((response) => {
+          let body = response.body
+          localStorage.setItem('is_priced', true)
+          if (body.error === 'subsinfo:missing') {
+            let self = this
+            setTimeout(function () {
+              self.m_show_setting_panel = true
+            }, 1000)
+          }
+        }, (response) => {
+          //  nihao
+        })
+      }
     }
   },
   components: {
