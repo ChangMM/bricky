@@ -181,24 +181,18 @@ export default {
       // reader.readAsDataURL(file)
     },
     f_step: function (dir) {
-      if (this.step === 1) {
-        if (this.m_avatar === '') {
-          return this.$warn('请先上传砖栏头像')
+      // 如果往下翻页做一些判断 往上翻页的话直接翻页
+      if (dir === 1) {
+        if (!this.f_check_register()) {
+          return
         }
-        if (this.m_name === '') {
-          return this.$warn('请填写砖栏名称')
+        if (this.step === 2) {
+          this.f_register().then((response) => {
+            console.log(response)
+          }, (response) => {
+            return this.$warn('上传问题出错')
+          })
         }
-      } else if (this.step === 2) {
-        if (this.m_intro === '') {
-          return this.$warn('请填写您砖栏的简介')
-        } else if (this.m_intro.length > 252) {
-          return this.$warn('您砖栏的简介过长')
-        }
-        this.f_register().then((response) => {
-          console.log(response)
-        }, (response) => {
-          return this.$warn('上传问题出错')
-        })
       }
       this.step = this.step + dir
     },
@@ -218,6 +212,35 @@ export default {
       formData.append('csrf', this.$cookies()['csrf'] || '')
       formData.append('file', data)
       return this.$http.post('/api/upload', formData)
+    },
+    f_check_register: function () {
+      // 第一页检查内容
+      if (this.step === 1) {
+        if (this.m_avatar === '') {
+          this.$warn('砖栏头像不能为空')
+          return false
+        }
+        if (this.m_name.trim() === '') {
+          this.$warn('砖栏名称不能为空')
+          return false
+        }
+        if (this.m_name.trim().gblen() > 32) {
+          this.$warn('砖栏名称过长')
+          return false
+        }
+      }
+      // 第二页检查内容
+      if (this.step === 2) {
+        if (this.m_intro.trim() === '') {
+          this.$warn('砖栏简介不能为空')
+          return false
+        }
+        if (this.m_intro.length > 252) {
+          this.$warn('砖栏简介过长')
+          return false
+        }
+      }
+      return true
     }
   }
 }

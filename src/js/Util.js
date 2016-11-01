@@ -1,5 +1,18 @@
 // 添加一些全局工具函数
+/*eslint no-extend-native: ["error",{ "exceptions": ["String"] }]*/
 export default function (Vue) {
+  String.prototype.gblen = function () {
+    var len = 0
+    for (var i = 0; i < this.length; i++) {
+      if (this.charCodeAt(i) > 127 || this.charCodeAt(i) === 94) {
+        len += 2
+      } else {
+        len++
+      }
+    }
+    return len
+  }
+
   Vue.prototype.$cookies = function () {
     let ret = {}
     if (document.cookie.length === 0) {

@@ -158,6 +158,9 @@ export default {
       }
     },
     f_save: function (event) {
+      if (!this.f_check_article()) {
+        return
+      }
       this.m_content = $('#editor').html()
       let currentTarget = event.currentTarget
       if (currentTarget.classList.contains('disable')) {
@@ -187,6 +190,9 @@ export default {
       }
     },
     f_save_release: function (event) {
+      if (!this.f_check_article()) {
+        return
+      }
       let self = this
       // 事件目标要及时保存
       let currentTarget = event.currentTarget
@@ -239,6 +245,33 @@ export default {
       this.m_content = $('#editor').html()
       this.m_preview = true
       this.$fixBody()
+    },
+    f_check_article: function () {
+      if (this.m_title.trim() === '') {
+        this.$warn('文章标题为空')
+        return false
+      }
+      if (this.m_title.trim().length > 32) {
+        this.$warn('文章标题过长')
+        return false
+      }
+      if (this.m_abbr.trim() === '') {
+        this.$warn('文章摘要为空')
+        return false
+      }
+      if (this.m_abbr.trim().length > 22) {
+        this.$warn('文章摘要过长')
+        return false
+      }
+      if (this.m_cover === '') {
+        this.$warn('文章封面为空')
+        return false
+      }
+      if (this.m_content === '') {
+        this.$warn('文章内容为空')
+        return false
+      }
+      return true
     }
   },
   components: {
@@ -246,7 +279,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
   @import '../../scss/base/_mixin.scss';
   @import '../../scss/base/_variable.scss';
