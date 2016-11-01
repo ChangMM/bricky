@@ -30,6 +30,7 @@ export default {
   methods: {
     f_close: function () {
       this.show = false
+      this.$fixNoBody()
     },
     f_go: function () {
       this.$router.go('subscription')

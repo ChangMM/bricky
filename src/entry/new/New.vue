@@ -75,6 +75,7 @@ export default {
     Hotkeys($)
     Editor($)
     $('#editor').wysiwyg()
+    // 绑定页面退出事件
     $(window).bind('beforeunload', function () {
       return '您可能有数据没有保存'
     })
@@ -118,27 +119,6 @@ export default {
           this.$warn(body.msg)
         }
       })
-      // let file = event.target.files[0]
-      // let self = this
-      // let reader = new FileReader()
-      // reader.onload = function (e) {
-      //   let data = e.target.result
-      //   let image = new Image()
-      //   image.onload = function () {
-      //     let width = image.width
-      //     let height = image.height
-      //     if (width > height) {
-      //       self.coverStyle.height = '100%'
-      //       self.coverStyle.width = 'auto'
-      //     } else {
-      //       self.coverStyle.height = 'auto'
-      //       self.coverStyle.width = '100%'
-      //     }
-      //     self.m_cover = data
-      //   }
-      //   image.src = data
-      // }
-      // reader.readAsDataURL(file)
     },
     f_image: function (imageUrl) {
       let image = new Image()
@@ -206,32 +186,37 @@ export default {
       }
     },
     f_save_release: function (event) {
-      this.m_content = $('#editor').html()
+      let self = this
+      // 事件目标要及时保存
       let currentTarget = event.currentTarget
-      if (currentTarget.classList.contains('disable')) {
-        return
-      } else {
-        currentTarget.classList.add('disable')
-        currentTarget.innerHTML = '正在发布'
-        this.$http.post('/api/post', {
-          aid: this.m_aid,
-          csrf: this.$cookies()['csrf'] || '',
-          title: this.m_title,
-          digest: this.m_abbr,
-          words: this.m_content,
-          cover: this.m_cover
-        }).then((response) => {
-          let body = JSON.parse(response.body)
-          if (body.error === 'ok') {
-            this.f_release(body.post.id)
-            currentTarget.innerHTML = '保存并发布'
+      this.$confirm().then(
+        function (data) {
+          self.m_content = $('#editor').html()
+          if (currentTarget.classList.contains('disable')) {
+            return
           } else {
-            this.$warn('发布失败')
-            currentTarget.innerHTML = '请重试'
+            currentTarget.classList.add('disable')
+            currentTarget.innerHTML = '正在发布'
+            self.$http.post('/api/post', {
+              aid: self.m_aid,
+              csrf: self.$cookies()['csrf'] || '',
+              title: self.m_title,
+              digest: self.m_abbr,
+              words: self.m_content,
+              cover: self.m_cover
+            }).then((response) => {
+              let body = JSON.parse(response.body)
+              if (body.error === 'ok') {
+                self.f_release(body.post.id)
+                currentTarget.innerHTML = '保存并发布'
+              } else {
+                self.$warn('发布失败')
+                currentTarget.innerHTML = '请重试'
+              }
+              currentTarget.classList.remove('disable')
+            })
           }
-          currentTarget.classList.remove('disable')
         })
-      }
     },
     f_release: function (pid) {
       this.$http.post('/api/publish/post', {
@@ -239,7 +224,10 @@ export default {
       }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
-          this.$warn('发布文章成功')
+          this.$warn('发布文章成功', function () {
+            $(window).unbind('beforeunload')
+            window.location.href = '/main#!/release'
+          })
         } else {
           this.$warn('发布失败')
           this.$warn(body.msg)
@@ -249,6 +237,7 @@ export default {
     f_preview: function () {
       this.m_content = $('#editor').html()
       this.m_preview = true
+      this.$fixBody()
     }
   },
   components: {

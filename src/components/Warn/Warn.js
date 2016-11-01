@@ -16,7 +16,7 @@ function install (Vue) {
     if (callback) {
       setTimeout(function () {
         callback && callback()
-      }, 1500)
+      }, 1000)
     }
   }
 

@@ -41,4 +41,12 @@ export default function (Vue) {
       segments: a.pathname.replace(/^\//, '').split('/')
     }
   }
+
+  Vue.prototype.$fixBody = function () {
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+  }
+
+  Vue.prototype.$fixNoBody = function () {
+    document.getElementsByTagName('body')[0].style.overflow = ''
+  }
 }

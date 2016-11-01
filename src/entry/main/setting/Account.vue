@@ -108,13 +108,13 @@ export default {
       })
     },
     f_alter_avatar: function () {
-      // this.$http.post('/api/user/avatar', {
-      //   csrf: this.$cookies()['csrf'] || '',
-      //   avatar: this.m_avatar
-      // }).then((response) => {
-      //   console.log(response)
-      // })
-      this.f_triggerEvent(document.getElementById('avatar-input'), 'change')
+      this.$http.post('/api/user/avatar', {
+        csrf: this.$cookies()['csrf'] || '',
+        avatar: this.m_avatar
+      }).then((response) => {
+        console.log(response)
+      })
+      // this.f_triggerEvent(document.getElementById('avatar-input'), 'change')
     },
     // 上传图片的函数
     f_upload_avatar: function (data) {
