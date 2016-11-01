@@ -175,6 +175,7 @@ export default {
         }).then((response) => {
           let body = JSON.parse(response.body)
           if (body.error === 'ok') {
+            this.m_aid = body.post.id
             this.$warn('保存成功')
             currentTarget.innerHTML = '保存'
           } else {
