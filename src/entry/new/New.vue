@@ -283,6 +283,7 @@ export default {
   @import '../../scss/base/_mixin.scss';
   @import '../../scss/base/_variable.scss';
   @import '../../scss/componments/_button.scss';
+  @import '../../scss/componments/_preview.scss';
   //新建文章的页面样式控制
   .new-wrap{
     margin:0 auto;

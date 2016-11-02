@@ -4,10 +4,11 @@
   word-wrap:break-word;
   div{
     width: 100%;
+    blockquote{
+      margin-left: 30px !important;
+    }
   }
   img{
     max-width: 100%;
-    // margin-left: 50%;
-    // transform: translate(-50%, 0);
   }
 }
