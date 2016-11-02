@@ -1,6 +1,6 @@
 /* http://github.com/mindmup/bootstrap-wysiwyg */
 /* global FormData:true */
-/* eslint indent: ["error", "tab"], one-var: ["error", "always"] */
+/* eslint indent: ["error", "tab"], one-var: ["error", {'var':"always",'let':"never"}] */
 export default function ($) {
 	var getCookies = function () {
 		var ret = {}
@@ -14,16 +14,52 @@ export default function ($) {
 		}
 		return ret
 	}
+	let pasteHTMLAtRange = function (range, html) {
+		range.deleteContents()
+		var el = document.createElement('div'), frag = document.createDocumentFragment(), node, lastNode
+		el.innerHTML = html
+		node = el.firstChild
+		lastNode = frag.appendChild(node)
+		range.insertNode(frag)
+		return lastNode
+	}
+	let indentCommand = function (sel) {
+		let range = sel.getRangeAt(0)
+		let spacesNode = pasteHTMLAtRange(range, '&nbsp&nbsp&nbsp&nbsp')
+		let select = document.createRange()
+		select.setStart(spacesNode, spacesNode.nodeValue.length)
+		select.setEnd(spacesNode, spacesNode.nodeValue.length)
+		sel.removeAllRanges()
+		sel.addRange(select)
+	}
+	let insertImageCommand = function (sel, url) {
+		let range = sel.getRangeAt(0)
+		let spacesNode = pasteHTMLAtRange(range, '<img src=' + url + ' style="max-width:100%;">')
+		let select = document.createRange()
+		select.setStart(spacesNode, 0)
+		select.setEnd(spacesNode, 0)
+		sel.removeAllRanges()
+		sel.addRange(select)
+	}
+	let outdentCommand = function (sel) {
+		let range = sel.getRangeAt(0)
+		console.log(range.startContainer)
+		if (!range.startContainer) {
+			return
+		}
+		if (range.startContainer.nodeValue.trim().length !== 0) {
+			return
+		}
+		let spacesNode = range.startContainer
+		spacesNode.nodeValue = ''
+
+		let select = document.createRange()
+		select.setStart(spacesNode.previousSibling, spacesNode.previousSibling.nodeValue.length)
+		select.setEnd(spacesNode.previousSibling, spacesNode.previousSibling.nodeValue.length)
+		sel.removeAllRanges()
+		sel.addRange(select)
+	}
 	let readFileIntoDataUrl = function (fileInfo) {
-		// var loader = $.Deferred(),
-		// 	fReader = new FileReader()
-		// fReader.onload = function (e) {
-		// 	loader.resolve(e.target.result)
-		// }
-		// fReader.onerror = loader.reject
-		// fReader.onprogress = loader.notify
-		// fReader.readAsDataURL(fileInfo)
-		// return loader.promise()
 		var def = $.Deferred(),
 			formData = new FormData()
 		formData.append('csrf', getCookies()['csrf'] || '')
@@ -70,7 +106,13 @@ export default function ($) {
 				var commandArr = commandWithArgs.split(' '),
 					command = commandArr.shift(),
 					args = commandArr.join(' ') + (valueArg || '')
-				document.execCommand(command, 0, args)
+				if (command === 'indent')	{
+					indentCommand(window.getSelection())
+				} else if (command === 'outdent') {
+					outdentCommand(window.getSelection())
+				} else {
+					document.execCommand(command, 0, args)
+				}
 				updateToolbar()
 			},
 			bindHotkeys = function (hotKeys) {
@@ -116,7 +158,8 @@ export default function ($) {
 				$.each(files, function (idx, fileInfo) {
 					if (/^image\//.test(fileInfo.type)) {
 						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
-							execCommand('insertimage', dataUrl)
+							// execCommand('insertimage', dataUrl)
+							insertImageCommand(window.getSelection(), dataUrl)
 						}).fail(function (e) {
 							options.fileUploadError('file-reader', e)
 						})

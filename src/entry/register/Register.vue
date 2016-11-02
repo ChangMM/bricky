@@ -29,6 +29,12 @@
         <input type="text" name="name" id="name" v-model="m_name">
         <span>作为该砖栏名称， <span class="em">申请后不可修改</span></span>
       </div>
+      <!-- 砖栏 -->
+      <div class="input-wrap">
+        <label for="phone">手机号码</label>
+        <input type="text" name="phone" id="phone" v-model="m_phone">
+        <span>在紧急情况下与您取得联系， <span class="em">信息保密</span></span>
+      </div>
     </div>
     <div class="panel-footer">
       <span v-on:click="f_step(1)" class="button next">下一步</span>
@@ -56,18 +62,26 @@
       </div>
       <!-- 砖栏简介 -->
       <div class="input-wrap">
-        <label for="intro">简介</label>
+        <label for="intro">砖栏简介</label>
         <textarea name="intro" id="intro" v-model='m_intro'></textarea>
         <span>你想通过砖栏表达什么？你更新的频率如何？</span>
         <span class="tip">{{m_intro.length}}/252</span>
       </div>
 
-      <!-- 作品 -->
+      <!-- 个人介绍及作品 -->
       <div class="input-wrap">
+        <label for="works">个人介绍及作品</label>
+        <textarea name="works" id="works" v-model='m_works'></textarea>
+        <span>关于您个人信息和状况，过往作品可填写链接、微博、公众号名称。</span>
+        <span class="tip">{{m_works.length}}/252</span>
+      </div>
+
+      <!-- 作品 -->
+      <!-- <div class="input-wrap">
         <label for="works">作品</label>
         <input type="text" name="works" id="works" v-model="m_works">
         <span>选填，可填写作品链接、微博、公众号名称</span>
-      </div>
+      </div> -->
 
       <!-- 邀请码 -->
       <div class="input-wrap">
@@ -118,10 +132,15 @@ export default {
       m_name: '',
       m_intro: '',
       m_works: '',
+      m_phone: '',
       m_code: ''
     }
   },
-  ready () { },
+  ready () {
+    window.onbeforeunload = function () {
+      return '您可能有数据没有提交'
+    }
+  },
   methods: {
     f_avatar: function (event) {
       let file = event.target.files[0]
@@ -158,27 +177,6 @@ export default {
           this.$warn(body.msg)
         }
       })
-      // 另一种头像预览的方式
-      // let self = this
-      // let reader = new FileReader()
-      // reader.onload = function (e) {
-      //   let data = e.target.result
-      //   let image = new Image()
-      //   image.onload = function () {
-      //     let width = image.width
-      //     let height = image.height
-      //     if (width > height) {
-      //       self.avatarStyle.height = '100%'
-      //       self.avatarStyle.width = 'auto'
-      //     } else {
-      //       self.avatarStyle.height = 'auto'
-      //       self.avatarStyle.width = '100%'
-      //     }
-      //     self.m_avatar = data
-      //   }
-      //   image.src = data
-      // }
-      // reader.readAsDataURL(file)
     },
     f_step: function (dir) {
       // 如果往下翻页做一些判断 往上翻页的话直接翻页
@@ -186,15 +184,24 @@ export default {
         if (!this.f_check_register()) {
           return
         }
+        // 第一个注册页面直接翻页
+        if (this.step === 1) {
+          this.step = this.step + dir
+        }
+        // 第二个注册页面注册成功后再翻页
         if (this.step === 2) {
+          let self = this
           this.f_register().then((response) => {
-            console.log(response)
+            // 注册成功之后取消事件绑定
+            window.onbeforeunload = null
+            self.step = this.step + dir
           }, (response) => {
             return this.$warn('上传问题出错')
           })
         }
+      } else {
+        this.step = this.step + dir
       }
-      this.step = this.step + dir
     },
     // 发送注册请求的函数
     f_register: function () {

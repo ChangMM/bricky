@@ -10,7 +10,7 @@
 export default {
   data () {
     return {
-      m_year: new Date().getYear() + 1900
+      m_year: (new Date().getYear() + 1900 - 2015 > 0) ? '2015-' + (new Date().getYear() + 1900) : 2015
     }
   }
 }

@@ -18,7 +18,7 @@
         <label>提现规则</label><p class="line first">您在砖栏获得的收入将会在每天21：30统一结算，结算的金额为「可提现金额」，直接打入微信零钱包。</p>
         <p class="line">可以在你的微信中「我」-「微信」-「交易记录」查看。</p>
         <p class="line margin">由于微信平台「企业自动付款」转账额度限制，砖栏每日结算的上限是2000元。遇到当天没有结算完全的情况，我们会在之后陆续结算。</p>
-        <p class="line"><a href="#">查看完整提现规则</a></p>
+        <p class="line"><a href="/annoucement#!/rule">查看完整提现规则</a></p>
       </div>
       <!-- 提现按钮暂时去掉 -->
       <!-- <div class="button-wrap">

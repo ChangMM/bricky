@@ -15,10 +15,6 @@ export default function (Vue) {
 
   Vue.prototype.$getSelectTextById = function (element) {
     let E = document.getElementById(element)
-    // let range = document.body.createTextRange()
-    // range.moveToElementText(E)
-    // range.select()
-    // return window.getSelection().toString()
     let selection = window.getSelection()
     let range = document.createRange()
     range.selectNodeContents(E)
