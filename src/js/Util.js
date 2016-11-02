@@ -13,6 +13,26 @@ export default function (Vue) {
     return len
   }
 
+  Vue.prototype.$getSelectTextById = function (element) {
+    let E = document.getElementById(element)
+    // let range = document.body.createTextRange()
+    // range.moveToElementText(E)
+    // range.select()
+    // return window.getSelection().toString()
+    let selection = window.getSelection()
+    let range = document.createRange()
+    range.selectNodeContents(E)
+    selection.removeAllRanges()
+    selection.addRange(range)
+    let text = window.getSelection().toString()
+    selection.removeAllRanges()
+    return text
+  }
+
+  Vue.prototype.$removeReturn = function (str) {
+    return str.replace(/[\r\n]/g, '')
+  }
+
   Vue.prototype.$cookies = function () {
     let ret = {}
     if (document.cookie.length === 0) {

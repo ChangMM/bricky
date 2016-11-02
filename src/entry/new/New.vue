@@ -68,13 +68,16 @@ export default {
       m_abbr: '',
       m_preview: false,
       m_time: new Date(),
-      m_content: ''
+      m_content: '',
+      m_editor: null,
+      m_$editor: null
     }
   },
   ready () {
     Hotkeys($)
     Editor($)
-    $('#editor').wysiwyg()
+    this.m_$editor = $('#editor')
+    this.m_editor = this.m_$editor.wysiwyg()
     // 绑定页面退出事件
     $(window).bind('beforeunload', function () {
       return '您可能有数据没有保存'
@@ -101,7 +104,7 @@ export default {
           this.m_cover = post.images[0]
           this.m_aid = pid
           // 填充文章内容
-          $('#editor').html(this.m_content)
+          this.m_$editor.html(this.m_content)
           // 调整图片
           this.f_image(this.m_cover)
         })
@@ -148,20 +151,20 @@ export default {
       history.back()
     },
     f_editor_focus: function () {
-      if ($('#editor').html() === '这里开始正文') {
-        $('#editor').html('')
+      if (this.m_$editor.html() === '这里开始正文') {
+        this.m_$editor.html('')
       }
     },
     f_editor_blur: function () {
-      if ($('#editor').html() === '') {
-        $('#editor').html('这里开始正文')
+      if (this.m_$editor.html() === '') {
+        this.m_$editor.html('这里开始正文')
       }
     },
     f_save: function (event) {
+      this.m_content = this.m_$editor.html()
       if (!this.f_check_article()) {
         return
       }
-      this.m_content = $('#editor').html()
       let currentTarget = event.currentTarget
       if (currentTarget.classList.contains('disable')) {
         return
@@ -190,6 +193,7 @@ export default {
       }
     },
     f_save_release: function (event) {
+      this.m_content = this.m_$editor.html()
       if (!this.f_check_article()) {
         return
       }
@@ -198,7 +202,6 @@ export default {
       let currentTarget = event.currentTarget
       this.$confirm().then(
         function (data) {
-          self.m_content = $('#editor').html()
           if (currentTarget.classList.contains('disable')) {
             return
           } else {
@@ -242,7 +245,7 @@ export default {
       })
     },
     f_preview: function () {
-      this.m_content = $('#editor').html()
+      this.m_content = this.m_$editor.html()
       this.m_preview = true
       this.$fixBody()
     },
@@ -255,13 +258,9 @@ export default {
         this.$warn('文章标题过长')
         return false
       }
+      // 如果摘要为空摘要取正文前22个字符
       if (this.m_abbr.trim() === '') {
-        this.$warn('文章摘要为空')
-        return false
-      }
-      if (this.m_abbr.trim().length > 22) {
-        this.$warn('文章摘要过长')
-        return false
+        this.m_abbr = this.$removeReturn(this.$getSelectTextById('editor')).substr(0, 22)
       }
       if (this.m_cover === '') {
         this.$warn('文章封面为空')

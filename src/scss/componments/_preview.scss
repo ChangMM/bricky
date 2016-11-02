@@ -2,11 +2,11 @@
   overflow-x: hidden;
   word-break: break-all;
   word-wrap:break-word;
+  blockquote{
+    margin-left: 30px !important;
+  }
   div{
     width: 100%;
-    blockquote{
-      margin-left: 30px !important;
-    }
   }
   img{
     max-width: 100%;
