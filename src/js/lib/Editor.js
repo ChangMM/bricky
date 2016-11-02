@@ -36,8 +36,17 @@ export default function ($) {
 		let range = sel.getRangeAt(0)
 		let spacesNode = pasteHTMLAtRange(range, '<img src=' + url + ' style="max-width:100%;">')
 		let select = document.createRange()
-		select.setStart(spacesNode, 0)
-		select.setEnd(spacesNode, 0)
+		let chils = spacesNode.parentNode.childNodes
+		let index
+		for (let i = 0, len = chils.length; i < len; i++) {
+			if (chils[i] === spacesNode) {
+				index = i
+				break
+			}
+		}
+		select.setStart(spacesNode.parentNode, index)
+		select.setEnd(spacesNode.parentNode, index + 1)
+		select.collapse(false)
 		sel.removeAllRanges()
 		sel.addRange(select)
 	}
