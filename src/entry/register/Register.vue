@@ -90,6 +90,14 @@
         <span>选填，拥有邀请码可直接通过审核</span>
       </div>
 
+      <!-- 是否同意 -->
+      <div class="input-wrap">
+        <div class="checkbox-wrap" v-bind:class='{"active":m_agree}' >
+          <input type="checkbox" name="agree" id="agree"v-on:click='f_agree' v-model="m_agree">
+        </div>
+        <span class="protocol">我同意并遵守 <a href="/annoucement#!/protocol">《砖栏平台服务协议》</a></span>
+      </div>
+
     </div>
     <div class="panel-footer">
       <span v-on:click="f_step(-1)" class="button prev">上一步</span>
@@ -122,7 +130,7 @@
 export default {
   data () {
     return {
-      step: 1,
+      step: 2,
       avatarStyle: {
         width: '100%',
         height: 'auto'
@@ -133,6 +141,7 @@ export default {
       m_intro: '',
       m_works: '',
       m_phone: '',
+      m_agree: false,
       m_code: ''
     }
   },
@@ -142,6 +151,9 @@ export default {
     }
   },
   methods: {
+    f_agree: function () {
+      console.log(this.m_agree)
+    },
     f_avatar: function (event) {
       let file = event.target.files[0]
 
@@ -185,11 +197,10 @@ export default {
           return
         }
         // 第一个注册页面直接翻页
+        // 第二个注册页面注册成功后再翻页
         if (this.step === 1) {
           this.step = this.step + dir
-        }
-        // 第二个注册页面注册成功后再翻页
-        if (this.step === 2) {
+        } else if (this.step === 2) {
           let self = this
           this.f_register().then((response) => {
             // 注册成功之后取消事件绑定
@@ -210,6 +221,8 @@ export default {
         avatar: this.m_avatar,
         introduction: this.m_intro,
         works: this.m_works,
+        phone: this.m_phone,
+        agreement: this.m_agree,
         inviteCode: this.m_code
       })
     },
@@ -326,6 +339,9 @@ export default {
         }
         span{
           font-size: 12px;
+          &.protocol{
+            font-size: 14px;
+          }
         }
         .em{
           color: #ff6c74;
@@ -342,6 +358,42 @@ export default {
           &:focus{
             border-color: #ff6c74;
           }
+        }
+        .checkbox-wrap{
+          display: inline-block;
+          border-radius: 50%;
+          box-sizing: border-box;
+          border: 3px solid #ff6c74;
+          height:18px;
+          width:18px;
+          position: relative;
+          top:4px;
+          &.active{
+            // background-color: #ff6c74;
+            &:before{
+              content: '✓';
+              position: absolute;
+              font-size:14px;
+              height:18px;
+              width:18px;
+              line-height: 18px;
+              top:-3px;
+              left:-2px;
+              z-index: 0;
+              text-align: center;
+              color: #ff6c74;
+            }
+          }
+
+        }
+        input[type=checkbox]{
+          position: absolute;
+          top: -3px;
+          left: -3px;
+          width:18px;
+          height:18px;
+          opacity: 0;
+          z-index: 1;
         }
         textarea{
           height:100px;

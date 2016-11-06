@@ -11,6 +11,11 @@
         <span class="tip">一年后方可再次修改订阅价格</span>
         <span class="float-right alter" v-on:click = 'f_alter'>修改</span>
       </div>
+      <div class="input-wrap">
+        <label for="avatar">我的主页</label>
+        <span class="tip">{{ m_url }}</span>
+        <span class="float-right">设置订阅价格后生效</span>
+      </div>
     </div>
   </div>
 </template>
@@ -19,10 +24,12 @@
 export default {
   data () {
     return {
-      m_price: 0
+      m_price: 0,
+      m_url: ''
     }
   },
   ready () {
+    // 获取订阅价格
     this.$http.get('/api/subsprice').then((response) => {
       let body = response.body
       if (body.error === 'subsinfo:missing') {
@@ -30,6 +37,19 @@ export default {
       } else {
         this.m_price = body.price / 100
       }
+    })
+    // 获取个人主页的链接
+    this.$http.get('/api/user').then((response) => {
+      let body = response.body
+      if (body.error === 'ok') {
+        this.m_url = body.user.url
+      } else if (body.error === 'user:not_signin') {
+        this.$warn('您尚未登录', function () {
+          window.location.href = '/'
+        })
+      }
+    }, (response) => {
+      console.log(response)
     })
   },
   methods: {

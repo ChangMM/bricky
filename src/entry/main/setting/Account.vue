@@ -20,9 +20,14 @@
         <span class="float-right tip">不可修改</span>
       </div>
       <div class="input-wrap textarea-wrap">
-        <label for="avatar">简介</label>
+        <label for="avatar">砖栏简介</label>
         <textarea name="name" class="intro" v-model="m_intro"></textarea>
         <span class="float-right alter" v-on:click="f_alter_intro(m_intro)">修改</span>
+      </div>
+      <div class="input-wrap textarea-wrap">
+        <label for="avatar">个人介绍及作品</label>
+        <textarea name="name" class="intro" v-model="m_works"></textarea>
+        <span class="float-right alter" v-on:click="f_alter_works(m_works)">修改</span>
       </div>
       <div class="input-wrap">
         <label for="avatar">邀请码</label>
@@ -41,6 +46,7 @@ export default {
       m_default_avatar: require('../../../assets/default.png'),
       m_name: '',
       m_intro: '',
+      m_works: '',
       avatarStyle: {
         width: '100%',
         height: 'auto'
@@ -55,6 +61,7 @@ export default {
         this.m_name = body.user.authorNickname
         this.m_avatar = body.user.authorAvatar || this.m_avatar
         this.m_intro = body.user.authorIntroduction
+        this.m_works = body.user.works
         this.m_code = body.user.invitecode || ''
       } else {
         this.$warn('获取个人信息错误')
@@ -103,6 +110,14 @@ export default {
       this.$http.post('/api/user/introduction', {
         csrf: this.$cookies()['csrf'] || '',
         introduction: intro
+      }).then((response) => {
+        console.log(response)
+      })
+    },
+    f_alter_works: function (works) {
+      this.$http.post('/api/user/works', {
+        csrf: this.$cookies()['csrf'] || '',
+        works: works
       }).then((response) => {
         console.log(response)
       })

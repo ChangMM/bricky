@@ -36,35 +36,27 @@ export default function ($) {
 		let range = sel.getRangeAt(0)
 		let spacesNode = pasteHTMLAtRange(range, '<img src=' + url + ' style="max-width:100%;">')
 		let select = document.createRange()
-		let chils = spacesNode.parentNode.childNodes
-		let index
-		for (let i = 0, len = chils.length; i < len; i++) {
-			if (chils[i] === spacesNode) {
-				index = i
-				break
-			}
-		}
-		select.setStart(spacesNode.parentNode, index)
-		select.setEnd(spacesNode.parentNode, index + 1)
+		select.selectNode(spacesNode)
 		select.collapse(false)
 		sel.removeAllRanges()
 		sel.addRange(select)
 	}
 	let outdentCommand = function (sel) {
 		let range = sel.getRangeAt(0)
-		console.log(range.startContainer)
-		if (!range.startContainer) {
-			return
-		}
-		if (range.startContainer.nodeValue.trim().length !== 0) {
-			return
-		}
 		let spacesNode = range.startContainer
+		if (!spacesNode.nodeValue) {
+			return
+		}
+		if (spacesNode.nodeValue.trim().length !== 0) {
+			return
+		}
 		spacesNode.nodeValue = ''
-
 		let select = document.createRange()
-		select.setStart(spacesNode.previousSibling, spacesNode.previousSibling.nodeValue.length)
-		select.setEnd(spacesNode.previousSibling, spacesNode.previousSibling.nodeValue.length)
+		if (!spacesNode.previousSibling) {
+			return
+		}
+		select.selectNodeContents(spacesNode.previousSibling)
+		select.collapse(false)
 		sel.removeAllRanges()
 		sel.addRange(select)
 	}
