@@ -14,18 +14,24 @@
       <div class="input-wrap">
         <label for="avatar">我的主页</label>
         <span class="tip">{{ m_url }}</span>
-        <span class="float-right">设置订阅价格后生效</span>
+        <span class="float-right self" v-on:click= 'f_preview'>{{ m_url_active?'设置订阅价格后有效':'预览个人主页' }}</span>
       </div>
     </div>
   </div>
+  <preview v-show="m_preview" :show.sync="m_preview" :url="m_url"></preview>
 </template>
 
 <script>
+/*global QRCode:true */
+/* eslint-disable no-new */
+import Preview from './Preview.vue'
 export default {
   data () {
     return {
       m_price: 0,
-      m_url: ''
+      m_preview: false,
+      m_url: '',
+      m_url_active: false
     }
   },
   ready () {
@@ -43,6 +49,7 @@ export default {
       let body = response.body
       if (body.error === 'ok') {
         this.m_url = body.user.url
+        new QRCode(document.getElementById('qrcode'), body.user.url)
       } else if (body.error === 'user:not_signin') {
         this.$warn('您尚未登录', function () {
           window.location.href = '/'
@@ -53,6 +60,9 @@ export default {
     })
   },
   methods: {
+    f_preview: function () {
+      this.m_preview = true
+    },
     f_alter: function () {
       let self = this
       this.$confirm().then(
@@ -70,6 +80,9 @@ export default {
           })
         })
     }
+  },
+  components: {
+    Preview
   }
 }
 </script>
@@ -119,7 +132,7 @@ export default {
           margin-top: 10px;
           margin-left: 20px;
         }
-        .alter{
+        .alter,.self{
           cursor: pointer;
           color:#666;
           &:hover{

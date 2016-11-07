@@ -111,7 +111,12 @@ export default {
         csrf: this.$cookies()['csrf'] || '',
         introduction: intro
       }).then((response) => {
-        console.log(response)
+        let body = JSON.parse(response.body)
+        if (body.error === 'ok') {
+          this.$warn('修改成功')
+        } else {
+          this.$warn('修改失败，请重试')
+        }
       })
     },
     f_alter_works: function (works) {
@@ -119,7 +124,12 @@ export default {
         csrf: this.$cookies()['csrf'] || '',
         works: works
       }).then((response) => {
-        console.log(response)
+        let body = JSON.parse(response.body)
+        if (body.error === 'ok') {
+          this.$warn('修改成功')
+        } else {
+          this.$warn('修改失败，请重试')
+        }
       })
     },
     f_alter_avatar: function () {
@@ -127,7 +137,12 @@ export default {
         csrf: this.$cookies()['csrf'] || '',
         avatar: this.m_avatar
       }).then((response) => {
-        console.log(response)
+        let body = JSON.parse(response.body)
+        if (body.error === 'ok') {
+          this.$warn('修改成功')
+        } else {
+          this.$warn('修改失败，请重试')
+        }
       })
       // this.f_triggerEvent(document.getElementById('avatar-input'), 'change')
     },

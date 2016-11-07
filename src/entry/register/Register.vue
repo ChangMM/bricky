@@ -130,7 +130,7 @@
 export default {
   data () {
     return {
-      step: 2,
+      step: 1,
       avatarStyle: {
         width: '100%',
         height: 'auto'
@@ -141,7 +141,7 @@ export default {
       m_intro: '',
       m_works: '',
       m_phone: '',
-      m_agree: false,
+      m_agree: true,
       m_code: ''
     }
   },
@@ -257,6 +257,10 @@ export default {
         }
         if (this.m_intro.length > 252) {
           this.$warn('砖栏简介过长')
+          return false
+        }
+        if (!this.m_agree) {
+          this.$warn('请同意砖栏用户服务协议')
           return false
         }
       }
@@ -473,6 +477,7 @@ export default {
     }
     .panel-footer{
       padding-top:20px;
+      padding-bottom: 40px;
       text-align: center;
       .button{
         display: inline-block;
