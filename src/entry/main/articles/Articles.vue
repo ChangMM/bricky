@@ -9,20 +9,25 @@
       <a href="/new"><span class='button float-right'>新建作品</span></a>
     </div>
     <div class="articles-wrap">
-      <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
-        <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" v-on:click="f_preview(lib.id)" class="article-cover" alt="封面图" />
-        <div class="article-info">
-          <span class="article-title" v-on:click="f_preview(lib.id)">{{lib.title}}</span>
-          <span class="article-intro">{{lib.digest}}</span>
+      <template v-if="m_libs!=0">
+        <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
+          <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" v-on:click="f_preview(lib.id)" class="article-cover" alt="封面图" />
+          <div class="article-info">
+            <span class="article-title" v-on:click="f_preview(lib.id)">{{lib.title}}</span>
+            <span class="article-intro">{{lib.digest}}</span>
+          </div>
+          <div class="float-right time-wrap">
+            <span class="article-time">{{lib.updateTime | timeFormat}}</span>
+            <p class="operation-wrap">
+              <span class="edit" v-on:click="f_edit(lib.id)">编辑</span>
+              <span class="cancel" v-on:click="f_cancel(lib.id)">删除</span>
+            </p>
+          </div>
         </div>
-        <div class="float-right time-wrap">
-          <span class="article-time">{{lib.updateTime | timeFormat}}</span>
-          <p class="operation-wrap">
-            <span class="edit" v-on:click="f_edit(lib.id)">编辑</span>
-            <span class="cancel" v-on:click="f_cancel(lib.id)">删除</span>
-          </p>
-        </div>
-      </div>
+      </template>
+      <template v-if="m_libs==0">
+        <p class="no-article">暂无内容</p>
+      </template>
     </div>
   </div>
   <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
@@ -120,6 +125,12 @@ export default {
       height:6px;
       background-color: $main-color;
     }
+  }
+  .no-article{
+    font-size: 16px;
+    line-height: 50px;
+    height:50px;
+    text-align: center;
   }
   .search-wrap{
     margin-top:10px;

@@ -1,16 +1,21 @@
 <template lang="html">
   <div class="articles-wrap">
-    <div class="article-item clearfix" v-for="article in m_published">
-      <img v-bind:src="article.images[0]?article.images[0]:m_default_cover" v-on:click="f_preview(article.id)" class="article-cover" alt="封面图" />
-      <div class="article-info">
-        <span class="article-title" v-on:click="f_preview(article.id)">{{article.title}}</span>
-        <span class="article-intro">{{article.digest}}</span>
+    <template v-if="m_published.length!=0">
+      <div class="article-item clearfix" v-for="article in m_published">
+        <img v-bind:src="article.images[0]?article.images[0]:m_default_cover" v-on:click="f_preview(article.id)" class="article-cover" alt="封面图" />
+        <div class="article-info">
+          <span class="article-title" v-on:click="f_preview(article.id)">{{article.title}}</span>
+          <span class="article-intro">{{article.digest}}</span>
+        </div>
+        <div class="float-right time-wrap">
+          <span class="article-time">{{article.updateTime | timeFormat}}</span>
+          <span class="cancel" v-on:click="f_cancel(article.id)">删除</span>
+        </div>
       </div>
-      <div class="float-right time-wrap">
-        <span class="article-time">{{article.updateTime | timeFormat}}</span>
-        <span class="cancel" v-on:click="f_cancel(article.id)">删除</span>
-      </div>
-    </div>
+    </template>
+    <template v-if="m_published.length==0">
+      <p class="no-article">暂无内容</p>
+    </template>
   </div>
   <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
@@ -92,6 +97,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../../scss/base/_variable.scss';
+.no-article{
+  font-size: 16px;
+  line-height: 50px;
+  height:50px;
+  text-align: center;
+}
 .article-item{
   padding:15px 0;
   border-bottom: 1px solid #eee;

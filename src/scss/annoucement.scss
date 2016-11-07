@@ -9,6 +9,7 @@
 }
 
 .announcement{
+  padding-bottom: 20px;
   h3{
     font-size: 20px;
     text-align: center;
@@ -31,5 +32,10 @@
         text-indent: 40px;
       }
     }
+  }
+  footer{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * 处理注册的逻辑
+ * 首页的公告的处理逻辑
  */
  /* eslint-disable no-new */
 require('../../scss/annoucement.scss')

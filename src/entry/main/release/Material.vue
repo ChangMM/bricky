@@ -1,11 +1,16 @@
 <template lang="html">
   <div class="material-wrap">
+    <template v-if="m_libs.length !=0">
       <div class="material-item" v-on:click="f_choose(material.id,$event)" v-for = "material in m_libs | filterBy filter in 'title'">
         <img v-bind:src="material.images[0]?material.images[0]:m_default_cover" class="cover" alt="封面图片" />
         <p class="title">{{material.title}}</p>
         <p class="date">{{material.updateTime | timeFormat}}</p>
         <p class="intro">{{material.digest}}</p>
       </div>
+    </template>
+    <template v-if="m_libs.length ==0">
+      <p class="no-article">暂无内容</p>
+    </template>
   </div>
 </template>
 <script>
@@ -72,6 +77,12 @@ export default {
     height:340px;
     overflow-y: scroll;
     font-size: 0;
+    .no-article{
+      font-size: 16px;
+      line-height: 50px;
+      height:50px;
+      text-align: center;
+    }
     .material-item{
       cursor: pointer;
       display: inline-block;

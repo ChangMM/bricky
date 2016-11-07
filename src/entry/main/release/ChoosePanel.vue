@@ -32,6 +32,7 @@ export default {
   ready () {},
   methods: {
     f_close: function () {
+      this.$fixNoBody()
       this.show = false
     },
     f_release: function () {

@@ -30,6 +30,7 @@ export default {
   methods: {
     f_choose: function () {
       this.m_choose_show = true
+      this.$fixBody()
     }
   },
   components: {
