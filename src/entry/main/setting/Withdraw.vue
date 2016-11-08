@@ -24,13 +24,13 @@
       <!-- <div class="button-wrap">
         <span class="button" v-on:click = 'f_showPanel'>提现</span>
       </div> -->
-      <withdraw-panel v-show='m_showPanel' :show.sync='m_showPanel'></withdraw-panel>
+      <!-- <withdraw-panel v-show='m_showPanel' :show.sync='m_showPanel'></withdraw-panel> -->
     </div>
   </div>
 </template>
 
 <script>
-import WithdrawPanel from './WithdrawPanel.vue'
+// import WithdrawPanel from './WithdrawPanel.vue'
 export default {
   data () {
     return {
@@ -53,9 +53,6 @@ export default {
       this.$warn('手动提现功能暂时未开放')
       // this.m_showPanel = true
     }
-  },
-  components: {
-    WithdrawPanel
   }
 }
 </script>

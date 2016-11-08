@@ -6,9 +6,10 @@
     </div>
     <div class="subscription-body">
       <div class="input-wrap">
-        <label for="avatar">订阅价格</label>
-        <input type="text" name="name" v-model='m_price'>/年（￥）
-        <span class="tip">一年后方可再次修改订阅价格</span>
+        <label for="price">订阅价格</label>
+        <!-- <input type="text" name="name" v-model='m_price'> -->
+        <span class="price">{{m_price}}</span>/年（￥）
+        <span class="tip">订阅价格一年中之内修改一次</span>
         <span class="float-right alter" v-on:click = 'f_alter'>修改</span>
       </div>
       <div class="input-wrap">
@@ -19,46 +20,27 @@
     </div>
   </div>
   <preview v-show="m_preview" :show.sync="m_preview" :url="m_url"></preview>
+  <sub-panel v-show='m_showSubPanel' :refresh='f_get_price' :content='m_price' :show.sync='m_showSubPanel'></sub-panel>
 </template>
 
 <script>
 /*global QRCode:true */
 /* eslint-disable no-new */
+import SubPanel from './SubscripPanel.vue'
 import Preview from './Preview.vue'
 export default {
   data () {
     return {
       m_price: 0,
       m_preview: false,
+      m_showSubPanel: false,
       m_url: '',
       m_url_active: false
     }
   },
   ready () {
-    // 获取订阅价格
-    this.$http.get('/api/subsprice').then((response) => {
-      let body = response.body
-      if (body.error === 'subsinfo:missing') {
-        this.m_price = '-'
-      } else {
-        this.m_price = body.price / 100
-        this.m_url_active = false
-      }
-    })
-    // 获取个人主页的链接
-    this.$http.get('/api/user').then((response) => {
-      let body = response.body
-      if (body.error === 'ok') {
-        this.m_url = body.user.url
-        new QRCode(document.getElementById('qrcode'), body.user.url)
-      } else if (body.error === 'user:not_signin') {
-        this.$warn('您尚未登录', function () {
-          window.location.href = '/'
-        })
-      }
-    }, (response) => {
-      console.log(response)
-    })
+    this.f_get_price()
+    this.f_get_url()
   },
   methods: {
     f_preview: function () {
@@ -67,26 +49,40 @@ export default {
       }
       this.m_preview = true
     },
-    f_alter: function () {
-      let self = this
-      this.$confirm().then(
-        function (data) {
-          self.$http.post('api/subsprice', {
-            csrf: self.$cookies()['csrf'] || '',
-            price: self.m_price * 100
-          }).then((response) => {
-            let body = JSON.parse(response.body)
-            if (body.error === 'ok') {
-              self.$warn('订阅价格修改成功')
-            } else if (body.error === 'update:too_often') {
-              self.$warn('一年之后方可重新修改订阅价格')
-            }
+    f_get_price: function () {
+      // 获取订阅价格
+      this.$http.get('/api/subsprice').then((response) => {
+        let body = response.body
+        if (body.error === 'subsinfo:missing') {
+          this.m_price = '-'
+        } else {
+          this.m_price = body.price / 100
+          this.m_url_active = true
+        }
+      })
+    },
+    f_get_url: function () {
+      // 获取个人主页的链接
+      this.$http.get('/api/user').then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_url = body.user.url
+          new QRCode(document.getElementById('qrcode'), body.user.url)
+        } else if (body.error === 'user:not_signin') {
+          this.$warn('您尚未登录', function () {
+            window.location.href = '/'
           })
-        })
+        }
+      }, (response) => {
+        console.log(response)
+      })
+    },
+    f_alter: function () {
+      this.m_showSubPanel = true
     }
   },
   components: {
-    Preview
+    Preview, SubPanel
   }
 }
 </script>
@@ -129,6 +125,9 @@ export default {
           &:focus{
             border-color: $main-color;
           }
+        }
+        .price{
+          color:$main-color;
         }
         .tip{
           font-size: 12px;

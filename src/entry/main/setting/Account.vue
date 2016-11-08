@@ -7,11 +7,11 @@
     <div class="account-body">
       <div class="input-wrap">
         <label for="avatar">头像</label>
-        <div class="input-avatar-wrap">
-          <input type="file" v-on:change="f_avatar" id="avatar-input" class="file-input" name="avatar" id="avatar">
+        <!-- <div class="input-avatar-wrap">
+          <input type="file" id="avatar-input" class="file-input" name="avatar" id="avatar">
           <img v-bind:src="m_avatar?m_avatar:m_default_avatar" v-bind:style="avatarStyle" />
-        </div>
-        <!-- <img v-bind:src="m_avatar" class="avatar-img" alt="头像" /> -->
+        </div> -->
+        <img v-bind:src="m_avatar" class="avatar-img" />
         <span class="float-right alter" v-on:click="f_alter_avatar">修改</span>
       </div>
       <div class="input-wrap">
@@ -21,12 +21,14 @@
       </div>
       <div class="input-wrap textarea-wrap">
         <label for="avatar">砖栏简介</label>
-        <textarea name="name" class="intro" v-model="m_intro"></textarea>
+        <span class="mult-line">{{m_intro}}</span>
+        <!-- <textarea name="name" class="intro" v-model="m_intro"></textarea> -->
         <span class="float-right alter" v-on:click="f_alter_intro(m_intro)">修改</span>
       </div>
       <div class="input-wrap textarea-wrap">
         <label for="avatar">个人介绍及作品</label>
-        <textarea name="name" class="intro" v-model="m_works"></textarea>
+        <span class="mult-line">{{m_works}}</span>
+        <!-- <textarea name="name" class="intro" v-model="m_works"></textarea> -->
         <span class="float-right alter" v-on:click="f_alter_works(m_works)">修改</span>
       </div>
       <div class="input-wrap">
@@ -35,123 +37,55 @@
       </div>
     </div>
   </div>
+  <avatar-panel v-show='m_showAvatarPanel' :refresh='f_get_info' :content='m_avatar' :show.sync='m_showAvatarPanel'></avatar-panel>
+  <intro-panel v-show='m_showIntroPanel' :refresh='f_get_info' :content='m_intro' :show.sync='m_showIntroPanel'></intro-panel>
+  <work-panel v-show='m_showWorksPanel' :refresh='f_get_info' :content='m_works' :show.sync='m_showWorksPanel'></work-panel>
 </template>
 
 <script>
-/*global Image:true, FormData:true*/
+import IntroPanel from './IntroPanel.vue'
+import WorkPanel from './WorksPanel.vue'
+import AvatarPanel from './AvatarPanel.vue'
 export default {
   data () {
     return {
-      m_avatar: '',
       m_default_avatar: require('../../../assets/default.png'),
+      m_avatar: this.m_default_avatar,
       m_name: '',
       m_intro: '',
       m_works: '',
-      avatarStyle: {
-        width: '100%',
-        height: 'auto'
-      },
-      m_code: ''
+      m_code: '',
+      m_showWorksPanel: false,
+      m_showIntroPanel: false,
+      m_showAvatarPanel: false
     }
   },
   ready () {
-    this.$http.get('/api/user').then((response) => {
-      let body = response.body
-      if (body.error === 'ok') {
-        this.m_name = body.user.authorNickname
-        this.m_avatar = body.user.authorAvatar || this.m_avatar
-        this.m_intro = body.user.authorIntroduction
-        this.m_works = body.user.works
-        this.m_code = body.user.invitecode || ''
-      } else {
-        this.$warn('获取个人信息错误')
-      }
-    })
+    this.f_get_info()
   },
   methods: {
-    f_avatar: function (event) {
-      console.log(event)
-      let file = event.target.files[0]
-
-      if (['gif', 'jpg', 'jpeg', 'png'].indexOf(file.type.split('/')[1].toLowerCase()) === -1) {
-        return this.$warn('图片格式不对')
-      }
-
-      if (file.size / 1024 > 2048) {
-        return this.$warn('图片大小过大')
-      }
-
-      // 上传图片
-      this.f_upload_avatar(file).then((response) => {
+    f_get_info: function () {
+      this.$http.get('/api/user').then((response) => {
         let body = response.body
-        let imageUrl = body.url
         if (body.error === 'ok') {
-          let image = new Image()
-          let self = this
-          image.onload = function () {
-            let width = image.width
-            let height = image.height
-            if (width > height) {
-              self.avatarStyle.height = '100%'
-              self.avatarStyle.width = 'auto'
-            } else {
-              self.avatarStyle.height = 'auto'
-              self.avatarStyle.width = '100%'
-            }
-            self.m_avatar = imageUrl
-          }
-          image.src = imageUrl
+          this.m_name = body.user.authorNickname
+          this.m_avatar = body.user.authorAvatar || this.m_avatar
+          this.m_intro = body.user.authorIntroduction
+          this.m_works = body.user.works
+          this.m_code = body.user.invitecode || ''
         } else {
-          this.$warn(body.msg)
+          this.$warn('获取个人信息错误')
         }
       })
     },
     f_alter_intro: function (intro) {
-      this.$http.post('/api/user/introduction', {
-        csrf: this.$cookies()['csrf'] || '',
-        introduction: intro
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('修改成功')
-        } else {
-          this.$warn('修改失败，请重试')
-        }
-      })
+      this.m_showIntroPanel = true
     },
     f_alter_works: function (works) {
-      this.$http.post('/api/user/works', {
-        csrf: this.$cookies()['csrf'] || '',
-        works: works
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('修改成功')
-        } else {
-          this.$warn('修改失败，请重试')
-        }
-      })
+      this.m_showWorksPanel = true
     },
     f_alter_avatar: function () {
-      this.$http.post('/api/user/avatar', {
-        csrf: this.$cookies()['csrf'] || '',
-        avatar: this.m_avatar
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('修改成功')
-        } else {
-          this.$warn('修改失败，请重试')
-        }
-      })
-      // this.f_triggerEvent(document.getElementById('avatar-input'), 'change')
-    },
-    // 上传图片的函数
-    f_upload_avatar: function (data) {
-      var formData = new FormData()
-      formData.append('csrf', this.$cookies()['csrf'] || '')
-      formData.append('file', data)
-      return this.$http.post('/api/upload', formData)
+      this.m_showAvatarPanel = true
     },
     f_triggerEvent: function (element, type) {
       let event
@@ -165,6 +99,9 @@ export default {
         return !element.dispatchEvent(event)
       }
     }
+  },
+  components: {
+    IntroPanel, WorkPanel, AvatarPanel
   }
 }
 </script>
@@ -199,41 +136,45 @@ export default {
             vertical-align: top;
           }
         }
-        .input-avatar-wrap{
+        .mult-line{
           display: inline-block;
-          vertical-align: middle;
-          overflow: hidden;
-          position: relative;
-          border-radius: 50%;
-          background-color: #eee;
-          width:40px;
-          height:40px;
-          input{
-            cursor: pointer;
-            opacity: 0;
-            position: absolute;
-            z-index: 1;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            border-radius: 50%;
-          }
-          img{
-            position: absolute;
-            top:50%;
-            left:50%;
-            border-radius: 50%;
-            transform: translate3d(-50%,-50%,0);
-            z-index: 0;
-          }
+          width: 600px;
         }
-        // .avatar-img{
+        // .input-avatar-wrap{
+        //   display: inline-block;
         //   vertical-align: middle;
-        //   height:40px;
-        //   width:40px;
+        //   overflow: hidden;
+        //   position: relative;
         //   border-radius: 50%;
+        //   background-color: #eee;
+        //   width:40px;
+        //   height:40px;
+        //   input{
+        //     cursor: pointer;
+        //     opacity: 0;
+        //     position: absolute;
+        //     z-index: 1;
+        //     top:0;
+        //     left:0;
+        //     width:100%;
+        //     height:100%;
+        //     border-radius: 50%;
+        //   }
+        //   img{
+        //     position: absolute;
+        //     top:50%;
+        //     left:50%;
+        //     border-radius: 50%;
+        //     transform: translate3d(-50%,-50%,0);
+        //     z-index: 0;
+        //   }
         // }
+        .avatar-img{
+          vertical-align: middle;
+          height:40px;
+          width:40px;
+          border-radius: 50%;
+        }
         input{
           height:24px;
           width:40px;
