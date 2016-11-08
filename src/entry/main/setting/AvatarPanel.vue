@@ -8,10 +8,8 @@
       </div>
       <div class="search-wrap">
         <div class="input-avatar-wrap">
-          <div class="middle">
-            <input type="file" v-on:change="f_avatar" id="avatar-input" class="file-input" name="avatar" id="avatar">
-            <img v-bind:src="content" v-bind:style="avatarStyle" />
-          </div>
+          <input type="file" v-on:change="f_avatar" id="avatar-input" class="file-input" name="avatar" id="avatar">
+          <img v-bind:src="content" v-bind:style="avatarStyle" />
         </div>
         <p class="tip">点击头像上传新的小于2M的jpg、png、jpeg或者gif图片</p>
       </div>
@@ -27,13 +25,10 @@
 export default {
   data () {
     return {
-      avatarStyle: {
-        width: '100%',
-        height: 'auto'
-      }
     }
   },
-  props: ['show', 'content', 'refresh'],
+  props: ['show', 'content', 'refresh', 'avatarStyle'],
+  ready () {},
   methods: {
     f_close: function () {
       this.show = false
@@ -155,15 +150,11 @@ export default {
     background-color: #eee;
     width:100px;
     height:100px;
+    position: relative;
     overflow: hidden;
     border-radius: 50%;
-    .middle{
-      position: relative;
-      width:100%;
-      height:100%;
-      overflow: hidden;
-      border-radius: 50%;
-    }
+    // 解决一个bug http://stackoverflow.com/questions/27296900/webkit-overflow-issue-on-border-radius-and-transform
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
     input{
       cursor: pointer;
       opacity: 0;
@@ -173,7 +164,6 @@ export default {
       left:0;
       width:100%;
       height:100%;
-      border-radius: 50%;
     }
     img{
       position: absolute;

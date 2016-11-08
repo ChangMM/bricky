@@ -437,6 +437,7 @@ export default {
         border-radius: 50%;
         overflow: hidden;
         position: relative;
+        -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
         &.big{
           width:100px;
           height:100px;
@@ -457,7 +458,6 @@ export default {
           left:0;
           width:100%;
           height:100%;
-          border-radius: 50%;
         }
         img{
           position: absolute;
@@ -465,7 +465,6 @@ export default {
           left:50%;
           transform: translate3d(-50%,-50%,0);
           z-index: 0;
-          border-radius: 50%;
         }
       }
       .qrcode-wrap{

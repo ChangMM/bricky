@@ -37,12 +37,13 @@
       </div>
     </div>
   </div>
-  <avatar-panel v-show='m_showAvatarPanel' :refresh='f_get_info' :content='m_avatar' :show.sync='m_showAvatarPanel'></avatar-panel>
+  <avatar-panel v-show='m_showAvatarPanel' :refresh='f_get_info' :content='m_avatar' :avatar-style='avatarStyle' :show.sync='m_showAvatarPanel'></avatar-panel>
   <intro-panel v-show='m_showIntroPanel' :refresh='f_get_info' :content='m_intro' :show.sync='m_showIntroPanel'></intro-panel>
   <work-panel v-show='m_showWorksPanel' :refresh='f_get_info' :content='m_works' :show.sync='m_showWorksPanel'></work-panel>
 </template>
 
 <script>
+/*global Image:true*/
 import IntroPanel from './IntroPanel.vue'
 import WorkPanel from './WorksPanel.vue'
 import AvatarPanel from './AvatarPanel.vue'
@@ -55,6 +56,10 @@ export default {
       m_intro: '',
       m_works: '',
       m_code: '',
+      avatarStyle: {
+        width: '100%',
+        height: 'auto'
+      },
       m_showWorksPanel: false,
       m_showIntroPanel: false,
       m_showAvatarPanel: false
@@ -73,10 +78,28 @@ export default {
           this.m_intro = body.user.authorIntroduction
           this.m_works = body.user.works
           this.m_code = body.user.invitecode || ''
+          this.f_init_avatar_panel()
         } else {
           this.$warn('获取个人信息错误')
         }
       })
+    },
+    f_init_avatar_panel: function () {
+      // 初始化头像
+      let image = new Image()
+      let self = this
+      image.onload = function () {
+        let width = image.width
+        let height = image.height
+        if (width > height) {
+          self.avatarStyle.height = '100%'
+          self.avatarStyle.width = 'auto'
+        } else {
+          self.avatarStyle.height = 'auto'
+          self.avatarStyle.width = '100%'
+        }
+      }
+      image.src = this.m_avatar
     },
     f_alter_intro: function (intro) {
       this.m_showIntroPanel = true
@@ -85,6 +108,7 @@ export default {
       this.m_showWorksPanel = true
     },
     f_alter_avatar: function () {
+      console.log(this.avatarStyle.height)
       this.m_showAvatarPanel = true
     },
     f_triggerEvent: function (element, type) {
