@@ -39,18 +39,22 @@ export default {
       if (this.m_pid === '') {
         this.$warn('请选择要发布的文章')
       } else {
-        this.$http.post('/api/publish/post', {
-          pid: this.m_pid
-        }).then((response) => {
-          let body = response.body
-          if (body.error === 'ok') {
-            this.$warn('发布文章成功')
-            this.f_close()
-          } else {
-            this.$warn('发布失败')
-            this.$warn(body.msg)
-          }
-        })
+        let self = this
+        this.$confirm().then(
+          function (data) {
+            self.$http.post('/api/publish/post', {
+              pid: self.m_pid
+            }).then((response) => {
+              let body = response.body
+              if (body.error === 'ok') {
+                self.$warn('发布文章成功')
+                self.f_close()
+              } else {
+                self.$warn('发布失败')
+                self.$warn(body.msg)
+              }
+            })
+          })
       }
     }
   },
@@ -70,6 +74,7 @@ export default {
     height:100%;
     transition: background ease .6s;
     background: rgba(255, 255, 255, 0.9);
+    z-index: 9997;
   }
   .choose-wrap{
     position: absolute;

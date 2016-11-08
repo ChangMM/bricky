@@ -19,6 +19,7 @@ export default {
       right:0;
       margin:auto;
       top:0;
+      z-index: 9999;
       .msg-wrap{
         display: inline-block;
         padding:0 20px;

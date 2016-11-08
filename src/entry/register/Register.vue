@@ -236,6 +236,7 @@ export default {
     f_check_register: function () {
       // 第一页检查内容
       if (this.step === 1) {
+        let reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/
         if (this.m_avatar === '') {
           this.$warn('砖栏头像不能为空')
           return false
@@ -246,6 +247,10 @@ export default {
         }
         if (this.m_name.trim().gblen() > 32) {
           this.$warn('砖栏名称过长')
+          return false
+        }
+        if (!reg.test(this.m_phone)) {
+          this.$warn('手机号码格式错误')
           return false
         }
       }

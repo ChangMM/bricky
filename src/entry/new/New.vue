@@ -51,7 +51,7 @@
 </template>
 
 <script>
-/* global Image:true, $:true, history:true, FormData:true, location:true */
+/* global Image:true, $:true, FormData:true, location:true */
 import Preview from './Preview.vue'
 import Editor from '../../js/lib/Editor.js'
 import Hotkeys from '../../js/lib/jquery.hotkeys.js'
@@ -148,7 +148,7 @@ export default {
       return this.$http.post('/api/upload', formData)
     },
     f_return: function () {
-      history.back()
+      location.href = '/main#!/articles'
     },
     f_editor_focus: function () {
       if (this.m_$editor.html() === '这里开始正文') {
@@ -261,6 +261,10 @@ export default {
       // 如果摘要为空摘要取正文前22个字符
       if (this.m_abbr.trim() === '') {
         this.m_abbr = this.$removeReturn(this.$getSelectTextById('editor')).substr(0, 22)
+      }
+      if (this.m_abbr.trim().length > 22) {
+        this.$warn('文章摘要过长')
+        return false
       }
       if (this.m_cover === '') {
         this.$warn('文章封面为空')

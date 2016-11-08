@@ -32,17 +32,15 @@ export default {
   },
   ready () {
     // 设置订阅年费的小红点
-    if (!localStorage.getItem('is_priced')) {
-      this.$http.get('/api/subsprice').then((response) => {
-        let body = response.body
-        localStorage.setItem('is_priced', true)
-        if (body.error === 'subsinfo:missing') {
-          this.m_priced = true
-        }
-      }, (response) => {
-        //  nihao
-      })
-    }
+    this.$http.get('/api/subsprice').then((response) => {
+      let body = response.body
+      localStorage.setItem('is_priced', true)
+      if (body.error === 'subsinfo:missing') {
+        this.m_priced = true
+      }
+    }, (response) => {
+      //  nihao
+    })
   },
   components: { Navheader }
 }

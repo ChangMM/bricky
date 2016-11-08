@@ -13,8 +13,8 @@
       </div>
       <div class="input-wrap">
         <label for="avatar">我的主页</label>
-        <span class="tip">{{ m_url }}</span>
-        <span class="float-right self" v-on:click= 'f_preview'>{{ m_url_active?'设置订阅价格后有效':'预览个人主页' }}</span>
+        <span class="url">{{ m_url }}</span>
+        <span class="float-right self" v-on:click= 'f_preview'>{{ m_url_active?'预览个人主页':'设置订阅价格后有效' }}</span>
       </div>
     </div>
   </div>
@@ -42,6 +42,7 @@ export default {
         this.m_price = '-'
       } else {
         this.m_price = body.price / 100
+        this.m_url_active = false
       }
     })
     // 获取个人主页的链接
@@ -61,6 +62,9 @@ export default {
   },
   methods: {
     f_preview: function () {
+      if (!this.m_url_active) {
+        return this.$warn('请先设置订阅价格')
+      }
       this.m_preview = true
     },
     f_alter: function () {
@@ -131,6 +135,14 @@ export default {
           color: #666;
           margin-top: 10px;
           margin-left: 20px;
+        }
+        .url{
+          display: inline-block;
+          vertical-align: middle;
+          max-width:500px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .alter,.self{
           cursor: pointer;
