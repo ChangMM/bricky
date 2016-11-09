@@ -28,7 +28,7 @@ export default {
       materials: []
     }
   },
-  props: ['show'],
+  props: ['show', 'refresh'],
   ready () {},
   methods: {
     f_close: function () {
@@ -39,22 +39,23 @@ export default {
       if (this.m_pid === '') {
         this.$warn('请选择要发布的文章')
       } else {
-        let self = this
         this.$confirm().then(
           function (data) {
-            self.$http.post('/api/publish/post', {
-              pid: self.m_pid
+            this.$http.post('/api/publish/post', {
+              pid: this.m_pid
             }).then((response) => {
               let body = response.body
               if (body.error === 'ok') {
-                self.$warn('发布文章成功')
-                self.f_close()
+                this.$warn('发布文章成功', function () {
+                  this.f_close()
+                  this.refresh()
+                }.bind(this))
               } else {
-                self.$warn('发布失败')
-                self.$warn(body.msg)
+                this.$warn('发布失败')
+                this.$warn(body.msg)
               }
             })
-          })
+          }.bind(this))
       }
     }
   },

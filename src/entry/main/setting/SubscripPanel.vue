@@ -30,19 +30,23 @@ export default {
       this.refresh()
     },
     f_alter_price: function (price) {
-      this.$http.post('api/subsprice', {
-        csrf: this.$cookies()['csrf'] || '',
-        price: price * 100
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('订阅价格修改成功')
-        } else if (body.error === 'update:too_often') {
-          this.$warn('一年之后方可重新修改订阅价格')
-        } else {
-          this.$warn(body.msg)
-        }
-      })
+      this.$confirm().then(function () {
+        this.$http.post('api/subsprice', {
+          csrf: this.$cookies()['csrf'] || '',
+          price: price * 100
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          if (body.error === 'ok') {
+            this.$warn('订阅价格修改成功', function () {
+              this.f_close()
+            }.bind(this))
+          } else if (body.error === 'update:too_often') {
+            this.$warn('一年之后方可重新修改订阅价格')
+          } else {
+            this.$warn(body.msg)
+          }
+        })
+      }.bind(this))
     }
   }
 }
@@ -56,6 +60,7 @@ export default {
   left:0;
   width:100%;
   height:100%;
+  z-index: 9997;
   transition: background ease .6s;
   background: rgba(255, 255, 255, 0.9);
 }

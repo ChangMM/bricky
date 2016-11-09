@@ -164,7 +164,7 @@ export default {
       if (file.size / 1024 > 2048) {
         return this.$warn('图片大小过大')
       }
-
+      this.$warn('图片上传中')
       // 上传图片
       this.f_upload_avatar(file).then((response) => {
         let body = response.body

@@ -37,17 +37,21 @@ export default {
       if (intro.trim().length > 252) {
         return this.$warn('专栏简介过长')
       }
-      this.$http.post('/api/user/introduction', {
-        csrf: this.$cookies()['csrf'] || '',
-        introduction: intro
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('修改成功')
-        } else {
-          this.$warn('修改失败，请重试')
-        }
-      })
+      this.$confirm().then(function () {
+        this.$http.post('/api/user/introduction', {
+          csrf: this.$cookies()['csrf'] || '',
+          introduction: intro
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          if (body.error === 'ok') {
+            this.$warn('修改成功', function () {
+              this.f_close()
+            }.bind(this))
+          } else {
+            this.$warn('修改失败，请重试')
+          }
+        })
+      }.bind(this))
     }
   }
 }
@@ -61,6 +65,7 @@ export default {
   left:0;
   width:100%;
   height:100%;
+  z-index: 9997;
   transition: background ease .6s;
   background: rgba(255, 255, 255, 0.9);
 }

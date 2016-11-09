@@ -39,9 +39,11 @@ export default {
       if (['gif', 'jpg', 'jpeg', 'png'].indexOf(file.type.split('/')[1].toLowerCase()) === -1) {
         return this.$warn('图片格式不对')
       }
+      console.log(file.size)
       if (file.size / 1024 > 2048) {
         return this.$warn('图片大小过大')
       }
+      this.$warn('图片上传中')
       // 上传图片
       this.f_upload_avatar(file).then((response) => {
         let body = response.body
@@ -68,17 +70,21 @@ export default {
       })
     },
     f_alter_avatar: function () {
-      this.$http.post('/api/user/avatar', {
-        csrf: this.$cookies()['csrf'] || '',
-        avatar: this.content
-      }).then((response) => {
-        let body = JSON.parse(response.body)
-        if (body.error === 'ok') {
-          this.$warn('修改成功')
-        } else {
-          this.$warn('修改失败，请重试')
-        }
-      })
+      this.$confirm().then(function () {
+        this.$http.post('/api/user/avatar', {
+          csrf: this.$cookies()['csrf'] || '',
+          avatar: this.content
+        }).then((response) => {
+          let body = JSON.parse(response.body)
+          if (body.error === 'ok') {
+            this.$warn('修改成功', function () {
+              this.f_close()
+            }.bind(this))
+          } else {
+            this.$warn('修改失败，请重试')
+          }
+        })
+      }.bind(this))
     },
     // 上传图片的函数
     f_upload_avatar: function (data) {
@@ -99,6 +105,7 @@ export default {
   left:0;
   width:100%;
   height:100%;
+  z-index:9997;
   transition: background ease .6s;
   background: rgba(255, 255, 255, 0.9);
 }

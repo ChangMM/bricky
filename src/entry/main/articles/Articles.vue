@@ -10,7 +10,7 @@
     </div>
     <div class="articles-wrap">
       <template v-if="m_libs!=0">
-        <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'">
+        <div class="article-item clearfix" v-for="lib in m_libs | filterBy m_search_title in 'title'| orderBy 'updateTime' -1">
           <img v-bind:src="lib.images[0]?lib.images[0]:m_default_cover" v-on:click="f_preview(lib.id)" class="article-cover" alt="封面图" />
           <div class="article-info">
             <span class="article-title" v-on:click="f_preview(lib.id)">{{lib.title}}</span>
@@ -72,21 +72,21 @@ export default {
       })
     },
     f_cancel: function (pid) {
-      let self = this
       this.$confirm().then(
         function (data) {
-          self.$http.post('/api/post/lib/delete', {
+          this.$http.post('/api/post/lib/delete', {
             pid: pid
           }).then((response) => {
             let body = response.body
             if (body.error === 'ok') {
-              self.$warn('删除文章成功')
-              self.f_get_libs()
+              this.$warn('删除文章成功', function () {
+                this.f_get_libs()
+              }.bind(this))
             } else {
-              self.$warn(body.msg)
+              this.$warn(body.msg)
             }
           })
-        })
+        }.bind(this))
     },
     f_preview: function (pid) {
       this.$http.get('/api/post', {
