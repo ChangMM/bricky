@@ -18,6 +18,7 @@
 </template>
 
 <script>
+/*global location:true */
 export default {
   data () {
     return {
@@ -27,7 +28,6 @@ export default {
   methods: {
     f_close: function () {
       this.show = false
-      this.refresh()
     },
     f_alter_price: function (price) {
       this.$confirm().then(function () {
@@ -39,6 +39,8 @@ export default {
           if (body.error === 'ok') {
             this.$warn('订阅价格修改成功', function () {
               this.f_close()
+              // this.refresh()
+              location.reload()
             }.bind(this))
           } else if (body.error === 'update:too_often') {
             this.$warn('一年之后方可重新修改订阅价格')

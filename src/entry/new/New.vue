@@ -112,6 +112,14 @@ export default {
     },
     f_cover: function (event) {
       let file = event.target.files[0]
+      if (['gif', 'jpg', 'jpeg', 'png'].indexOf(file.type.split('/')[1].toLowerCase()) === -1) {
+        return this.$warn('图片格式只能为gif,jpg,jpeg和png')
+      }
+      console.log(file.size)
+      if (file.size / 1024 > 2048) {
+        return this.$warn('图片不能超过2M')
+      }
+      this.$warn('封面图片上传中')
       // 上传图片
       this.f_upload_cover(file).then((response) => {
         let body = response.body

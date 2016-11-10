@@ -21,7 +21,7 @@
 </template>
 
 <script>
-/*global Image:true, FormData:true*/
+/*global Image:true, FormData:true, location:true*/
 export default {
   data () {
     return {
@@ -32,7 +32,6 @@ export default {
   methods: {
     f_close: function () {
       this.show = false
-      this.refresh()
     },
     f_avatar: function (event) {
       let file = event.target.files[0]
@@ -79,6 +78,8 @@ export default {
           if (body.error === 'ok') {
             this.$warn('修改成功', function () {
               this.f_close()
+              location.reload()
+              // this.refresh()
             }.bind(this))
           } else {
             this.$warn('修改失败，请重试')

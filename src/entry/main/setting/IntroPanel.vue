@@ -27,7 +27,6 @@ export default {
   props: ['show', 'content', 'refresh'],
   methods: {
     f_close: function () {
-      this.refresh()
       this.show = false
     },
     f_alter_intro: function (intro) {
@@ -46,6 +45,7 @@ export default {
           if (body.error === 'ok') {
             this.$warn('修改成功', function () {
               this.f_close()
+              this.refresh()
             }.bind(this))
           } else {
             this.$warn('修改失败，请重试')

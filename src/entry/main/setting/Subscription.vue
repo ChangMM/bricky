@@ -10,7 +10,7 @@
         <!-- <input type="text" name="name" v-model='m_price'> -->
         <span class="price">{{m_price}}</span>/年（￥）
         <span class="tip">订阅价格一年中之内修改一次</span>
-        <span class="float-right alter" v-on:click = 'f_alter'>{{ m_url_active? m_date + '之后可以修改':'修改' }}</span>
+        <span class="float-right" v-bind:class="{'alter':!m_limit ,'disable':m_limit}" v-on:click = 'f_alter($event)'>{{ m_url_active? m_date + '之后可以修改':'修改' }}</span>
       </div>
       <div class="input-wrap">
         <label for="url" class="url-label">我的主页</label>
@@ -36,6 +36,7 @@ export default {
       m_showSubPanel: false,
       m_date: '',
       m_url: '',
+      m_limit: false,
       m_url_active: false
     }
   },
@@ -58,9 +59,14 @@ export default {
           this.m_price = '-'
         } else {
           this.m_price = body.price / 100
-          let date = new Date(body.createTime * 1000)
           this.m_url_active = true
-          this.m_date = (date.getFullYear() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+          this.m_limit = true
+          let date = new Date(body.createTime * 1000)
+          let now = new Date()
+          this.m_date = (date.getFullYear() + 1) + '/' + (date.getMonth() + 1) + '/' + (date.getDate() + 1)
+          if ((now.getFullYear() > date.getFullYear()) && (now.getFullYear() >= date.getMonth()) && (now.getDate() > date.getDate())) {
+            this.m_limit = false
+          }
         }
       })
     },
@@ -80,7 +86,10 @@ export default {
         console.log(response)
       })
     },
-    f_alter: function () {
+    f_alter: function (event) {
+      if (event.target.classList.contains('disable')) {
+        return
+      }
       this.m_showSubPanel = true
     }
   },
@@ -144,10 +153,10 @@ export default {
         .url{
           display: inline-block;
           vertical-align: middle;
-          // overflow: hidden;
-          // white-space: nowrap;
-          // text-overflow: ellipsis;
           width: 600px;
+        }
+        .disable{
+          color:#666;
         }
         .alter,.self{
           cursor: pointer;
