@@ -2,15 +2,15 @@
   <div class="body-header">
     <div class="header-item">
       <p class="tip">新增订阅</p>
-      <p class="num">{{ mp_data.availableWithdraw }}</p>
+      <p class="num">{{ mp_data.dailyNewSubsNum}}</p>
     </div>
     <div class="header-item">
       <p class="tip">总订阅</p>
-      <p class="num">{{ mp_data.dailyNewSubsNum }}</p>
+      <p class="num">{{ mp_data.subsNum }}</p>
     </div>
     <div class="header-item last-item">
       <p class="tip">未提现收入（￥）</p>
-      <p class="num">{{ mp_data.subsNum }}</p>
+      <p class="num">{{ mp_data.availableWithdraw  }}</p>
     </div>
   </div>
   <div class="announcement-wrap">
