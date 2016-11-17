@@ -96,7 +96,7 @@ export default {
             postId: pid
           }
         }).then((response) => {
-          let body = JSON.parse(response.body)
+          let body = response.body
           let post = body.post
           this.m_title = post.title
           this.m_abbr = post.digest
@@ -187,7 +187,7 @@ export default {
           words: this.m_content,
           cover: this.m_cover
         }).then((response) => {
-          let body = JSON.parse(response.body)
+          let body = response.body
           if (body.error === 'ok') {
             this.m_aid = body.post.id
             this.$warn('保存成功')
@@ -223,7 +223,7 @@ export default {
               words: self.m_content,
               cover: self.m_cover
             }).then((response) => {
-              let body = JSON.parse(response.body)
+              let body = response.body
               if (body.error === 'ok') {
                 self.f_release(body.post.id)
                 currentTarget.innerHTML = '保存并发布'

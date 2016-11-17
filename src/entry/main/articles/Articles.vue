@@ -95,7 +95,7 @@ export default {
           postId: pid
         }
       }).then((response) => {
-        let body = JSON.parse(response.body)
+        let body = response.body
         let post = body.post
         this.m_title = post.title
         this.m_abbr = post.digest

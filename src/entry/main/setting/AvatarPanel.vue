@@ -74,7 +74,7 @@ export default {
           csrf: this.$cookies()['csrf'] || '',
           avatar: this.content
         }).then((response) => {
-          let body = JSON.parse(response.body)
+          let body = response.body
           if (body.error === 'ok') {
             this.$warn('修改成功', function () {
               this.f_close()

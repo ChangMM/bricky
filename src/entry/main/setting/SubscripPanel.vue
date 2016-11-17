@@ -35,7 +35,7 @@ export default {
           csrf: this.$cookies()['csrf'] || '',
           price: price * 100
         }).then((response) => {
-          let body = JSON.parse(response.body)
+          let body = response.body
           if (body.error === 'ok') {
             this.$warn('订阅价格修改成功', function () {
               this.f_close()

@@ -61,6 +61,7 @@ export default {
     f_mp_data: function () {
       this.$http.get('/api/stats').then((response) => {
         this.mp_data = response.body.data
+        this.mp_data.availableWithdraw = (this.mp_data.availableWithdraw/100).toFixed(2)
       }, (response) => {
         console.log(response)
       })
