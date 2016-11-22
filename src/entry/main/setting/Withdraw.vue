@@ -42,8 +42,8 @@ export default {
   ready () {
     this.$http.get('/api/stats').then((response) => {
       let data = response.body.data
-      this.m_total = data.totalIncome
-      this.m_withdraw = data.availableWithdraw
+      this.m_total = (data.totalIncome / 100).toFixed(2)
+      this.m_withdraw = (data.availableWithdraw / 100).toFixed(2)
     }, (response) => {
       this.$warn('数据出现问题')
     })
