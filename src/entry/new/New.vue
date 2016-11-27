@@ -84,6 +84,7 @@ export default {
       return '您可能有数据没有保存'
     })
     this.f_get_edit_content()
+    this.f_get_user_info()
   },
   methods: {
     f_get_user_info: function () {
