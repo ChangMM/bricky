@@ -9,7 +9,7 @@
             <p class="article-title">{{ title?title:'这里是标题' }}</p>
             <div class="title-line"></div>
             <div class="info-wrap">
-              <span class="time">{{ time | timeFormat }}</span><span class="author">佚名</span>
+              <span class="time">{{ time | timeFormat }}</span><span class="author">{{author}}</span>
             </div>
             <div id="article-content"> {{{ content?content:'这里是正文' }}} </div>
           </div>
@@ -26,7 +26,7 @@ export default {
       m_input: ''
     }
   },
-  props: ['show', 'title', 'content', 'time'],
+  props: ['show', 'title', 'content', 'time', 'author'],
   methods: {
     f_close: function () {
       this.show = false

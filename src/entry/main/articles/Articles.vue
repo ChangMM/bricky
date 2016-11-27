@@ -30,7 +30,7 @@
       </template>
     </div>
   </div>
-  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
+  <preview v-show="m_preview" :show.sync="m_preview" :author="m_author" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
       m_libs: [],
       m_preview: false,
       m_title: '',
+      m_author: '',
       m_abbr: '',
       m_time: '',
       m_content: ''
@@ -51,8 +52,17 @@ export default {
   },
   ready () {
     this.f_get_libs()
+    this.f_get_user_info()
   },
   methods: {
+    f_get_user_info: function () {
+      this.$http.get('/api/user').then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_author = body.user.authorNickname
+        }
+      })
+    },
     f_edit: function (pid) {
       location.href = '/new?pid=' + pid
     },

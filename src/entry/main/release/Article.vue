@@ -17,8 +17,10 @@
       <p class="no-article">暂无内容</p>
     </template>
   </div>
+  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 <script>
+import Preview from '../../../components/Preview.vue'
 export default {
   data () {
     return {
@@ -66,6 +68,9 @@ export default {
         this.$fixBody()
       })
     }
+  },
+  components: {
+    Preview
   }
 }
 </script>

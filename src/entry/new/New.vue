@@ -47,7 +47,7 @@
       </div>
     </div>
   </div>
-  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
+  <preview v-show="m_preview" :show.sync="m_preview" :author="m_author" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 
 <script>
@@ -66,6 +66,7 @@ export default {
       m_cover: '',
       m_title: '',
       m_abbr: '',
+      m_author: '',
       m_preview: false,
       m_time: new Date(),
       m_content: '',
@@ -85,6 +86,14 @@ export default {
     this.f_get_edit_content()
   },
   methods: {
+    f_get_user_info: function () {
+      this.$http.get('/api/user').then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_author = body.user.authorNickname
+        }
+      })
+    },
     f_get_edit_content: function () {
       let pid = this.$parseUrl(location.href).params['pid']
       if (!pid) {
