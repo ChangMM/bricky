@@ -38,7 +38,8 @@ export default {
       this.$confirm().then(
         function (data) {
           this.$http.post('/api/post/published/delete', {
-            pid: pid
+            pid: pid,
+            csrf: this.$cookies()['csrf'] || ''
           }).then((response) => {
             let body = response.body
             if (body.error === 'ok') {

@@ -56,7 +56,11 @@ export default {
   },
   methods: {
     f_get_user_info: function () {
-      this.$http.get('/api/user').then((response) => {
+      this.$http.get('/api/user', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
           this.m_author = body.user.authorNickname
@@ -70,7 +74,8 @@ export default {
       this.$http.get('/api/posts/lib', {
         params: {
           limit: 100,
-          offset: 0
+          offset: 0,
+          csrf: this.$cookies()['csrf'] || ''
         }
       }).then((response) => {
         let body = response.body
@@ -85,7 +90,8 @@ export default {
       this.$confirm().then(
         function (data) {
           this.$http.post('/api/post/lib/delete', {
-            pid: pid
+            pid: pid,
+            csrf: this.$cookies()['csrf'] || ''
           }).then((response) => {
             let body = response.body
             if (body.error === 'ok') {

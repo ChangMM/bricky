@@ -30,7 +30,8 @@ export default {
       this.$http.get('/api/posts/lib', {
         params: {
           limit: 100,
-          offset: 0
+          offset: 0,
+          csrf: this.$cookies()['csrf'] || ''
         }
       }).then((response) => {
         let body = response.body

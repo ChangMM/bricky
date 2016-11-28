@@ -53,7 +53,11 @@ export default {
     },
     f_get_price: function () {
       // 获取订阅价格
-      this.$http.get('/api/subsprice').then((response) => {
+      this.$http.get('/api/subsprice', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'subsinfo:missing') {
           this.m_price = '-'

@@ -70,7 +70,11 @@ export default {
   },
   methods: {
     f_get_info: function () {
-      this.$http.get('/api/user').then((response) => {
+      this.$http.get('/api/user', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
           this.m_name = body.user.authorNickname

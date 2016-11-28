@@ -60,7 +60,11 @@ export default {
   methods: {
     // 获取订阅数以及未提现金额的有关数据
     f_mp_data: function () {
-      this.$http.get('/api/stats').then((response) => {
+      this.$http.get('/api/stats', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         this.mp_data = response.body.data
         this.mp_data.availableWithdraw = this.mp_data.availableWithdraw
       }, (response) => {
@@ -83,7 +87,11 @@ export default {
       //     //  nihao
       //   })
       // }
-      this.$http.get('/api/subsprice').then((response) => {
+      this.$http.get('/api/subsprice', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'subsinfo:missing') {
           let self = this

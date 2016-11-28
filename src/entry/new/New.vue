@@ -88,7 +88,11 @@ export default {
   },
   methods: {
     f_get_user_info: function () {
-      this.$http.get('/api/user').then((response) => {
+      this.$http.get('/api/user', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
           this.m_author = body.user.authorNickname
@@ -248,7 +252,8 @@ export default {
     },
     f_release: function (pid) {
       this.$http.post('/api/publish/post', {
-        pid: pid
+        pid: pid,
+        csrf: this.$cookies()['csrf'] || ''
       }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {

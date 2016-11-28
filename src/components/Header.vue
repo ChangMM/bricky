@@ -23,7 +23,11 @@ export default {
     }
   },
   ready () {
-    this.$http.get('/api/user').then((response) => {
+    this.$http.get('/api/user', {
+      params: {
+        csrf: this.$cookies()['csrf'] || ''
+      }
+    }).then((response) => {
       let body = response.body
       if (body.error === 'ok') {
         this.nickname = body.user.authorNickname

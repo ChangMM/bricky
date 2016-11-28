@@ -32,7 +32,11 @@ export default {
   },
   ready () {
     // 设置订阅年费的小红点
-    this.$http.get('/api/subsprice').then((response) => {
+    this.$http.get('/api/subsprice', {
+      params: {
+        csrf: this.$cookies()['csrf'] || ''
+      }
+    }).then((response) => {
       let body = response.body
       localStorage.setItem('is_priced', true)
       if (body.error === 'subsinfo:missing') {

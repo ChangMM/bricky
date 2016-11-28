@@ -223,7 +223,8 @@ export default {
         works: this.m_works,
         phone: this.m_phone,
         agreement: this.m_agree,
-        inviteCode: this.m_code
+        inviteCode: this.m_code,
+        csrf: this.$cookies()['csrf'] || ''
       })
     },
     // 上传图片的函数

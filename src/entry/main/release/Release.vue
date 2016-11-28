@@ -37,7 +37,11 @@ export default {
       this.$fixBody()
     },
     f_get_user_info: function () {
-      this.$http.get('/api/user').then((response) => {
+      this.$http.get('/api/user', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
           this.m_author = body.user.authorNickname
@@ -46,7 +50,11 @@ export default {
     },
     f_get_published: function () {
       // 获取已经发布的图文
-      this.$http.get('/api/posts/published').then((response) => {
+      this.$http.get('/api/posts/published', {
+        params: {
+          csrf: this.$cookies()['csrf'] || ''
+        }
+      }).then((response) => {
         let body = response.body
         if (body.error === 'ok') {
           this.m_published = body.posts

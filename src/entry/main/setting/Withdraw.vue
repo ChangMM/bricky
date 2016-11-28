@@ -40,7 +40,11 @@ export default {
     }
   },
   ready () {
-    this.$http.get('/api/stats').then((response) => {
+    this.$http.get('/api/stats', {
+      params: {
+        csrf: this.$cookies()['csrf'] || ''
+      }
+    }).then((response) => {
       let data = response.body.data
       this.m_total = (data.totalIncome / 100).toFixed(2)
       this.m_withdraw = (data.availableWithdraw / 100).toFixed(2)
