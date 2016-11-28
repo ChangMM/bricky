@@ -10,7 +10,7 @@
       <a href="/new"><span class="button solid-button">新建作品</span></a>
     </div>
     <p class="sub-title">已发布</p>
-    <Articles :refresh='f_get_published' :published.sync='m_published'></Articles>
+    <Articles :refresh='f_get_published' :author='m_author' :published.sync='m_published'></Articles>
     <Choose v-show="m_choose_show" :refresh='f_get_published' :show.sync="m_choose_show"></Choose>
   </div>
 </template>
@@ -23,16 +23,26 @@ export default {
     return {
       m_choose_show: false,
       m_tip_show: true,
-      m_published: []
+      m_published: [],
+      m_author: ''
     }
   },
   ready () {
     this.f_get_published()
+    this.f_get_user_info()
   },
   methods: {
     f_choose: function () {
       this.m_choose_show = true
       this.$fixBody()
+    },
+    f_get_user_info: function () {
+      this.$http.get('/api/user').then((response) => {
+        let body = response.body
+        if (body.error === 'ok') {
+          this.m_author = body.user.authorNickname
+        }
+      })
     },
     f_get_published: function () {
       // 获取已经发布的图文

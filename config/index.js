@@ -26,7 +26,7 @@ module.exports = {
          target: 'https://dev.www.bricky.cn',
          changeOrigin: true,
          headers: {
-           Cookie: 'bks=s%3A1DYr8qRIb6O99bogHD8f_jpIEnE3SBaD.LNXRKoshkjMVcr5wiXKpLTrA0xfS4rTsuX7w%2Bhbx3so;'
+           Cookie: 'bks=s%3AxsPsHmaPKHi210L-Wke9DYbxLRymfYa1.XaDv5wiquAQ9mD1p7eL8yrbmH%2Ba%2BELSdSLsJagevwdI;'
          },
          pathRewrite: {
            '^/api': '/api'

@@ -10,7 +10,7 @@
     </div>
     <div class="header-item last-item">
       <p class="tip">未提现收入（￥）</p>
-      <p class="num">{{ mp_data.availableWithdraw  }}</p>
+      <p class="num">{{ ((mp_data.totalIncome - mp_data.availableWithdraw) / 100).toFixed(2)  }}</p>
     </div>
   </div>
   <div class="announcement-wrap">
@@ -36,7 +36,8 @@ export default {
       mp_data: {
         availableWithdraw: 0,
         dailyNewSubsNum: 0,
-        subsNum: 0
+        subsNum: 0,
+        totalIncome: 0
       },
       announcements: [
         {
@@ -61,7 +62,7 @@ export default {
     f_mp_data: function () {
       this.$http.get('/api/stats').then((response) => {
         this.mp_data = response.body.data
-        this.mp_data.availableWithdraw = (this.mp_data.availableWithdraw / 100).toFixed(2)
+        this.mp_data.availableWithdraw = this.mp_data.availableWithdraw
       }, (response) => {
         console.log(response)
       })

@@ -17,7 +17,7 @@
       <p class="no-article">暂无内容</p>
     </template>
   </div>
-  <preview v-show="m_preview" :show.sync="m_preview" :title="m_title" :time="m_time" :content="m_content"></preview>
+  <preview v-show="m_preview" :show.sync="m_preview" :author="author" :title="m_title" :time="m_time" :content="m_content"></preview>
 </template>
 <script>
 import Preview from '../../../components/Preview.vue'
@@ -32,7 +32,7 @@ export default {
       m_default_cover: require('../../../assets/default.png')
     }
   },
-  props: ['published', 'refresh'],
+  props: ['published', 'refresh', 'author'],
   methods: {
     f_cancel: function (pid) {
       this.$confirm().then(
