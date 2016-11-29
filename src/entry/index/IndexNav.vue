@@ -25,8 +25,7 @@ export default {
   },
   ready () {
     // 微信登陆测试
-    console.log(this.$cookies())
-    let uri = 'https://dev.www.bricky.cn/'
+    let uri = 'https://www.bricky.cn/'
     new WxLogin({
       id: 'login-wrap',
       appid: 'wx622d0cbf6b6cafa5',
@@ -34,7 +33,7 @@ export default {
       redirect_uri: encodeURIComponent(uri),
       state: this.$cookies()['csrf'] || '',
       style: '',
-      href: 'https://dev.www.bricky.cn/static/css/login_qrcode.css'
+      href: 'https://www.bricky.cn/static/css/login_qrcode.css'
     })
     let iframe = document.getElementsByTagName('iframe')[0]
     iframe.width = '200'
